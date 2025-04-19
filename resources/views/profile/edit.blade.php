@@ -1,29 +1,25 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.navigation')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
+@section('content')
+<div class="py-12" style="padding: 24px;">
+    <div style="max-width: 1120px; margin: auto; display: flex; flex-direction: column; gap: 24px;">
+
+        @php
+            $sections = [
+                'profile.partials.update-profile-information-form',
+                'profile.partials.update-password-form',
+                'profile.partials.delete-user-form',
+            ];
+        @endphp
+
+        @foreach ($sections as $section)
+            <div style="background: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); border-radius: 12px; padding: 32px;">
+                <div style="max-width: 480px; margin: auto;">
+                    @include($section)
                 </div>
             </div>
+        @endforeach
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
-        </div>
     </div>
-</x-app-layout>
+</div>
+@endsection
