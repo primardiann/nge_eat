@@ -19,15 +19,15 @@
            style="padding: 10px 20px; border-radius: 8px; {{ request()->routeIs('dashboard') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }} font-weight: 600; text-decoration: none;">
             Dashboard
         </a>
-        <a href="{{ route('dashboard') }}" 
+        <a href="{{ route('gofood.index') }}" 
            style="padding: 10px 20px; border-radius: 8px; {{ request()->routeIs('gofood.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }} font-weight: 600; text-decoration: none;">
             Transaksi GoFood
         </a>
-        <a href="{{ route('dashboard') }}" 
+        <a href="{{ route('grabfood.index') }}" 
            style="padding: 10px 20px; border-radius: 8px; {{ request()->routeIs('grabfood.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }} font-weight: 600; text-decoration: none;">
             Transaksi GrabFood
         </a>
-        <a href="{{ route('dashboard') }}" 
+        <a href="{{ route('shopeefood.index') }}" 
            style="padding: 10px 20px; border-radius: 8px; {{ request()->routeIs('shopeefood.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }} font-weight: 600; text-decoration: none;">
             Transaksi ShopeeFood
         </a>

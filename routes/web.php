@@ -17,4 +17,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+//Route Frontend Halaman Transaksi
+Route::view('/gofood', 'gofood.index')->name('gofood.index');
+Route::view('/grabfood', 'grabfood.index')->name('grabfood.index');
+Route::view('/shopeefood', 'shopeefood.index')->name('shopeefood.index');
+
 require __DIR__.'/auth.php';

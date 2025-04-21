@@ -1,5 +1,5 @@
 @extends('layouts.navigation') 
 
 @section('content')
-    <h1>Halaman Dashboard</h1>
+    <h1>Halaman Transaksi ShopeeFood</h1>
 @endsection
