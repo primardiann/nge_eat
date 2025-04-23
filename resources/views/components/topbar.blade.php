@@ -1,8 +1,8 @@
 <header style="height: 64px; flex-shrink: 0; background-color: #fff; border-bottom: 1px solid #ddd; display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
-    <button @click="sidebarOpen = !sidebarOpen" style="font-size: 24px; cursor: pointer; background: none; border: none;">
+    <button @click="sidebarOpen = !sidebarOpen" style="font-size: 24px; cursor: pointer; background: none; border: none; color: #BE1E2D;">
         ☰
     </button>
-
+    
     <div style="display: flex; align-items: center; gap: 20px;">
         <div style="text-align: right;">
             <div style="font-size: 14px; font-weight: 600;">{{ Auth::user()->name }}</div>
