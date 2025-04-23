@@ -20,31 +20,37 @@
             Dashboard
         </a>
 
+        {{-- Transaksi GoFood --}}
         <a href="{{ route('gofood.index') }}"
             style="padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; 
-   display: inline-flex; align-items: center; {{ request()->routeIs('gofood.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }}">
+                display: inline-flex; align-items: center; {{ request()->routeIs('gofood.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }}">
             <img src="{{ asset('images/transaksi.png') }}" alt="Transaksi GoFood"
                 style="width: 20px; height: 20px; margin-right: 8px;">
             Transaksi GoFood
         </a>
 
+        {{-- Transaksi GrabFood --}}
         <a href="{{ route('grabfood.index') }}"
             style="padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; 
-   display: inline-flex; align-items: center; {{ request()->routeIs('gofood.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }}">
-            <img src="{{ asset('images/transaksi.png') }}" alt="Transaksi GoFood"
+                display: inline-flex; align-items: center; {{ request()->routeIs('grabfood.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }}">
+            <img src="{{ asset('images/transaksi.png') }}" alt="Transaksi GrabFood"
                 style="width: 20px; height: 20px; margin-right: 8px;">
             Transaksi GrabFood
         </a>
+
+        {{-- Transaksi ShopeeFood --}}
         <a href="{{ route('shopeefood.index') }}"
             style="padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; 
-   display: inline-flex; align-items: center; {{ request()->routeIs('gofood.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }}">
-            <img src="{{ asset('images/transaksi.png') }}" alt="Transaksi GoFood"
+                display: inline-flex; align-items: center; {{ request()->routeIs('shopeefood.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }}">
+            <img src="{{ asset('images/transaksi.png') }}" alt="Transaksi ShopeeFood"
                 style="width: 20px; height: 20px; margin-right: 8px;">
             Transaksi ShopeeFood
         </a>
+
+        {{-- Profil --}}
         <a href="{{ route('profile.edit') }}"
             style="padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; 
-   display: inline-flex; align-items: center; {{ request()->routeIs('profile.edit.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }}">
+                display: inline-flex; align-items: center; {{ request()->routeIs('profile.edit') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }}">
             <img src="{{ asset('images/profile.png') }}" alt="Profile"
                 style="width: 20px; height: 20px; margin-right: 8px;">
             Profil
