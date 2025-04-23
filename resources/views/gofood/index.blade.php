@@ -2,14 +2,11 @@
 
 @section('content')
     <div class="flex min-h-screen bg-[#FAFAFA] text-sm">
-        <!-- Sidebar handled by layouts.navigation -->
-
-        <!-- Main Content -->
         <main class="flex-1 px-8 py-6">
             <!-- Breadcrumb -->
             <div class="text-gray-500 mb-4">
-                <span class="text-black font-semibold">Dashboard</span> &gt; <span class="text-[#888]">Transaksi
-                    GoFood</span>
+                <span class="text-black font-semibold">Dashboard</span> &gt;
+                <span class="text-[#888]">Transaksi GoFood</span>
             </div>
 
             <!-- Action Buttons -->
@@ -19,20 +16,20 @@
                     <i class="fas fa-calendar-alt mr-2"></i>Hari Ini
                 </button>
 
-                <!-- Tombol Unduh dan Filter (berdampingan) -->
                 <div class="flex space-x-3">
                     <button style="border: 2px solid #F58220;"
                         class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
                         <i class="fas fa-download mr-2"></i> Unduh
                     </button>
-                    <button style="border: 2px solid #F58220;"
+
+                    <!-- Tombol Filter -->
+                    <button id="openFilterModal"
+                        style="border: 2px solid #F58220;"
                         class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
                         <i class="fas fa-filter mr-2"></i> Filter
                     </button>
                 </div>
             </div>
-
-
 
             <!-- Table -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
@@ -46,7 +43,6 @@
                             <th class="px-6 py-3 font-medium">Aksi</th>
                         </tr>
                     </thead>
-
                     <tbody class="bg-white text-gray-700 text-sm">
                         @for ($i = 0; $i < 5; $i++)
                             <tr class="border-t hover:bg-gray-50">
@@ -71,4 +67,23 @@
             </div>
         </main>
     </div>
+
+    <!-- Include Modal -->
+    @include('components.filter-modal')
+
+    <!-- Script untuk Modal -->
+    <script>
+        document.getElementById('openFilterModal').addEventListener('click', function () {
+            document.getElementById('filterModal').classList.remove('hidden');
+        });
+
+        // Tutup modal saat klik luar konten modal
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('filterModal');
+            const content = document.getElementById('filterModalContent');
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+    </script>
 @endsection
