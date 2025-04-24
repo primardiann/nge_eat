@@ -1,19 +1,18 @@
-<!-- components/modal-filter.blade.php -->
 <div id="filterModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-    <div class="bg-white rounded-md border-4 border-purple-400 shadow-lg p-6 w-full max-w-xl">
+    <div class="bg-white rounded-md shadow-lg p-6 w-full max-w-xl">
         <h2 class="text-xl font-semibold mb-2">Filter Transaksi</h2>
         <p class="text-sm text-gray-700 mb-4">Pilih informasi yang anda perlukan</p>
 
         <div class="grid grid-cols-2 gap-4 mb-4">
-    <div>
-        <label class="block text-sm mb-1">ID Pesanan</label>
-        <input type="text" class="w-full border-2 rounded px-2 py-1" style="border-color: #F58220;">
-    </div>
-    <div>
-        <label class="block text-sm mb-1">Harga</label>
-        <input type="text" class="w-full border-2 rounded px-2 py-1" style="border-color: #F58220;">
-    </div>
-</div>
+            <div>
+                <label class="block text-sm mb-1">ID Pesanan</label>
+                <input type="text" class="w-full border-2 rounded px-2 py-1" style="border-color: #F58220;">
+            </div>
+            <div>
+                <label class="block text-sm mb-1">Harga</label>
+                <input type="text" class="w-full border-2 rounded px-2 py-1" style="border-color: #F58220;">
+            </div>
+        </div>
 
         <div class="mb-4">
             <label class="inline-flex items-center">
@@ -47,6 +46,7 @@
     </div>
 </div>
 
+
 <script>
     // Function to open the modal
     function openModal() {
@@ -60,9 +60,6 @@
 
     // Event listener for closing the modal when clicking the "Batal" button
     document.getElementById('closeFilterModal').addEventListener('click', closeModal);
-
-    // Event listener for opening the modal (you can trigger this from elsewhere)
-    // openModal();
 
     // Optional: Reset filter values when clicking "Atur Ulang"
     document.getElementById('resetFilters').addEventListener('click', () => {

@@ -11,7 +11,6 @@
 
             <!-- Action Buttons -->
             <div class="flex flex-col items-end space-y-3 mb-6">
-                <!-- Tombol Hari Ini -->
                 <button style="border: 2px solid #F58220;" class="px-4 py-1.5 rounded text-[#333]">
                     <i class="fas fa-calendar-alt mr-2"></i>Hari Ini
                 </button>
@@ -22,7 +21,6 @@
                         <i class="fas fa-download mr-2"></i> Unduh
                     </button>
 
-                    <!-- Tombol Filter -->
                     <button id="openFilterModal"
                         style="border: 2px solid #F58220;"
                         class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
@@ -52,7 +50,7 @@
                                 <td class="px-6 py-3 text-green-600 font-medium">Sukses</td>
                                 <td class="px-6 py-3">
                                     <div class="flex space-x-3">
-                                        <button title="Lihat" class="text-gray-600 hover:text-black transition">
+                                        <button title="Lihat" class="text-gray-600 hover:text-black transition btn-detail">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                         <button title="Hapus" class="text-gray-600 hover:text-red-500 transition">
@@ -68,22 +66,39 @@
         </main>
     </div>
 
-    <!-- Include Modal -->
+    <!-- Modal Filter -->
     @include('components.filter-modal')
 
-    <!-- Script untuk Modal -->
+    <!-- Modal Detail Transaksi -->
+    @include('components.detail-modal')
+
+    <!-- Script -->
     <script>
+        // Modal Filter
         document.getElementById('openFilterModal').addEventListener('click', function () {
             document.getElementById('filterModal').classList.remove('hidden');
         });
 
-        // Tutup modal saat klik luar konten modal
+        // Modal Detail Transaksi
+        function openTransactionModal() {
+            document.getElementById('transactionDetailModal').classList.remove('hidden');
+        }
+
+        function closeTransactionModal() {
+            document.getElementById('transactionDetailModal').classList.add('hidden');
+        }
+
+        // Klik luar modal tutup
         window.addEventListener('click', function (e) {
-            const modal = document.getElementById('filterModal');
-            const content = document.getElementById('filterModalContent');
+            const modal = document.getElementById('transactionDetailModal');
             if (e.target === modal) {
-                modal.classList.add('hidden');
+                closeTransactionModal();
             }
+        });
+
+        // Tombol buka modal detail
+        document.querySelectorAll('.btn-detail').forEach(button => {
+            button.addEventListener('click', openTransactionModal);
         });
     </script>
 @endsection
