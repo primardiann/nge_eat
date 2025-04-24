@@ -1,6 +1,77 @@
 @extends('layouts.navigation')
 
 @section('content')
+    <!-- Flatpickr CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- Custom Style Flatpickr -->
+    <style>
+        .flatpickr-calendar {
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .flatpickr-months {
+            padding: 8px 0;
+        }
+
+        .flatpickr-current-month {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .flatpickr-weekday {
+            color: #999;
+            font-weight: 500;
+        }
+
+        .flatpickr-day {
+            border-radius: 8px;
+            line-height: 2.5rem;
+            height: 2.5rem;
+            width: 2.5rem;
+            margin: 2px;
+        }
+
+        .flatpickr-day.selected {
+            background: #4F9CF9;
+            color: white;
+        }
+
+        .flatpickr-day.today {
+            border: 1px solid #4F9CF9;
+        }
+
+        .flatpickr-footer {
+            display: flex;
+            justify-content: end;
+            gap: 10px;
+            padding: 10px 15px;
+        }
+
+        .flatpickr-btn {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-weight: 500;
+            border: 1px solid #4F9CF9;
+            background: white;
+            color: #4F9CF9;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .flatpickr-btn.apply {
+            background: #4F9CF9;
+            color: white;
+        }
+
+        .flatpickr-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+
     <div class="flex min-h-screen bg-[#FAFAFA] text-sm">
         <main class="flex-1 px-8 py-6">
             <!-- Breadcrumb -->
@@ -10,8 +81,10 @@
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex flex-col items-end space-y-3 mb-6">
-                <button style="border: 2px solid #F58220;" class="px-4 py-1.5 rounded text-[#333]">
+            <div class="flex flex-col items-end space-y-3 mb-6 relative">
+                <input id="datepicker" type="text" class="hidden" />
+                <button id="openCalendar" type="button" style="border: 2px solid #F58220;"
+                    class="px-4 py-1.5 rounded text-[#333] relative z-10">
                     <i class="fas fa-calendar-alt mr-2"></i>Hari Ini
                 </button>
 
@@ -20,9 +93,7 @@
                         class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
                         <i class="fas fa-download mr-2"></i> Unduh
                     </button>
-
-                    <button id="openFilterModal"
-                        style="border: 2px solid #F58220;"
+                    <button style="border: 2px solid #F58220;"
                         class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
                         <i class="fas fa-filter mr-2"></i> Filter
                     </button>
@@ -50,7 +121,7 @@
                                 <td class="px-6 py-3 text-green-600 font-medium">Sukses</td>
                                 <td class="px-6 py-3">
                                     <div class="flex space-x-3">
-                                        <button title="Lihat" class="text-gray-600 hover:text-black transition btn-detail">
+                                        <button title="Lihat" class="text-gray-600 hover:text-black transition">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                         <button title="Hapus" class="text-gray-600 hover:text-red-500 transition">
@@ -66,39 +137,41 @@
         </main>
     </div>
 
-    <!-- Modal Filter -->
-    @include('components.filter-modal')
-
-    <!-- Modal Detail Transaksi -->
-    @include('components.detail-modal')
-
-    <!-- Script -->
+    <!-- Flatpickr Script + Footer Button -->
     <script>
-        // Modal Filter
-        document.getElementById('openFilterModal').addEventListener('click', function () {
-            document.getElementById('filterModal').classList.remove('hidden');
-        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const calendar = flatpickr("#datepicker", {
+                appendTo: document.body,
+                positionElement: document.getElementById("openCalendar"),
+                position: "below",
+                clickOpens: false,
+                allowInput: false,
+                onReady: function (selectedDates, dateStr, instance) {
+                    const footer = document.createElement("div");
+                    footer.className = "flatpickr-footer";
 
-        // Modal Detail Transaksi
-        function openTransactionModal() {
-            document.getElementById('transactionDetailModal').classList.remove('hidden');
-        }
+                    const cancelBtn = document.createElement("button");
+                    cancelBtn.className = "flatpickr-btn cancel";
+                    cancelBtn.textContent = "Batal";
+                    cancelBtn.onclick = () => instance.close();
 
-        function closeTransactionModal() {
-            document.getElementById('transactionDetailModal').classList.add('hidden');
-        }
+                    const applyBtn = document.createElement("button");
+                    applyBtn.className = "flatpickr-btn apply";
+                    applyBtn.textContent = "Terapkan";
+                    applyBtn.onclick = () => {
+                        console.log("Tanggal dipilih:", instance.input.value);
+                        instance.close();
+                    };
 
-        // Klik luar modal tutup
-        window.addEventListener('click', function (e) {
-            const modal = document.getElementById('transactionDetailModal');
-            if (e.target === modal) {
-                closeTransactionModal();
-            }
-        });
+                    footer.appendChild(cancelBtn);
+                    footer.appendChild(applyBtn);
+                    instance.calendarContainer.appendChild(footer);
+                }
+            });
 
-        // Tombol buka modal detail
-        document.querySelectorAll('.btn-detail').forEach(button => {
-            button.addEventListener('click', openTransactionModal);
+            document.getElementById("openCalendar").addEventListener("click", () => {
+                calendar.open();
+            });
         });
     </script>
 @endsection
