@@ -6,7 +6,7 @@
             <!-- Breadcrumb -->
             <div class="text-gray-500 mb-4">
                 <span class="text-black font-semibold">Dashboard</span> &gt;
-                <span class="text-[#888]">Transaksi GoFood</span>
+                <span class="text-[#888]">Transaksi ShoppeFood</span>
             </div>
 
             <!-- Action Buttons -->
@@ -16,8 +16,9 @@
                 </button>
 
                 <div class="flex space-x-3">
-                    <button style="border: 2px solid #F58220;"
-                        class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
+                    <button id ="openDownloadModal"
+                            style="border: 2px solid #F58220;"
+                            class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
                         <i class="fas fa-download mr-2"></i> Unduh
                     </button>
 
@@ -53,7 +54,7 @@
                                         <button title="Lihat" class="text-gray-600 hover:text-black transition btn-detail">
                                             <i class="fas fa-eye"></i>
                                         </button>
-                                        <button title="Hapus" class="text-gray-600 hover:text-red-500 transition">
+                                        <button title="Hapus" class="text-gray-600 hover:text-red-500 transition btn-hapus">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </div>
@@ -72,6 +73,18 @@
     <!-- Modal Detail Transaksi -->
     @include('components.detail-modal')
 
+    <!-- Modal Detail Download -->
+    @include('components.download-modal')
+
+    <!-- Modal Hapus -->
+    @include('components.hapus-modal')
+
+    <!-- Modal Berhasil Hapus -->
+    @include('components.berhasil-hapus-modal')
+
+    <!-- Modal Berhasil Unduh -->
+    @include('components.berhasil-unduh-modal')
+
     <!-- Script -->
     <script>
         // Modal Filter
@@ -83,6 +96,11 @@
         function openTransactionModal() {
             document.getElementById('transactionDetailModal').classList.remove('hidden');
         }
+
+        // Modal Download
+        document.getElementById('openDownloadModal').addEventListener('click', function () {
+            document.getElementById('DownloadModal').classList.remove('hidden');
+        });
 
         function closeTransactionModal() {
             document.getElementById('transactionDetailModal').classList.add('hidden');
@@ -99,6 +117,28 @@
         // Tombol buka modal detail
         document.querySelectorAll('.btn-detail').forEach(button => {
             button.addEventListener('click', openTransactionModal);
+        });
+
+        // Tombol buka modal hapus
+        document.querySelectorAll('.btn-hapus').forEach(button => {
+            button.addEventListener('click', openHapusModal);
+        });
+
+        // Modal Hapus
+        function openHapusModal() {
+            document.getElementById('openHapusModal').classList.remove('hidden');
+        }
+
+        function closeHapusModal() {
+            document.getElementById('openHapusModal').classList.add('hidden');
+        }
+
+         // Klik luar modal hapus
+         window.addEventListener('click', function (e) {
+            const modal = document.getElementById('openHapusModal');
+            if (e.target === modal) {
+                closeHapusModal();
+            }
         });
     </script>
 @endsection
