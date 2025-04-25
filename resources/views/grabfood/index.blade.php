@@ -10,10 +10,9 @@
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex flex-col items-end space-y-3 mb-6">
-                <button style="border: 2px solid #F58220;" class="px-4 py-1.5 rounded text-[#333]">
-                    <i class="fas fa-calendar-alt mr-2"></i>Hari Ini
-                </button>
+            <div class="flex flex-col items-end space-y-3 mb-6 relative">
+                {{-- Komponen Kalender --}}
+                @include('components.kalender')
 
                 <div class="flex space-x-3">
                     <button id ="openDownloadModal"

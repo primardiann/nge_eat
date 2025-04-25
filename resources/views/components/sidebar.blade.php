@@ -3,7 +3,7 @@
     x-transition:enter-end="opacity-100 transform translate-x-0" x-transition:leave="transition ease-in duration-200"
     x-transition:leave-start="opacity-100 transform translate-x-0"
     x-transition:leave-end="opacity-0 transform -translate-x-full"
-    style="width: 250px; position: fixed; top: 0; left: 0; z-index: 100; height: 100vh; background-color: #fff; display: flex; flex-direction: column; padding: 20px 10px;">
+    style="width: 250px; position: fixed; top: 0; left: 0; z-index: 45; height: 100vh; background-color: #fff; display: flex; flex-direction: column; padding: 20px 10px;">
     {{-- Logo --}}
     <div style="text-align: center; margin-bottom: 30px;">
         <a href="{{ route('dashboard') }}">

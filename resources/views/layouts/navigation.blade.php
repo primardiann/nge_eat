@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', config('app.name', 'Dashboard'))</title>
 
+    <!-- Link CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
+    <!-- Vite JS -->
     @vite('resources/js/app.js')
+
+    <!-- Tambahan CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     @stack('styles')
 </head>
@@ -23,19 +30,11 @@
 
             {{-- Topbar --}}
             <x-topbar />
-            
 
             {{-- Konten Halaman --}}
             <div style="flex-grow: 1; padding: 24px; background-color: #FAFAFA; overflow-y: auto;">
                 @yield('content')
             </div>
-
-            <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    @vite('resources/js/app.js')
-
-    <!-- Tambahan CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
         </div>
 
     </div>
