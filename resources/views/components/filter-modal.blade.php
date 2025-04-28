@@ -46,7 +46,6 @@
     </div>
 </div>
 
-
 <script>
     // Function to open the modal
     function openModal() {
@@ -63,8 +62,8 @@
 
     // Optional: Reset filter values when clicking "Atur Ulang"
     document.getElementById('resetFilters').addEventListener('click', () => {
-        // Reset all inputs and checkboxes to default values
         const inputs = document.querySelectorAll('input[type="text"], input[type="checkbox"]');
+
         inputs.forEach(input => {
             if (input.type === 'checkbox') {
                 input.checked = false;
@@ -74,16 +73,18 @@
         });
     });
 
-    // Optional: Apply the filters when clicking the "Terapkan" button
-    document.getElementById('applyFilters').addEventListener('click', () => {
-        // Get filter values and apply logic here (e.g., filtering data)
-        const idPesanan = document.querySelector('input[type="text"]').value;
-        const harga = document.querySelectorAll('input[type="text"]')[1].value;
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-        const selectedPayments = Array.from(checkboxes).map(checkbox => checkbox.parentElement.textContent.trim());
+    // Event listener for applying the filters when clicking the "Terapkan" button
+    document.getElementById('applyFilters').addEventListener('click', closeModal);
+    // document.getElementById('applyFilters').addEventListener('click', () => {
+    //     // Get filter values and apply logic here (e.g., filtering data)
+    //     const idPesanan = document.querySelector('input[type="text"]').value;
+    //     const harga = document.querySelectorAll('input[type="text"]')[1].value;
+    //     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    //     const selectedPayments = Array.from(checkboxes).map(checkbox => checkbox.parentElement.textContent.trim());
 
-        console.log('Applied filters:', { idPesanan, harga, selectedPayments });
+    //     console.log('Applied filters:', { idPesanan, harga, selectedPayments });
 
-        closeModal(); // Close the modal after applying filters
-    });
+    //     // Close the modal after applying filters
+    //     closeModal();
+    // });
 </script>
