@@ -6,7 +6,7 @@
 <input id="datepicker" type="text" class="hidden" />
 <button id="openCalendar" type="button" style="border: 2px solid #F58220;"
     class="px-4 py-1.5 rounded text-[#333] relative z-10">
-    <i class="fas fa-calendar-alt mr-2"></i>Hari Ini
+    <i class="fas fa-calendar-alt mr-2"></i>Kalender
 </button>
 
 <!-- Script dan Style Kalender -->
