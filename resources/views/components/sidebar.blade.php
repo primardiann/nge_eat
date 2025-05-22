@@ -47,6 +47,16 @@
             Transaksi ShopeeFood
         </a>
 
+        {{-- Laporan Keuangan --}}
+        <a href="{{ route('laporan.index') }}"
+            style="padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; 
+        display: inline-flex; align-items: center; {{ request()->routeIs('laporan.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }}">
+            <img src="{{ asset('images/laporan.png') }}" alt="Laporan Keuangan"
+                style="width: 20px; height: 20px; margin-right: 8px;">
+            Laporan Keuangan
+        </a>
+
+
         {{-- Profil --}}
         <a href="{{ route('profile.edit') }}"
             style="padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; 

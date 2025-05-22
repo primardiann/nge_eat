@@ -22,4 +22,8 @@ Route::view('/gofood', 'gofood.index')->name('gofood.index');
 Route::view('/grabfood', 'grabfood.index')->name('grabfood.index');
 Route::view('/shopeefood', 'shopeefood.index')->name('shopeefood.index');
 
+//Route Frontend Halaman Laporan Keuangan
+Route::view('/laporan', 'laporan.index')->name('laporan.index');
+
+
 require __DIR__.'/auth.php';

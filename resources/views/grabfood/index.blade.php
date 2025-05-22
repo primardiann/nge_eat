@@ -5,7 +5,7 @@
         <main class="flex-1 px-8 py-6">
             <!-- Breadcrumb -->
             <div class="text-gray-500 mb-4">
-                <span class="text-black font-semibold">Dashboard</span> &gt;
+                <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
                 <span class="text-[#888]">Transaksi GoFood</span>
             </div>
 
