@@ -5,10 +5,13 @@
         <main class="flex-1 px-8 py-6">
 
             <!-- Breadcrumb -->
-            <div class="text-gray-500 mb-4">
+            <div class="text-gray-500 mb-4 flex items-center space-x-1">
                 <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
-                <span class="text-[#888]">Transaksi GoFood</span>
+                <span class="text-[#888]">></span>
+                <span class="text-[#888]">Laporan Transaksi</span>
             </div>
+
+
 
             <!-- Info Cards -->
             <div class="row mb-4" style="display: flex; gap: 20px;">
@@ -117,11 +120,11 @@
                         </a>
 
                         <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium
-        transition-colors duration-200">
+                transition-colors duration-200">
                             2
                         </a>
                         <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium
-        transition-colors duration-200">
+                transition-colors duration-200">
                             3
                         </a>
                     </nav>

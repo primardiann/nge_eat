@@ -4,10 +4,13 @@
     <div class="flex min-h-screen bg-[#FAFAFA] text-sm">
         <main class="flex-1 px-8 py-6">
             <!-- Breadcrumb -->
-            <div class="text-gray-500 mb-4">
+            <div class="text-gray-500 mb-4 flex items-center space-x-1">
                 <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
-                <span class="text-[#888]">Transaksi GoFood</span>
+                <span class="text-[#888]">></span>
+                <span class="text-[#888]">Transaksi GrabFood</span>
             </div>
+
+
 
             <!-- Action Buttons -->
             <div class="flex flex-col items-end space-y-3 mb-6 relative">
@@ -15,14 +18,12 @@
                 @include('components.kalender')
 
                 <div class="flex space-x-3">
-                    <button id ="openDownloadModal"
-                            style="border: 2px solid #F58220;"
-                            class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
+                    <button id="openDownloadModal" style="border: 2px solid #F58220;"
+                        class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
                         <i class="fas fa-download mr-2"></i> Unduh
                     </button>
 
-                    <button id="openFilterModal"
-                        style="border: 2px solid #F58220;"
+                    <button id="openFilterModal" style="border: 2px solid #F58220;"
                         class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
                         <i class="fas fa-filter mr-2"></i> Filter
                     </button>
@@ -132,8 +133,8 @@
             document.getElementById('openHapusModal').classList.add('hidden');
         }
 
-         // Klik luar modal hapus
-         window.addEventListener('click', function (e) {
+        // Klik luar modal hapus
+        window.addEventListener('click', function (e) {
             const modal = document.getElementById('openHapusModal');
             if (e.target === modal) {
                 closeHapusModal();
