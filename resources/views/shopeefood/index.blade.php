@@ -7,52 +7,55 @@
             <div class="text-gray-500 mb-4 flex items-center space-x-1">
                 <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
                 <span class="text-[#888]">></span>
-                <span class="text-[#888]">Transaksi ShoppeFood</span>
+                <span class="text-[#888]">Transaksi ShopeeFood</span>
             </div>
 
-
-
-            <!-- Action Buttons -->
-            <div class="flex flex-col items-end space-y-3 mb-6 relative">
-                {{-- Komponen Kalender --}}
-                @include('components.kalender')
-
-                <div class="flex space-x-3">
-                    <button id="openDownloadModal" style="border: 2px solid #F58220;"
-                        class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
-                        <i class="fas fa-download mr-2"></i> Unduh
+            <!-- Add Buttons and Calendar Button -->
+            <div class="flex justify-between items-center mb-6 relative">
+                <div class="flex flex-col space-y-3">
+                    <button class="flex items-center gap-2 px-2 py-1 text-white font-medium rounded-lg btn-tambah" style="background-color: #F58220;">
+                        <span class="text-lg">+</span>
+                        <span>Tambah Transaksi</span>
                     </button>
+                </div>
 
-                    <button id="openFilterModal" style="border: 2px solid #F58220;"
-                        class="flex items-center text-orange-500 px-4 py-1.5 rounded hover:bg-orange-50 transition">
-                        <i class="fas fa-filter mr-2"></i> Filter
-                    </button>
+                <div class="flex flex-col space-y-3">
+                    {{-- Komponen Kalender --}}
+                    @include('components.kalender')
                 </div>
             </div>
 
             <!-- Table -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
                 <table class="min-w-full">
-                    <thead style="background-color: #FFE5D0;" class="text-gray-700 text-left text-sm">
+                    <thead style="background-color: #FFE5D0;" class="text-gray-700 text-left text-sm text-center">
                         <tr>
+                            <th class="px-6 py-3 font-medium">ID pesanan</th>
                             <th class="px-6 py-3 font-medium">Tanggal</th>
                             <th class="px-6 py-3 font-medium">Waktu</th>
-                            <th class="px-6 py-3 font-medium">ID pesanan</th>
+                            <th class="px-6 py-3 font-medium">Nama Pelanggan</th>
+                            <th class="px-6 py-3 font-medium">Metode Pembayaran</th>
+                            <th class="px-6 py-3 font-medium">Item Pemesanan</th>
                             <th class="px-6 py-3 font-medium">Status</th>
+                            <th class="px-6 py-3 font-medium">Total</th>
                             <th class="px-6 py-3 font-medium">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white text-gray-700 text-sm">
+                    <tbody class="bg-white text-gray-700 text-sm text-center">
                         @for ($i = 0; $i < 5; $i++)
                             <tr class="border-t hover:bg-gray-50">
+                                <td class="px-6 py-3 truncate max-w-[120px]">5-GF123ASD...</td>
                                 <td class="px-6 py-3">10-02-2025</td>
                                 <td class="px-6 py-3">13.40</td>
-                                <td class="px-6 py-3 truncate max-w-[120px]">5-GF123ASD...</td>
+                                <td class="px-6 py-3">Masda</td>
+                                <td class="px-6 py-3">Cash</td>
+                                <td class="px-6 py-3">1 Rice Bowl</td>
                                 <td class="px-6 py-3 text-green-600 font-medium">Sukses</td>
+                                <td class="px-6 py-3">Rp. 23.000</td>
                                 <td class="px-6 py-3">
                                     <div class="flex space-x-3">
-                                        <button title="Lihat" class="text-gray-600 hover:text-black transition btn-detail">
-                                            <i class="fas fa-eye"></i>
+                                        <button title="Edit" class="text-gray-600 hover:text-black transition btn-edit">
+                                            <i class="fas fa-pen-to-square"></i>
                                         </button>
                                         <button title="Hapus" class="text-gray-600 hover:text-red-500 transition btn-hapus">
                                             <i class="fas fa-trash-alt"></i>
@@ -63,18 +66,46 @@
                         @endfor
                     </tbody>
                 </table>
+
+            <!-- Pagination -->
+            <div class="flex justify-between items-center mt-4 px-4">
+                    <!-- Previous Link -->
+                    <a href="#" class="text-gray-500 hover:text-orange-600 text-sm font-medium transition-colors">
+                        &lt; Sebelumnya
+                    </a>
+
+                    <!-- Page Numbers -->
+                    <nav class="flex items-center gap-1 mb-4">
+                        <a href="#"
+                            style="font-family: sans-serif !important; font-size: 16px !important; color: white !important; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: orange; border-radius: 9999px;">
+                            1
+                        </a>
+
+                        <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium
+                transition-colors duration-200">
+                            2
+                        </a>
+                        <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium
+                transition-colors duration-200">
+                            3
+                        </a>
+                    </nav>
+
+                    <a href="#"
+                        class="text-gray-500 hover:text-orange-600 text-sm font-medium transition-colors duration-200">
+                        Selanjutnya &gt;
+                    </a>
+
+                </div>
             </div>
         </main>
     </div>
 
-    <!-- Modal Filter -->
-    @include('components.filter-modal')
+    <!-- Modal Edit Transaksi -->
+    @include('components.edit-modal')
 
-    <!-- Modal Detail Transaksi -->
-    @include('components.detail-modal')
-
-    <!-- Modal Detail Download -->
-    @include('components.download-modal')
+    <!-- Modal Tambah Transaksi -->
+    @include('components.tambah-modal')
 
     <!-- Modal Hapus -->
     @include('components.hapus-modal')
@@ -82,41 +113,46 @@
     <!-- Modal Berhasil Hapus -->
     @include('components.berhasil-hapus-modal')
 
-    <!-- Modal Berhasil Unduh -->
-    @include('components.berhasil-unduh-modal')
+    <!-- Modal Berhasil Tambah -->
+    @include('components.berhasil-tambah-modal')
+
 
     <!-- Script -->
     <script>
-        // Modal Filter
-        document.getElementById('openFilterModal').addEventListener('click', function () {
-            document.getElementById('filterModal').classList.remove('hidden');
-        });
-
-        // Modal Detail Transaksi
-        function openTransactionModal() {
-            document.getElementById('transactionDetailModal').classList.remove('hidden');
+        // Modal Edit Transaksi
+        function openEditModal() {
+            document.getElementById('transactionEditModal').classList.remove('hidden');
         }
 
-        // Modal Download
-        document.getElementById('openDownloadModal').addEventListener('click', function () {
-            document.getElementById('DownloadModal').classList.remove('hidden');
-        });
+        function closeEditModal() {
+            document.getElementById('transactionEditModal').classList.add('hidden');
+        }
 
-        function closeTransactionModal() {
-            document.getElementById('transactionDetailModal').classList.add('hidden');
+        // Modal Edit Transaksi
+        function openTambahModal() {
+            document.getElementById('transactionTambahModal').classList.remove('hidden');
+        }
+
+        function closeTambahModal() {
+            document.getElementById('transactionTambahModal').classList.add('hidden');
         }
 
         // Klik luar modal tutup
         window.addEventListener('click', function (e) {
-            const modal = document.getElementById('transactionDetailModal');
+            const modal = document.getElementById('transactionEditModal');
             if (e.target === modal) {
                 closeTransactionModal();
             }
         });
 
-        // Tombol buka modal detail
-        document.querySelectorAll('.btn-detail').forEach(button => {
-            button.addEventListener('click', openTransactionModal);
+        // Tombol buka modal edit
+        document.querySelectorAll('.btn-tambah').forEach(button => {
+            button.addEventListener('click', openTambahModal);
+        });
+
+        // Tombol buka modal edit
+        document.querySelectorAll('.btn-edit').forEach(button => {
+            button.addEventListener('click', openEditModal);
         });
 
         // Tombol buka modal hapus
