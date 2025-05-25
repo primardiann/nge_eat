@@ -5,7 +5,7 @@
     <div class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm text-gray-700">
       <div>
         <p class="mb-1">Tanggal</p>
-        <input type="text" placeholder="" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
+        <input type="date" placeholder="" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
       </div>
       <div>
         <p class="mb-1">Waktu</p>
