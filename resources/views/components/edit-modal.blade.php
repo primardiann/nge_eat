@@ -1,35 +1,50 @@
+<div id="BerhasilEditModal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+  <div class="bg-white rounded-md shadow-md p-6 w-full max-w-xl flex flex-col items-center">
+    <div class="flex items-center justify-center w-16 h-16 rounded-full bg-green-100 mb-4">
+      <i class="fas fa-check text-black text-2xl"></i>
+    </div>
+    <h2 class="text-xl font-semibold mb-2 text-center w-full" style="border-color: #C0C0C0;">Berhasil!</h2>
+    <div class="mt-2 text-center">
+      <h2 class="text-base mb-4">Transaksi berhasil diedit</h2>
+      <button id="closeBerhasilEditModal" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Transaksi -->
 <div id="transactionEditModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
   <div class="bg-white rounded-md shadow-md p-6 w-full max-w-xl">
     <h2 class="text-xl font-semibold mb-4 border-b pb-2" style="border-color: #F58220;">Edit Transaksi</h2>
 
     <div class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm text-gray-700">
+      <!-- Input fields -->
       <div>
         <p class="mb-1">Tanggal</p>
-        <input type="text" value="10-02-2025"  class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
+        <input type="text" value="10-02-2025" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
       </div>
       <div>
         <p class="mb-1">Waktu</p>
-        <input type="text" value="13.40"  class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
+        <input type="text" value="13.40" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
       </div>
       <div>
         <p class="mb-1">ID Pesanan</p>
-        <input type="text" value="5-GF123ASD..."  class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
+        <input type="text" value="5-GF123ASD..." class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
       </div>
       <div>
         <p class="mb-1">Nama Pelanggan</p>
-        <input type="text" value="Masda"  class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
+        <input type="text" value="Masda" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
       </div>
       <div class="col-span-2">
         <p class="mb-1">Item Pesanan</p>
-        <textarea  rows="2" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">1 Rice Bowl</textarea>
+        <textarea rows="2" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">1 Rice Bowl</textarea>
       </div>
       <div>
         <p class="mb-1">Total</p>
-        <input type="text" value="Rp.23.000"  class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
+        <input type="text" value="Rp.23.000" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
       </div>
       <div>
         <p class="mb-1">Metode Pembayaran</p>
-        <input type="text" value="Cash"  class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
+        <input type="text" value="Cash" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
       </div>
       <div class="col-span-2">
         <label class="inline-flex items-center space-x-2 mt-2">
@@ -59,11 +74,16 @@
     checkboxes.forEach(checkbox => checkbox.checked = false);
   }
 
+  function closeEditModal() {
+    document.getElementById("transactionEditModal").classList.add("hidden");
+  }
+
   function showBerhasilEdit() {
-    // Sembunyikan modal tambah
     closeEditModal();
-    // Tampilkan modal berhasil
     document.getElementById("BerhasilEditModal").classList.remove("hidden");
   }
-</script>
 
+  document.getElementById("closeBerhasilEditModal").addEventListener("click", function () {
+    document.getElementById("BerhasilEditModal").classList.add("hidden");
+  });
+</script>
