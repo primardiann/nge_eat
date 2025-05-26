@@ -43,7 +43,7 @@
       <a href="#" onclick="resetEditTransaksiModal()" class="text-sm text-blue-600 underline">Atur Ulang</a>
       <div>
         <button onclick="closeEditModal()" class="bg-red-700 hover:bg-red-800 text-white px-4 py-1.5 rounded shadow mr-2">Batal</button>
-        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded shadow">Ubah</button>
+        <button onclick="showBerhasilEdit()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded shadow">Ubah</button>
       </div>
     </div>
   </div>
@@ -57,6 +57,13 @@
 
     inputs.forEach(input => input.value = "");
     checkboxes.forEach(checkbox => checkbox.checked = false);
+  }
+
+  function showBerhasilEdit() {
+    // Sembunyikan modal tambah
+    closeEditModal();
+    // Tampilkan modal berhasil
+    document.getElementById("BerhasilEditModal").classList.remove("hidden");
   }
 </script>
 
