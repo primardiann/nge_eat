@@ -25,7 +25,7 @@
       </div>
       <div>
         <p class="mb-1">Total</p>
-        <input type="text" placeholder="" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
+        <input type="number" placeholder="" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
       </div>
       <div>
         <p class="mb-1">Metode Pembayaran</p>
