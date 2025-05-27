@@ -1,4 +1,5 @@
 @extends('layouts.navigation')
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 
 @section('content')
 <div class="flex min-h-screen bg-[#FAFAFA] text-sm">
@@ -47,17 +48,16 @@
         <td class="px-6 py-3">13.40</td>
         <td class="px-6 py-3">Masda</td>
         <td class="px-6 py-3">Cash</td>
-        <td class="px-6 py-3 max-w-[120px] truncate relative group cursor-pointer">
-            <span class="truncate block">1 Rice Bowl</span>
-            <div
-                class="absolute left-1/2 transform -translate-x-1/2 mt-8 hidden group-hover:block bg-gray-800 text-white text-xs px-3 py-2 rounded shadow-lg z-10 whitespace-nowrap"
-                style="min-width: 180px;">
-                <ul class="list-disc list-inside text-left">
-                    <li>1 Rice bowl ayam sambal geprek</li>
-                    <li>1 Silky puding taro</li>
-                </ul>
-            </div>
-        </td>
+       <td class="px-6 py-3 max-w-[120px] relative group">
+    <div class="truncate cursor-default">1 Rice Bowl</div>
+    <!-- Tooltip -->
+    <div class="absolute left-1/2 -translate-x-1/2 mt-2 hidden group-hover:block bg-orange-100 text-black text-xs px-3 py-2 rounded shadow-lg z-50 min-w-max">
+        <ul class="list-disc list-inside text-left space-y-1">
+            <li>1 Rice bowl ayam sambal geprek</li>
+            <li>1 Silky puding taro</li>
+        </ul>
+    </div>
+</td>
         <td class="px-6 py-3">
             <div class="flex space-x-3">
                 <button title="Detail" class="text-gray-600 hover:text-blue-500 transition btn-lihat">

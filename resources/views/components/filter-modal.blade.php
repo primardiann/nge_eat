@@ -9,30 +9,35 @@
                 <input type="text" class="w-full border-2 rounded px-2 py-1" style="border-color: #F58220;">
             </div>
             <div>
-                <label class="block text-sm mb-1">Harga</label>
-                <input type="text" class="w-full border-2 rounded px-2 py-1" style="border-color: #F58220;">
+                <label class="block text-sm mb-1">Kategori</label>
+                <select id="kategoriSelect" class="w-full border-2 rounded px-2 py-1 appearance-none bg-white" style="border-color: #F58220;">
+                    <option value="" disabled selected>Pilih Kategori</option>
+                    <option value="grabfood">GrabFood</option>
+                    <option value="gofood">GoFood</option>
+                    <option value="shopeefood">ShopeeFood</option>
+                </select>
             </div>
         </div>
 
         <div class="mb-4">
             <label class="inline-flex items-center">
-                <input type="checkbox" class="mr-2"> Semua tipe pembayaran
+                <input id="semuaTipePembayaran" type="checkbox" class="mr-2"> Semua tipe pembayaran
             </label>
             <div class="border-2 rounded p-4 mt-2 shadow-sm" style="border-color: #F58220;">
                 <div class="grid grid-cols-2 gap-2">
-                    <label><input type="checkbox" class="mr-2"> Gopay</label>
-                    <label><input type="checkbox" class="mr-2"> Kartu Debit</label>
-                    <label><input type="checkbox" class="mr-2"> GrabFood</label>
-                    <label><input type="checkbox" class="mr-2"> Ovo</label>
-                    <label><input type="checkbox" class="mr-2"> ShopeeFood</label>
-                    <label><input type="checkbox" class="mr-2"> Qris</label>
+                    <label><input type="checkbox" class="mr-2 payment-checkbox"> Gopay</label>
+                    <label><input type="checkbox" class="mr-2 payment-checkbox"> Kartu Debit</label>
+                    <label><input type="checkbox" class="mr-2 payment-checkbox"> GrabFood</label>
+                    <label><input type="checkbox" class="mr-2 payment-checkbox"> Ovo</label>
+                    <label><input type="checkbox" class="mr-2 payment-checkbox"> ShopeeFood</label>
+                    <label><input type="checkbox" class="mr-2 payment-checkbox"> Qris</label>
                 </div>
             </div>
         </div>
 
         <div class="mb-4">
             <label class="inline-flex items-center">
-                <input type="checkbox" class="mr-2"> Semua status pembayaran
+                <input id="semuaStatusPembayaran" type="checkbox" class="mr-2"> Semua status pembayaran
             </label>
         </div>
 
@@ -60,31 +65,30 @@
     // Event listener for closing the modal when clicking the "Batal" button
     document.getElementById('closeFilterModal').addEventListener('click', closeModal);
 
-    // Optional: Reset filter values when clicking "Atur Ulang"
+    // Reset all filter values including dropdown
     document.getElementById('resetFilters').addEventListener('click', () => {
-        const inputs = document.querySelectorAll('input[type="text"], input[type="checkbox"]');
+        // Reset text input
+        document.querySelector('input[type="text"]').value = '';
+        
+        // Reset dropdown to first option
+        const kategoriSelect = document.getElementById('kategoriSelect');
+        kategoriSelect.selectedIndex = 0;
+        
+        // Reset all checkboxes
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    });
 
-        inputs.forEach(input => {
-            if (input.type === 'checkbox') {
-                input.checked = false;
-            } else {
-                input.value = '';
-            }
+    // Toggle all payment checkboxes when "Semua tipe pembayaran" is clicked
+    document.getElementById('semuaTipePembayaran').addEventListener('change', function() {
+        const paymentCheckboxes = document.querySelectorAll('.payment-checkbox');
+        paymentCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
         });
     });
 
     // Event listener for applying the filters when clicking the "Terapkan" button
     document.getElementById('applyFilters').addEventListener('click', closeModal);
-    // document.getElementById('applyFilters').addEventListener('click', () => {
-    //     // Get filter values and apply logic here (e.g., filtering data)
-    //     const idPesanan = document.querySelector('input[type="text"]').value;
-    //     const harga = document.querySelectorAll('input[type="text"]')[1].value;
-    //     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-    //     const selectedPayments = Array.from(checkboxes).map(checkbox => checkbox.parentElement.textContent.trim());
-
-    //     console.log('Applied filters:', { idPesanan, harga, selectedPayments });
-
-    //     // Close the modal after applying filters
-    //     closeModal();
-    // });
 </script>
