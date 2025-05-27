@@ -6,10 +6,10 @@
     <h1 class="text-xl font-semibold mb-4">Dashboard</h1>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        <!-- Kartu Transaksi GoFood  -->
-        <a href="{{ route('gofood.index') }}" 
-           class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
-           style="border: 1px solid #F58220;">
+        <!-- Kartu Transaksi GoFood -->
+        <a href="{{ route('gofood.index') }}"
+            class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
+            style="border: 1px solid #F58220;">
             <span class="font-medium text-center">Transaksi GoFood</span>
             <img src="{{ asset('images/transaksi.png') }}" alt="Transaksi GoFood" class="w-12 h-12">
             <span
@@ -25,9 +25,9 @@
         </a>
 
         <!-- Kartu Transaksi GrabFood -->
-        <a href="{{ route('grabfood.index') }}" 
-           class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
-           style="border: 1px solid #F58220;">
+        <a href="{{ route('grabfood.index') }}"
+            class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
+            style="border: 1px solid #F58220;">
             <span class="font-medium text-center">Transaksi GrabFood</span>
             <img src="{{ asset('images/transaksi.png') }}" alt="Transaksi GrabFood" class="w-12 h-12">
             <span
@@ -42,12 +42,12 @@
             </span>
         </a>
 
-        <!-- Kartu Transaksi Shopeefood -->
-        <a href="{{ route('shopeefood.index') }}" 
-           class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
-           style="border: 1px solid #F58220;">
+        <!-- Kartu Transaksi ShopeeFood -->
+        <a href="{{ route('shopeefood.index') }}"
+            class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
+            style="border: 1px solid #F58220;">
             <span class="font-medium text-center">Transaksi ShopeeFood</span>
-            <img src="{{ asset('images/transaksi.png') }}" alt="Transaksi GoFood" class="w-12 h-12">
+            <img src="{{ asset('images/transaksi.png') }}" alt="Transaksi ShopeeFood" class="w-12 h-12">
             <span
                 class="bg-orange-500 hover:bg-orange-600 text-white text-xs px-4 py-1.5 rounded-full inline-flex items-center justify-between space-x-2 shadow-md transition duration-300 font-semibold cursor-pointer">
                 <span>Selengkapnya</span>
@@ -61,9 +61,9 @@
         </a>
 
         <!-- Kartu Laporan Transaksi -->
-        <a href="{{ route('laporan.index') }}" 
-           class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
-           style="border: 1px solid #F58220;">
+        <a href="{{ route('laporan.index') }}"
+            class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
+            style="border: 1px solid #F58220;">
             <span class="font-medium text-center">Laporan Transaksi</span>
             <img src="{{ asset('images/laporan.png') }}" alt="Laporan Transaksi" class="w-12 h-12">
             <span
@@ -96,11 +96,70 @@
                 <option>2025</option>
             </select>
         </div>
-        <div class="w-full h-48 rounded mb-4">
-            <img src="{{ asset('images/grafik.png') }}" alt="Grafik Pendapatan" class="h-full w-full object-contain" />
+
+        <div class="w-full h-64 rounded mb-4 overflow-x-auto">
+            <canvas id="pendapatanChart" style="width: 1200px; height: 100%;"></canvas>
         </div>
+
+
 
         <p class="text-sm font-semibold">Pendapatan <span class="text-black text-base">Rp.30.000.000</span></p>
     </div>
-</div>
-@endsection
+
+
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('pendapatanChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                    datasets: [{
+                        label: 'Pendapatan (Juta Rp)',
+                        data: [2, 3, 2.5, 4, 5, 4.5, 6, 7, 6.5, 8, 7.5, 9],
+                        borderColor: '#F58220',
+                        backgroundColor: 'rgba(245, 130, 32, 0.3)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + ' jt';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#333',
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Rp ${context.parsed.y} juta`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    @endsection
