@@ -36,39 +36,45 @@
                         <th class="px-6 py-3 font-medium">Nama Pelanggan</th>
                         <th class="px-6 py-3 font-medium">Metode Pembayaran</th>
                         <th class="px-6 py-3 font-medium">Item Pemesanan</th>
-                        <!-- <th class="px-6 py-3 font-medium">Status</th>
-                        <th class="px-6 py-3 font-medium">Total</th> -->
                         <th class="px-6 py-3 font-medium">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white text-gray-700 text-sm text-center">
-                    @for ($i = 0; $i < 5; $i++)
-                        <tr class="border-t hover:bg-gray-50">
-                        <td class="px-6 py-3 truncate max-w-[120px]">5-GF123ASD...</td>
-                        <td class="px-6 py-3">10-02-2025</td>
-                        <td class="px-6 py-3">13.40</td>
-                        <td class="px-6 py-3">Masda</td>
-                        <td class="px-6 py-3">Cash</td>
-                        <td class="px-6 py-3">1 Rice Bowl</td>
-                        <!-- <td class="px-6 py-3 text-green-600 font-medium">Sukses</td>
-                        <td class="px-6 py-3">Rp. 23.000</td> -->
-                        <td class="px-6 py-3">
-                            <div class="flex space-x-3">
-                                <button title="Detail" class="text-gray-600 hover:text-blue-500 transition btn-lihat">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button title="Edit" class="text-gray-600 hover:text-black transition btn-edit">
-                                    <i class="fas fa-pen-to-square"></i>
-                                </button>
-                                <button title="Hapus" class="text-gray-600 hover:text-red-500 transition btn-hapus">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
+    @for ($i = 0; $i < 5; $i++)
+    <tr class="border-t hover:bg-gray-50">
+        <td class="px-6 py-3 truncate max-w-[120px]">5-GF123ASD</td>
+        <td class="px-6 py-3">10-02-2025</td>
+        <td class="px-6 py-3">13.40</td>
+        <td class="px-6 py-3">Masda</td>
+        <td class="px-6 py-3">Cash</td>
+        <td class="px-6 py-3 max-w-[120px] truncate relative group cursor-pointer">
+            <span class="truncate block">1 Rice Bowl</span>
+            <div
+                class="absolute left-1/2 transform -translate-x-1/2 mt-8 hidden group-hover:block bg-gray-800 text-white text-xs px-3 py-2 rounded shadow-lg z-10 whitespace-nowrap"
+                style="min-width: 180px;">
+                <ul class="list-disc list-inside text-left">
+                    <li>1 Rice bowl ayam sambal geprek</li>
+                    <li>1 Silky puding taro</li>
+                </ul>
+            </div>
+        </td>
+        <td class="px-6 py-3">
+            <div class="flex space-x-3">
+                <button title="Detail" class="text-gray-600 hover:text-blue-500 transition btn-lihat">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button title="Edit" class="text-gray-600 hover:text-black transition btn-edit">
+                    <i class="fas fa-pen-to-square"></i>
+                </button>
+                <button title="Hapus" class="text-gray-600 hover:text-red-500 transition btn-hapus">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        </td>
+    </tr>
+    @endfor
+</tbody>
 
-                        </td>
-                        </tr>
-                        @endfor
-                </tbody>
             </table>
 
             <!-- Pagination -->
@@ -148,7 +154,7 @@
     window.addEventListener('click', function(e) {
         const modal = document.getElementById('transactionEditModal');
         if (e.target === modal) {
-            closeTransactionModal();
+            closeEditModal();
         }
     });
 
@@ -197,7 +203,7 @@
         button.addEventListener('click', openDetailModal);
     });
 
-    // Klik luar modal detail untuk menutup
+    // Klik luar modal tutup
     window.addEventListener('click', function(e) {
         const modal = document.getElementById('transactionDetailModal');
         if (e.target === modal) {

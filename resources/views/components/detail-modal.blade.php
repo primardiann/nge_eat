@@ -57,3 +57,16 @@
     </div>
   </div>
 </div>
+
+<!-- Script untuk kontrol modal -->
+  <script>
+    function openTransactionModal() {
+      const modal = document.getElementById('transactionDetailModal');
+      modal.classList.remove('hidden');
+    }
+
+    function closeTransactionModal() {
+      const modal = document.getElementById('transactionDetailModal');
+      modal.classList.add('hidden');
+    }
+  </script>
