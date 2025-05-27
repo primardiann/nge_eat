@@ -82,6 +82,7 @@
                     <table class="min-w-full">
                         <thead style="background-color: #FFE5D0;" class="text-gray-700 text-left text-sm">
                             <tr>
+                                <th class="px-4 py-3 font-medium text-center">Kategori</th>
                                 <th class="px-4 py-3 font-medium text-center">ID pesanan</th>
                                 <th class="px-4 py-3 font-medium text-center">Tanggal</th>
                                 <th class="px-4 py-3 font-medium text-center">Waktu</th>
@@ -90,10 +91,15 @@
                                 <th class="px-4 py-3 font-medium text-center">Total</th>
                             </tr>
                         </thead>
+                        @php
+                            $kategori = ['GoFood', 'GrabFood', 'ShopeeFood', 'GoFood', 'ShoopeFood'];
+                        @endphp
+
                         <tbody class="bg-white text-gray-700 text-sm">
-                            @for ($i = 0; $i < 5; $i++)
+                            @for ($i = 0; $i < count($kategori); $i++)
                                 <tr class="border-t hover:bg-gray-50">
-                                    <td class="px-4 py-3 whitespace-nowrap text-center">5-GF123ASD...</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-center">{{ $kategori[$i] }}</td>
+                                    <td class="px-4 py-3 whitespace-nowrap text-center">{{ $i + 1 }}-GF123ASD...</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-center">10-02-2025</td>
                                     <td class="px-4 py-3 whitespace-nowrap text-center">13.40</td>
                                     <td class="px-4 py-3 text-green-600 font-medium whitespace-nowrap text-center">Sukses</td>
@@ -102,6 +108,7 @@
                                 </tr>
                             @endfor
                         </tbody>
+
                     </table>
                 </div>
 
@@ -120,11 +127,11 @@
                         </a>
 
                         <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium
-                transition-colors duration-200">
+                    transition-colors duration-200">
                             2
                         </a>
                         <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium
-                transition-colors duration-200">
+                    transition-colors duration-200">
                             3
                         </a>
                     </nav>
