@@ -67,4 +67,3 @@
     document.getElementById("BerhasilTambahModal").classList.remove("hidden");
   }
 </script>
-
