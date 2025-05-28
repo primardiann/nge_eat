@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\GoFoodController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,7 +19,9 @@ Route::middleware('auth')->group(function () {
 });
 
 //Route Frontend Halaman Transaksi
-Route::view('/gofood', 'gofood.index')->name('gofood.index');
+Route::get('/gofood', [GoFoodController::class, 'index'])->name('gofood.index');
+Route::post('/gofood/tambah', [GoFoodController::class, 'store'])->name('gofood.store');
+
 Route::view('/grabfood', 'grabfood.index')->name('grabfood.index');
 Route::view('/shopeefood', 'shopeefood.index')->name('shopeefood.index');
 
