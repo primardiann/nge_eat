@@ -17,32 +17,17 @@
   </div>
 </div>
 
-
 <script>
-    // Function to open the modal
-    function openModal() {
-        document.getElementById('BerhasilHapusModal').classList.remove('hidden');
-    }
+  // Fungsi untuk membuka modal
+  function openBerhasilHapusModal() {
+    document.getElementById('BerhasilHapusModal').classList.remove('hidden');
+  }
 
-    // Function to close the modal
-    function closeModal() {
-        document.getElementById('BerhasilHapusModal').classList.add('hidden');
-    }
+  // Fungsi untuk menutup modal
+  function closeBerhasilHapusModal() {
+    document.getElementById('BerhasilHapusModal').classList.add('hidden');
+  }
 
-    // Event listener for closing the modal when clicking the "Batal" button
-    document.getElementById('closeBerhasilHapusModal').addEventListener('click', closeModal);
-
-    // Modal Berhasil Download
-    document.getElementById('openBerhasilHapusModal').addEventListener('click', function () {
-        document.getElementById('BerhasilHapusModal').classList.remove('hidden');
-    });
-
-    function closeAllModals() {
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(modal => {
-            modal.classList.add('hidden');
-        });
-    }
-
-    document.getElementById('closeBerhasilHapusModal').addEventListener('click', closeAllModals);
+  // Event listener tombol OK untuk menutup modal
+  document.getElementById('closeBerhasilHapusModal').addEventListener('click', closeBerhasilHapusModal);
 </script>

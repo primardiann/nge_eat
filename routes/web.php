@@ -20,7 +20,10 @@ Route::middleware('auth')->group(function () {
 
 //Route Frontend Halaman Transaksi
 Route::get('/gofood', [GoFoodController::class, 'index'])->name('gofood.index');
+Route::get('/api/gofood', [GoFoodController::class, 'getAll']);
 Route::post('/gofood/tambah', [GoFoodController::class, 'store'])->name('gofood.store');
+Route::delete('/api/gofood/{id}', [GoFoodController::class, 'destroy'])->name('gofood.destroy');
+
 
 Route::view('/grabfood', 'grabfood.index')->name('grabfood.index');
 Route::view('/shopeefood', 'shopeefood.index')->name('shopeefood.index');

@@ -1,18 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;  // wajib
+namespace App\Http\Controllers;
 
 use App\Models\GoFood;
 use Illuminate\Http\Request;
 
-class GoFoodController extends Controller  // extends dari Controller bawaan Laravel
+class GoFoodController extends Controller
 {
+    // Tampilkan semua transaksi
     public function index()
     {
         $transaksi = GoFood::latest()->get();
         return view('gofood.index', compact('transaksi'));
     }
 
+    public function getAll()
+{
+    $data = GoFood::latest()->get();
+    return response()->json($data);
+}
+
+    // Simpan transaksi baru
     public function store(Request $request)
     {
         $request->validate([
@@ -33,9 +41,22 @@ class GoFoodController extends Controller  // extends dari Controller bawaan Lar
             'item_pesanan' => $request->item_pesanan,
             'total' => $request->total,
             'metode_pembayaran' => $request->metode_pembayaran,
-            'status' => $request->has('status'),
+            // 'status' biasanya adalah string atau boolean, sesuaikan ini:
+            'status' => $request->status ?? null,
         ]);
 
         return redirect()->route('gofood.index')->with('success', 'Transaksi berhasil ditambahkan!');
     }
+
+   
+public function destroy($id)
+{
+    $item = GoFood::find($id);
+    if (!$item) {
+        return response()->json(['message' => 'Data not found'], 404);
+    }
+    $item->delete();
+    return response()->json(['message' => 'Data deleted successfully'], 200);
+}
+
 }
