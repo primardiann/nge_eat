@@ -43,7 +43,7 @@
                 </thead>
                 <tbody class="bg-white text-gray-700 text-sm text-center">
                     @foreach ($transaksi as $transaction)
-                    <tr class="border-t hover:bg-gray-50">
+                    <tr class="border-t hover:bg-gray-50" data-tanggal="{{ $transaction->tanggal->format('Y-m-d') }}">
                         <td class="px-6 py-3 truncate max-w-[120px]">{{ $transaction->id_pesanan }}</td>
                         <td class="px-6 py-3">{{ $transaction->tanggal->format('d-m-Y') }}</td>
                         <td class="px-6 py-3">{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}</td>
@@ -89,15 +89,18 @@
 
                                 <button title="Hapus"
                                     class="text-gray-600 hover:text-red-500 transition btn-hapus"
-                                    onclick="openHapusModal('{{ $transaction->id }}')">
+                                    onclick="openHapusModal('{{ $transaction->id }}')"
+                                    data-id="{{ $transaction->id }}">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
 
                             </div>
                         </td>
                     </tr>
+                    
                     @endforeach
                 </tbody>
+
 
             </table>
 
@@ -179,11 +182,8 @@
         const modal = document.getElementById('openHapusModal');
         modal.classList.remove('hidden');
 
-        // Isi input atau elemen modal dengan ID transaksi yang akan dihapus
-        const inputId = document.getElementById('hapus-id');
-        if(inputId) {
-            inputId.value = id;
-        }
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+        confirmBtn.setAttribute('data-id', id);
     }
 
     function closeHapusModal() {
