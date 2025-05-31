@@ -159,4 +159,34 @@
         });
     </script>
 </div>
+
+<style>
+    /* Tambahan untuk memperbaiki tampilan tombol "Selengkapnya" di mobile */
+    @media (max-width: 640px) {
+        .inline-flex.items-center.justify-between.space-x-2 {
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+    }
+
+    /* Supaya canvas chart tidak meluber di layar kecil */
+    @media (max-width: 768px) {
+        #pendapatanChart {
+            width: 100% !important;
+            height: auto !important;
+        }
+    }
+
+    /* Kartu transaksi agar tidak terlalu kecil di layar sempit */
+    @media (max-width: 480px) {
+        .grid > a {
+            padding: 1rem !important;
+        }
+        .grid > a img {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+    }
+</style>
+
 @endsection
