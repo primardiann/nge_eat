@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GoFoodController;
+use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -30,6 +31,11 @@ Route::view('/shopeefood', 'shopeefood.index')->name('shopeefood.index');
 
 //Route Frontend Halaman Laporan Keuangan
 Route::view('/laporan', 'laporan.index')->name('laporan.index');
+
+Route::resource('menus', MenuController::class)->only([
+    'index', 'store', 'edit', 'update', 'destroy'
+]);
+
 
 
 require __DIR__.'/auth.php';

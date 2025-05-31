@@ -19,7 +19,16 @@
                 style="width: 20px; height: 20px; margin-right: 8px;">
             Dashboard
         </a>
+        {{-- Fitur Menu --}}
+        <a href="{{ route('menus.index') }}"
+            style="padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; 
+        display: inline-flex; align-items: center; {{ request()->routeIs('menus.*') ? 'background-color: #FFE5D0; color: black; border: 2px solid #F58220;' : 'color: #333;' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
 
+            Menu
+        </a>
         {{-- Transaksi GoFood --}}
         <a href="{{ route('gofood.index') }}"
             style="padding: 10px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; 
@@ -46,6 +55,7 @@
                 style="width: 20px; height: 20px; margin-right: 8px;">
             Transaksi ShopeeFood
         </a>
+
 
         {{-- Laporan Transaksi --}}
         <a href="{{ route('laporan.index') }}"
