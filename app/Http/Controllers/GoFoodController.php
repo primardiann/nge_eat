@@ -4,59 +4,94 @@ namespace App\Http\Controllers;
 
 use App\Models\GoFood;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Platform;
+use App\Models\Menu;
+use App\Models\MenuPrice;
 
 class GoFoodController extends Controller
-{
-    // Tampilkan semua transaksi
+{   
+    // Tampilkan semua transaksi + kirim kategori & platform ke view
     public function index()
     {
         $transaksi = GoFood::latest()->get();
-        return view('gofood.index', compact('transaksi'));
+        $categories = Category::all();
+        $platforms = Platform::all();
+
+        return view('gofood.index', compact('transaksi', 'categories', 'platforms'));
     }
 
+    // Dapatkan semua transaksi (json)
     public function getAll()
-{
-    $data = GoFood::latest()->get();
-    return response()->json($data);
-}
+    {
+        $data = GoFood::latest()->get();
+        return response()->json($data);
+    }
+
+    // Ambil daftar menu berdasarkan category_id (ajax)
+    public function getMenus($category_id)
+    {
+        $menus = Menu::where('category_id', $category_id)->get();
+        return response()->json($menus);
+    }
+
+    // Ambil harga menu berdasarkan menu_id dan platform_id (ajax)
+    public function getPrice(Request $request)
+    {
+        $menuId = $request->menu_id;
+        $platformId = $request->platform_id;
+
+        $price = MenuPrice::where('menu_id', $menuId)
+            ->where('platform_id', $platformId)
+            ->first();
+
+        return response()->json([
+            'price' => $price ? $price->price : 0
+        ]);
+    }
 
     // Simpan transaksi baru
-    public function store(Request $request)
-    {
-        $request->validate([
-            'id_pesanan' => 'required',
-            'tanggal' => 'required|date',
-            'waktu' => 'required',
-            'nama_pelanggan' => 'required',
-            'item_pesanan' => 'required',
-            'total' => 'required|numeric',
-            'metode_pembayaran' => 'required',
-        ]);
-
-        GoFood::create([
-            'id_pesanan' => $request->id_pesanan,
-            'tanggal' => $request->tanggal,
-            'waktu' => $request->waktu,
-            'nama_pelanggan' => $request->nama_pelanggan,
-            'item_pesanan' => $request->item_pesanan,
-            'total' => $request->total,
-            'metode_pembayaran' => $request->metode_pembayaran,
-            // 'status' biasanya adalah string atau boolean, sesuaikan ini:
-            'status' => $request->status ?? null,
-        ]);
-
-        return redirect()->route('gofood.index')->with('success', 'Transaksi berhasil ditambahkan!');
-    }
-
-   
-public function destroy($id)
+   public function store(Request $request)
 {
-    $item = GoFood::find($id);
-    if (!$item) {
-        return response()->json(['message' => 'Data not found'], 404);
-    }
-    $item->delete();
-    return response()->json(['message' => 'Data deleted successfully'], 200);
+    $request->validate([
+        'id_pesanan' => 'required',
+        'tanggal' => 'required|date',
+        'waktu' => 'required',
+        'nama_pelanggan' => 'required',
+        'total' => 'required|numeric',
+        'metode_pembayaran' => 'required',
+        'items' => 'required|array|min:1',
+        'items.*.category_id' => 'required|exists:categories,id',
+        'items.*.menu_id' => 'required|exists:menus,id',
+        'items.*.platform_id' => 'required|exists:platforms,id',
+        'items.*.jumlah' => 'required|numeric|min:1',
+        'items.*.harga' => 'required|numeric|min:0',
+        'items.*.subtotal' => 'required|numeric|min:0',
+    ]);
+
+    // Simpan data transaksi + item pesanan dalam bentuk JSON
+    GoFood::create([
+        'id_pesanan' => $request->id_pesanan,
+        'tanggal' => $request->tanggal,
+        'waktu' => $request->waktu,
+        'nama_pelanggan' => $request->nama_pelanggan,
+        'item_pesanan' => json_encode($request->items), 
+        'total' => $request->total,
+        'metode_pembayaran' => $request->metode_pembayaran,
+        'status' => $request->status ? 1 : 0,
+    ]);
+
+    return redirect()->route('gofood.index')->with('success', 'Transaksi berhasil ditambahkan!');
 }
 
+    // Hapus transaksi
+    public function destroy($id)
+    {
+        $item = GoFood::find($id);
+        if (!$item) {   
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+        $item->delete();
+        return response()->json(['message' => 'Data deleted successfully'], 200);
+    }
 }

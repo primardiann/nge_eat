@@ -22,9 +22,11 @@ class GoFood extends Model
     ];
 
     // Casting tipe data
-    protected $casts = [
-        'tanggal' => 'date',
-        'waktu' => 'datetime:H:i:s',
-        'status' => 'boolean',
-    ];
+   protected $casts = [
+    'tanggal' => 'date',
+    'waktu' => 'datetime:H:i:s',
+    'status' => 'boolean',
+    'item_pesanan' => 'array', // <--- tambahkan ini
+];
+
 }
