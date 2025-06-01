@@ -1,10 +1,13 @@
 @props(['categories', 'platforms'])
 
+
+
+<!-- Modal Tambah Transaksi -->
 <div id="transactionTambahModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
-  <div class="bg-white rounded-md shadow-md p-6 w-full max-w-3xl">
+  <div class="bg-white rounded-md shadow-md p-6 w-full max-w-3xl max-h-[90vh] overflow-auto">
     <h2 class="text-xl font-semibold mb-4 border-b pb-2" style="border-color: #F58220;">Tambah Transaksi</h2>
 
-    <form id="formTambahTransaksi" action="{{ route('gofood.store') }}" method="POST">
+    <form id="formTambahTransaksi" action="" method="POST">
       @csrf
 
       <div class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm text-gray-700">
@@ -69,6 +72,26 @@
 <script>
   let itemIndex = 0;
 
+  function openTambahModal() {
+    document.getElementById('transactionTambahModal').classList.remove('hidden');
+    resetTambahTransaksiModal();
+  }
+
+  function closeTambahModal() {
+    resetTambahTransaksiModal();
+    document.getElementById('transactionTambahModal').classList.add('hidden');
+  }
+
+  function resetTambahTransaksiModal() {
+    const form = document.getElementById('formTambahTransaksi');
+    form.reset();
+    document.getElementById('itemsContainer').innerHTML = '';
+    document.getElementById('grand_total').value = '';
+    itemIndex = 0;
+    addItemRow();
+    setFormActionByPlatform('gofood, grabfood, shopeefood');
+  }
+
   function addItemRow() {
     const container = document.getElementById('itemsContainer');
     const row = document.createElement('div');
@@ -95,7 +118,7 @@
       <div>
         <label class="block text-xs mb-1">Platform</label>
         <select name="items[${itemIndex}][platform_id]" class="platform_id border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required>
-          <option value="">-- Pilih Platform --</option>
+          <option value="">-- Platform --</option>
           @foreach($platforms as $platform)
             <option value="{{ $platform->id }}">{{ $platform->name }}</option>
           @endforeach
@@ -131,7 +154,6 @@
           data.forEach(menu => {
             menuSelect.innerHTML += `<option value="${menu.id}">${menu.name}</option>`;
           });
-          // Reset harga & subtotal saat menu berubah
           row.querySelector('.harga_item').value = '';
           row.querySelector('.subtotal_item').value = '';
           updateGrandTotal();
@@ -176,20 +198,26 @@
     document.getElementById('grand_total').value = grandTotal;
   }
 
-  function resetTambahTransaksiModal() {
+  // Tentukan action form berdasarkan platform
+  function setFormActionByPlatform(mainPlatform) {
     const form = document.getElementById('formTambahTransaksi');
-    form.reset();
-    document.getElementById('itemsContainer').innerHTML = '';
-    document.getElementById('grand_total').value = '';
-    itemIndex = 0;
+
+    switch(mainPlatform.toLowerCase()) {
+      case 'gofood':
+        form.action = "{{ route('gofood.store') }}";
+        break;
+      case 'grabfood':
+        form.action = "{{ route('grabfood.store') }}";
+        break;
+      case 'shopeefood':
+        form.action = "{{ route('shopeefood.store') }}";
+        break;
+      default:
+        form.action = "{{ route('gofood.store') }}";
+    }
   }
 
-  function closeTambahModal() {
-    resetTambahTransaksiModal();
-    document.getElementById('transactionTambahModal').classList.add('hidden');
-  }
-
-  // Submit handler to set item_pesanan JSON before submit
+  // Saat submit, convert data item menjadi JSON string dan simpan ke hidden input
   document.getElementById('formTambahTransaksi').addEventListener('submit', function(e) {
     const rows = document.querySelectorAll('.item-row');
     const items = [];
@@ -223,8 +251,8 @@
     document.getElementById('item_pesanan_input').value = JSON.stringify(items);
   });
 
-  // Init: otomatis tambahkan satu baris item saat modal dibuka
+  // Inisialisasi modal dengan 1 baris item saat page load
   document.addEventListener('DOMContentLoaded', () => {
-    addItemRow();
+    // modal masih hidden, row ditambah saat modal dibuka
   });
 </script>

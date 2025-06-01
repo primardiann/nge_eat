@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GoFood extends Model
+class GrabFood extends Model
 {
-    // Nama tabel yang sesuai dengan migrasi
-    protected $table = 'transaksi_go_food';
+    protected $table = 'transaksi_grab_food';
 
-    // Field yang boleh diisi mass assignment
+  // Field yang boleh diisi mass assignment
     protected $fillable = [
         'id_pesanan',
         'tanggal',

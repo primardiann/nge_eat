@@ -3,6 +3,8 @@
 use App\Http\Controllers\GoFoodController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\GrabFoodController;
+use App\Http\Controllers\ShopeeFoodController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,8 +33,19 @@ Route::get('/get-menus/{category_id}', [GoFoodController::class, 'getMenus'])->n
 // Tambahan route AJAX untuk ambil harga berdasarkan menu dan platform
 Route::get('/get-price', [GoFoodController::class, 'getPrice'])->name('get-price');
 
-Route::view('/grabfood', 'grabfood.index')->name('grabfood.index');
-Route::view('/shopeefood', 'shopeefood.index')->name('shopeefood.index');
+Route::get('/grabfood', [GrabFoodController::class, 'index'])->name('grabfood.index');
+Route::get('/api/grabfood', [GrabFoodController::class, 'getAll']);
+Route::post('/grabfood/tambah', [GrabFoodController::class, 'store'])->name('grabfood.store');
+Route::delete('/api/grabfood/{id}', [GrabFoodController::class, 'destroy'])->name('grabfood.destroy');
+
+
+
+Route::get('/shopeefood', [ShopeeFoodController::class, 'index'])->name('shopeefood.index');
+Route::get('/api/shopeefood', [ShopeeFoodController::class, 'getAll']);
+Route::post('/shopeefood/tambah', [ShopeeFoodController::class, 'store'])->name('shopeefood.store');
+Route::delete('/api/shopeefood/{id}', [ShopeeFoodController::class, 'destroy'])->name('shopeefood.destroy');
+
+
 
 // Route Frontend Halaman Laporan Keuangan
 Route::view('/laporan', 'laporan.index')->name('laporan.index');
