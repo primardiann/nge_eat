@@ -1,11 +1,5 @@
 @props(['categories', 'platforms'])
 
-<!-- Tombol pemicu modal -->
-<div class="mb-4 space-x-2">
-  <button onclick="openTambahModal('gofood')" class="bg-green-600 text-white px-4 py-2 rounded">+ Tambah GoFood</button>
-  <button onclick="openTambahModal('grabfood')" class="bg-yellow-600 text-white px-4 py-2 rounded">+ Tambah GrabFood</button>
-  <button onclick="openTambahModal('shopeefood')" class="bg-orange-600 text-white px-4 py-2 rounded">+ Tambah ShopeeFood</button>
-</div>
 
 <!-- Modal Tambah Transaksi -->
 <div id="transactionTambahModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">

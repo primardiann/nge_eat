@@ -18,7 +18,7 @@ class ShopeeFoodController extends Controller
         $categories = Category::all();
         $platforms = Platform::all();
 
-        return view('grabfood.index', compact('transaksi', 'categories', 'platforms'));
+        return view('shopeefood.index', compact('transaksi', 'categories', 'platforms'));
     }
 
     // Dapatkan semua transaksi (json)
@@ -69,19 +69,27 @@ class ShopeeFoodController extends Controller
         'items.*.subtotal' => 'required|numeric|min:0',
     ]);
 
-    // Simpan data transaksi + item pesanan dalam bentuk JSON
+    // Format item pesanan menjadi string yang mudah dibaca
+    $formattedItems = [];
+    foreach ($request->items as $item) {
+        $menu = Menu::find($item['menu_id']);
+        $formattedItems[] = $item['jumlah'] . ' ' . $menu->name;
+    }
+    $itemString = implode(', ', $formattedItems);
+
+    // Simpan data transaksi
     ShopeeFood::create([
         'id_pesanan' => $request->id_pesanan,
         'tanggal' => $request->tanggal,
         'waktu' => $request->waktu,
         'nama_pelanggan' => $request->nama_pelanggan,
-        'item_pesanan' => json_encode($request->items), 
+        'item_pesanan' => $itemString, // Simpan sebagai string bukan JSON
         'total' => $request->total,
         'metode_pembayaran' => $request->metode_pembayaran,
         'status' => $request->status ? 1 : 0,
     ]);
 
-    return redirect()->route('gofood.index')->with('success', 'Transaksi berhasil ditambahkan!');
+    return redirect()->route('shopeefood.index')->with('success', 'Transaksi berhasil ditambahkan!');
 }
 
     // Hapus transaksi

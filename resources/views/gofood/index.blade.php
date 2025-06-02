@@ -233,13 +233,15 @@
 
       const ul = document.getElementById('detail-item-list');
       ul.innerHTML = '';
+      
+      // Split item berdasarkan koma dan tampilkan
       item.split(',').forEach(i => {
         const li = document.createElement('li');
         li.textContent = i.trim();
         ul.appendChild(li);
       });
 
-      document.getElementById('detail-total-value').textContent = total;
+      document.getElementById('detail-total-value').textContent = 'Rp ' + parseInt(total).toLocaleString('id-ID');
       openDetailModal();
     });
   });
