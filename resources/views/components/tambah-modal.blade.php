@@ -1,6 +1,11 @@
 @props(['categories', 'platforms'])
 
-
+<!-- Tombol pemicu modal -->
+<div class="mb-4 space-x-2">
+  <button onclick="openTambahModal('gofood')" class="bg-green-600 text-white px-4 py-2 rounded">+ Tambah GoFood</button>
+  <button onclick="openTambahModal('grabfood')" class="bg-yellow-600 text-white px-4 py-2 rounded">+ Tambah GrabFood</button>
+  <button onclick="openTambahModal('shopeefood')" class="bg-orange-600 text-white px-4 py-2 rounded">+ Tambah ShopeeFood</button>
+</div>
 
 <!-- Modal Tambah Transaksi -->
 <div id="transactionTambahModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
@@ -29,7 +34,7 @@
         </div>
       </div>
 
-      <!-- ========================== Dynamic Items ========================== -->
+      <!-- Dynamic Items -->
       <div class="mt-4 mb-2">
         <h3 class="font-medium mb-2">Detail Pesanan</h3>
         <div id="itemsContainer" class="space-y-4"></div>
@@ -62,35 +67,36 @@
         </div>
       </div>
 
-      <!-- Input hidden untuk kirim item dalam bentuk JSON -->
       <input type="hidden" name="item_pesanan" id="item_pesanan_input">
-
     </form>
   </div>
 </div>
 
 <script>
   let itemIndex = 0;
+  let selectedPlatform = 'gofood';
 
-  function openTambahModal() {
-    document.getElementById('transactionTambahModal').classList.remove('hidden');
-    resetTambahTransaksiModal();
-  }
+  function openTambahModal(platform) {
+  selectedPlatform = platform;
+  setFormActionByPlatform(selectedPlatform); // ← DITAMBAHKAN di sini
+  document.getElementById('transactionTambahModal').classList.remove('hidden');
+  resetTambahTransaksiModal();
+}
 
   function closeTambahModal() {
     resetTambahTransaksiModal();
     document.getElementById('transactionTambahModal').classList.add('hidden');
   }
 
-  function resetTambahTransaksiModal() {
-    const form = document.getElementById('formTambahTransaksi');
-    form.reset();
-    document.getElementById('itemsContainer').innerHTML = '';
-    document.getElementById('grand_total').value = '';
-    itemIndex = 0;
-    addItemRow();
-    setFormActionByPlatform('gofood, grabfood, shopeefood');
-  }
+ function resetTambahTransaksiModal() {
+  const form = document.getElementById('formTambahTransaksi');
+  form.reset();
+  document.getElementById('itemsContainer').innerHTML = '';
+  document.getElementById('grand_total').value = '';
+  itemIndex = 0;
+  addItemRow();
+  // Tidak perlu setFormAction di sini lagi
+}
 
   function addItemRow() {
     const container = document.getElementById('itemsContainer');
@@ -198,7 +204,6 @@
     document.getElementById('grand_total').value = grandTotal;
   }
 
-  // Tentukan action form berdasarkan platform
   function setFormActionByPlatform(mainPlatform) {
     const form = document.getElementById('formTambahTransaksi');
 
@@ -212,12 +217,10 @@
       case 'shopeefood':
         form.action = "{{ route('shopeefood.store') }}";
         break;
-      default:
-        form.action = "{{ route('gofood.store') }}";
+     
     }
   }
 
-  // Saat submit, convert data item menjadi JSON string dan simpan ke hidden input
   document.getElementById('formTambahTransaksi').addEventListener('submit', function(e) {
     const rows = document.querySelectorAll('.item-row');
     const items = [];
@@ -249,10 +252,5 @@
     }
 
     document.getElementById('item_pesanan_input').value = JSON.stringify(items);
-  });
-
-  // Inisialisasi modal dengan 1 baris item saat page load
-  document.addEventListener('DOMContentLoaded', () => {
-    // modal masih hidden, row ditambah saat modal dibuka
   });
 </script>

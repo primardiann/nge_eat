@@ -3,65 +3,95 @@
 namespace App\Http\Controllers;
 
 use App\Models\GrabFood;
-use App\Models\Category;
-use App\Models\Menu;
-use App\Models\Platform;
-use App\Models\MenuPrice;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Platform;
+use App\Models\Menu;
+use App\Models\MenuPrice;
 
 class GrabFoodController extends Controller
-{
-    // Tampilkan halaman utama transaksi GrabFood
+{   
+    // Tampilkan semua transaksi + kirim kategori & platform ke view
     public function index()
     {
+        $transaksi = GrabFood::latest()->get();
         $categories = Category::all();
         $platforms = Platform::all();
-        return view('grabfood.index', compact('categories', 'platforms'));
+
+        return view('grabfood.index', compact('transaksi', 'categories', 'platforms'));
     }
 
-    // Ambil semua data transaksi GrabFood (misal untuk API/frontend)
+    // Dapatkan semua transaksi (json)
     public function getAll()
     {
         $data = GrabFood::latest()->get();
         return response()->json($data);
     }
 
-    // Simpan transaksi GrabFood baru
-    public function store(Request $request)
+    // Ambil daftar menu berdasarkan category_id (ajax)
+    public function getMenus($category_id)
     {
-        $request->validate([
-            'tanggal' => 'required|date',
-            'waktu' => 'required',
-            'id_pesanan' => 'required|string|max:255',
-            'nama_pelanggan' => 'required|string|max:255',
-            'metode_pembayaran' => 'required|string|max:255',
-            'total' => 'required|numeric',
-            'item_pesanan' => 'required|json',
-        ]);
-
-        $data = new GrabFood();
-        $data->tanggal = $request->tanggal;
-        $data->waktu = $request->waktu;
-        $data->id_pesanan = $request->id_pesanan;
-        $data->nama_pelanggan = $request->nama_pelanggan;
-        $data->metode_pembayaran = $request->metode_pembayaran;
-        $data->total = $request->total;
-        $data->status = $request->has('status') ? 1 : 0;
-        $data->items = $request->item_pesanan;
-        $data->save();
-
-        return redirect()->route('grabfood.index')->with('success', 'Transaksi berhasil ditambahkan!');
+        $menus = Menu::where('category_id', $category_id)->get();
+        return response()->json($menus);
     }
 
-    // Hapus transaksi GrabFood berdasarkan ID
+    // Ambil harga menu berdasarkan menu_id dan platform_id (ajax)
+    public function getPrice(Request $request)
+    {
+        $menuId = $request->menu_id;
+        $platformId = $request->platform_id;
+
+        $price = MenuPrice::where('menu_id', $menuId)
+            ->where('platform_id', $platformId)
+            ->first();
+
+        return response()->json([
+            'price' => $price ? $price->price : 0
+        ]);
+    }
+
+    // Simpan transaksi baru
+   public function store(Request $request)
+{
+    $request->validate([
+        'id_pesanan' => 'required',
+        'tanggal' => 'required|date',
+        'waktu' => 'required',
+        'nama_pelanggan' => 'required',
+        'total' => 'required|numeric',
+        'metode_pembayaran' => 'required',
+        'items' => 'required|array|min:1',
+        'items.*.category_id' => 'required|exists:categories,id',
+        'items.*.menu_id' => 'required|exists:menus,id',
+        'items.*.platform_id' => 'required|exists:platforms,id',
+        'items.*.jumlah' => 'required|numeric|min:1',
+        'items.*.harga' => 'required|numeric|min:0',
+        'items.*.subtotal' => 'required|numeric|min:0',
+    ]);
+
+    // Simpan data transaksi + item pesanan dalam bentuk JSON
+    GrabFood::create([
+        'id_pesanan' => $request->id_pesanan,
+        'tanggal' => $request->tanggal,
+        'waktu' => $request->waktu,
+        'nama_pelanggan' => $request->nama_pelanggan,
+        'item_pesanan' => json_encode($request->items), 
+        'total' => $request->total,
+        'metode_pembayaran' => $request->metode_pembayaran,
+        'status' => $request->status ? 1 : 0,
+    ]);
+
+    return redirect()->route('gofood.index')->with('success', 'Transaksi berhasil ditambahkan!');
+}
+
+    // Hapus transaksi
     public function destroy($id)
     {
-        $data = GrabFood::find($id);
-        if (!$data) {
-            return response()->json(['message' => 'Data tidak ditemukan'], 404);
+        $item = GrabFood::find($id);
+        if (!$item) {   
+            return response()->json(['message' => 'Data not found'], 404);
         }
-
-        $data->delete();
-        return response()->json(['message' => 'Data berhasil dihapus'], 200);
+        $item->delete();
+        return response()->json(['message' => 'Data deleted successfully'], 200);
     }
 }
