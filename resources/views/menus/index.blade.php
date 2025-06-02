@@ -62,7 +62,7 @@
 
                         <td class="px-6 py-3 flex justify-center space-x-4">
                             <!-- Edit -->
-                            <a href="{{ route('menus.edit', $menu->id) }}" class="text-blue-600 hover:text-blue-800" title="Edit">
+                            <a href="javascript:void(0)" onclick='openEditModal({{ $menu->id }})' class="text-blue-600 hover:text-blue-800" title="Edit">
                                 <i class="fas fa-pen-to-square text-lg"></i>
                             </a>
 
@@ -106,6 +106,13 @@
     </div>
 </div>
 
+<!-- Modal Edit Menu -->
+<div id="modalEditMenu" class="fixed inset-0 bg-black bg-opacity-40 hidden justify-center items-center z-50">
+    <div id="modalEditMenuContent" class="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
+        <button onclick="closeEditModal()" class="absolute top-3 right-3 text-gray-600 hover:text-gray-900 text-xl font-bold">&times;</button>
+    </div>
+</div>
+
 <script>
     function openModal() {
         document.getElementById('modalTambahMenu').classList.remove('hidden');
@@ -115,6 +122,25 @@
     function closeModal() {
         document.getElementById('modalTambahMenu').classList.remove('flex');
         document.getElementById('modalTambahMenu').classList.add('hidden');
+    }
+
+    function openEditModal(menuId) {
+        fetch(`/menus/${menuId}/edit-modal`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('modalEditMenuContent').innerHTML = html;
+                document.getElementById('modalEditMenu').classList.remove('hidden');
+                document.getElementById('modalEditMenu').classList.add('flex');
+            })
+            .catch(err => {
+                alert('Gagal memuat form edit.');
+                console.error(err);
+            });
+    }
+
+    function closeEditModal() {
+        document.getElementById('modalEditMenu').classList.remove('flex');
+        document.getElementById('modalEditMenu').classList.add('hidden');
     }
 </script>
 @endsection

@@ -80,12 +80,12 @@
                                             <i class="fas fa-eye"></i>
                                         </button>
 
-                                        <button class="btn-edit hover:text-black transition" title="Edit"
+                                        <button class="btn-edit text-blue-600 hover:text-blue-800 transition" title="Edit"
                                             data-id="{{ $transaction->id }}">
                                             <i class="fas fa-pen-to-square"></i>
                                         </button>
 
-                                        <button class="btn-hapus hover:text-red-500 transition" title="Hapus"
+                                        <button class="btn-hapus text-red-600 hover:text-red-800 transition" title="Hapus"
                                             onclick="openHapusModal('{{ $transaction->id }}')" data-id="{{ $transaction->id }}">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>

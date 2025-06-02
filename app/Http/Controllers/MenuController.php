@@ -11,14 +11,14 @@ use Illuminate\Http\Request;
 class MenuController extends Controller
 {
     // Tampilkan semua menu dengan pagination dan data untuk modal tambah
-   public function index()
-{
-    $menus = Menu::with(['category', 'prices.platform'])->paginate(10);
-    $categories = Category::all();
-    $platforms = Platform::all();
+    public function index()
+    {
+        $menus = Menu::with(['category', 'prices.platform'])->paginate(10);
+        $categories = Category::all();
+        $platforms = Platform::all();
 
-    return view('menus.index', compact('menus', 'categories', 'platforms'));
-}
+        return view('menus.index', compact('menus', 'categories', 'platforms'));
+    }
 
 
     // Simpan menu baru
@@ -49,14 +49,14 @@ class MenuController extends Controller
     }
 
     // Tampilkan form edit menu
-    public function edit(Menu $menu)
+    public function editModal(Menu $menu)
     {
         $categories = Category::all();
         $platforms = Platform::all();
-  $menu->load('prices.platform', 'category');
+        $menu->load('prices.platform', 'category');
 
 
-        return view('menus.edit', compact('menu', 'categories', 'platforms'));
+        return view('components.menu-form-edit', compact('menu', 'categories', 'platforms'));
     }
 
     // Update menu yang sudah ada

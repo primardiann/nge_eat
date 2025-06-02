@@ -56,5 +56,7 @@ Route::view('/laporan', 'laporan.index')->name('laporan.index');
 Route::resource('menus', MenuController::class)->only([
     'index', 'store', 'edit', 'update', 'destroy'
 ]);
+Route::get('/menus/{menu}/edit-modal', [MenuController::class, 'editModal']);
+
 
 require __DIR__.'/auth.php';

@@ -66,9 +66,9 @@
 
             <!-- Aksi -->
             <td class="px-6 py-3">
-              <div class="flex justify-center space-x-4 text-gray-600">
+              <div class="flex justify-center space-x-4 text-gray-500">
                 <button
-                  class="btn-lihat hover:text-orange-600 transition"
+                  class="btn-lihat hover:text-yellow-600 transition"
                   title="Lihat Detail"
                   data-id="{{ $transaction->id }}"
                   data-tanggal="{{ $transaction->tanggal->format('d-m-Y') }}"
@@ -83,7 +83,7 @@
                 </button>
 
                 <button
-                  class="btn-edit hover:text-black transition"
+                  class="btn-edit text-blue-600 hover:text-blue-800 transition"
                   title="Edit"
                   data-id="{{ $transaction->id }}"
                 >
@@ -91,7 +91,7 @@
                 </button>
 
                 <button
-                  class="btn-hapus hover:text-red-500 transition"
+                  class="btn-hapus text-red-600 hover:text-red-800 transition"
                   title="Hapus"
                   onclick="openHapusModal('{{ $transaction->id }}')"
                   data-id="{{ $transaction->id }}"
