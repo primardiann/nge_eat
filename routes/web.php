@@ -7,6 +7,7 @@ use App\Http\Controllers\GrabFoodController;
 use App\Http\Controllers\ShopeeFoodController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
@@ -57,6 +58,9 @@ Route::resource('menus', MenuController::class)->only([
     'index', 'store', 'edit', 'update', 'destroy'
 ]);
 Route::get('/menus/{menu}/edit-modal', [MenuController::class, 'editModal']);
+
+Route::view('/items-terjual', 'items-terjual.index')->name('items-terjual.index');
+
 
 
 require __DIR__.'/auth.php';
