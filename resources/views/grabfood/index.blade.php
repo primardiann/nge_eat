@@ -69,7 +69,7 @@
                                 <td class="px-6 py-3">
                                     <div class="flex justify-center space-x-4 text-gray-600">
                                         <button class="btn-lihat hover:text-orange-600 transition" title="Lihat Detail"
-                                            data-id="{{ $transaction->id }}"
+                                            data-id="{{ $transaction->id_pesanan }}"
                                             data-tanggal="{{ $transaction->tanggal->format('d-m-Y') }}"
                                             data-waktu="{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}"
                                             data-nama="{{ $transaction->nama_pelanggan }}"
@@ -219,7 +219,7 @@
       const total = this.dataset.total;
       const status = this.dataset.status;
 
-      document.getElementById('detail-id').value = id;
+      document.getElementById('detail-id_pesanan').value = id;
       document.getElementById('detail-tanggal').value = tanggal;
       document.getElementById('detail-waktu').value = waktu;
       document.getElementById('detail-nama').value = nama;

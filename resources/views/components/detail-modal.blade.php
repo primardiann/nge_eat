@@ -14,7 +14,7 @@
       </div>
       <div>
         <p class="mb-1">ID Pesanan</p>
-        <input type="text" id="detail-id" readonly class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
+        <input type="text" id="detail-id_pesanan" readonly class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;">
       </div>
       <div>
         <p class="mb-1">Status</p>
@@ -59,7 +59,7 @@
 
     document.getElementById('detail-tanggal').value = transactionData.tanggal || '';
     document.getElementById('detail-waktu').value = transactionData.waktu || '';
-    document.getElementById('detail-id').value = transactionData.id_pesanan || '';
+    document.getElementById('detail-id_pesanan').value = transactionData.id_pesanan || '';
     document.getElementById('detail-status').value = transactionData.status ? 'Sukses' : 'Gagal';
     document.getElementById('detail-nama').value = transactionData.nama_pelanggan || '';
     document.getElementById('detail-metode').value = transactionData.metode_pembayaran || '';
