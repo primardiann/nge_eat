@@ -28,7 +28,7 @@
     <!-- Table -->
     <div class="bg-white rounded-xl shadow-md overflow-hidden">
       <table class="min-w-full table-auto">
-        <thead class="bg-[#FFE5D0] text-gray-700 text-center text-sm font-semibold select-none">
+        <thead class="bg-[#ffd5ab] text-gray-700 text-center text-sm font-semibold select-none">
           <tr>
             <th class="px-6 py-3">ID Pesanan</th>
             <th class="px-6 py-3">Tanggal</th>

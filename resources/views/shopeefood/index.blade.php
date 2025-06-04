@@ -30,7 +30,7 @@
             <!-- Table -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
                 <table class="min-w-full">
-                    <thead style="background-color: #FFE5D0;" class="text-gray-700 text-left text-sm text-center">
+                    <thead style="background-color: #ffd5ab;" class="text-gray-700 text-left text-sm text-center">
                         <tr>
                             <th class="px-6 py-3 font-medium">ID pesanan</th>
                             <th class="px-6 py-3 font-medium">Tanggal</th>

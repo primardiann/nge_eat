@@ -108,7 +108,7 @@
         } else {
             html += `
               <table class="min-w-full text-center rounded-t-xl overflow-hidden">
-   <thead style="background-color:  #FFE5D0;" class="text-gray-800 text-sm">
+   <thead style="background-color:  #ffd5ab;" class="text-gray-800 text-sm">
 
         <tr>
             <th class="px-6 py-3 font-medium">Kategori</th>

@@ -28,7 +28,7 @@
         <!-- Tabel Daftar Menu -->
         <div class="bg-white rounded-xl shadow-md overflow-hidden">
             <table class="min-w-full text-center">
-                <thead style="background-color: #FFE5D0;" class="text-gray-700 text-sm">
+                <thead style="background-color: #ffd5ab;" class="text-gray-700 text-sm">
                     <tr>
                         <th class="px-6 py-3 font-medium">Nama Menu</th>
                         <th class="px-6 py-3 font-medium">Kategori</th>
