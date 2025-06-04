@@ -15,30 +15,23 @@
 
   .sidebar-logo {
     display: flex;
+    justify-content: center;
     align-items: center;
     padding: 10px;
   }
 
   .sidebar-logo img {
-    height: 70px;
-    width: 70px;
+    height: 90px;
+    width: auto;
     padding: 5px;
+    object-fit: contain;
   }
 
-  .sidebar-logo-text {
-    margin-left: 10px;
-    font-weight: bold;
-    font-size: 1.8rem;
-    user-select: none;
-    color: #ffffff;
-  }
-
-  .sidebar-logo-text .nge {
-    color: #ffffff;
-  }
-
-  .sidebar-logo-text .eat {
-    color: #800000;
+  nav.sidebar-nav .submenu>a.active {
+    background-color: #ffffff;
+    color: #FF6B00;
+    font-weight: 600;
+    border: 2px solid #ffffff;
   }
 
 
@@ -135,9 +128,6 @@
     <a href="{{ route('dashboard') }}">
       <img src="{{ asset('images/logo.png') }}" alt="Logo" />
     </a>
-    <span class="sidebar-logo-text">
-      <span class="nge">Nge</span><span class="eat">Eat</span>
-    </span>
   </div>
 
   <div class="sidebar-separator"></div>
@@ -166,7 +156,11 @@
     <a
       href="javascript:void(0)"
       @click="transaksiOpen = !transaksiOpen"
-      :class="transaksiOpen ? 'active' : ''"
+      x-init="
+    transaksiOpen = 
+      '{{ request()->routeIs('gofood.*') || request()->routeIs('grabfood.*') || request()->routeIs('shopeefood.*') ? 'true' : 'false' }}' === 'true'
+  "
+      :class="transaksiOpen || '{{ request()->routeIs('gofood.*') || request()->routeIs('grabfood.*') || request()->routeIs('shopeefood.*') ? 'true' : 'false' }}' === 'true' ? 'active' : ''"
       class="menu-item">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M9 17V9m4 8v-6m4 6V5" />
@@ -176,7 +170,6 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
       </svg>
     </a>
-
     <div class="submenu" :class="transaksiOpen ? 'open' : ''">
       <a href="{{ route('gofood.index') }}" class="{{ request()->routeIs('gofood.*') ? 'active' : '' }}">
         GoFood
@@ -190,7 +183,7 @@
     </div>
 
     {{-- Item Terjual --}}
-   <a href="{{ route('items-terjual.index') }}" class="{{ request()->routeIs('items-terjual.*') ? 'active' : '' }}">
+    <a href="{{ route('items-terjual.index') }}" class="{{ request()->routeIs('items-terjual.*') ? 'active' : '' }}">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2l4 -4M12 21a9 9 0 1 1 0 -18a9 9 0 0 1 0 18z" />
       </svg>
