@@ -1,4 +1,4 @@
-@extends('layouts.navigation')
+@extends('layouts.admin')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 @section('content') < div class = "flex min-h-screen bg-[#FAFAFA] text-sm" > <main class="flex-1 px-8 py-6">
