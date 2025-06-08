@@ -1,8 +1,7 @@
-@extends('layouts.navigation')
+@extends('layouts.admin')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-@section('content')  
-<main class="flex-1 px-8 py-6">
+@section('content') < div class = "flex min-h-screen bg-[#FAFAFA] text-sm" > <main class="flex-1 px-8 py-6">
     <!-- Breadcrumb -->
     <div class="text-gray-500 mb-4 flex items-center space-x-1">
         <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
@@ -85,9 +84,11 @@
                                 <i class="fas fa-eye"></i>
                             </button>
 
-                            <button class="btn-edit text-blue-600 hover:text-blue-800 transition" title="Edit"
-                                data-id="{{ $transaction->id }}">
-                               <i class="fas fa-pen-to-square"></i>
+                            <button
+                                class="btn-edit text-blue-600 hover:text-blue-800 transition"
+                                title="Edit"
+                                onclick="openEditModal('grabfood', {{ $transaction->id }})">
+                                <i class="fas fa-pen-to-square"></i>
                             </button>
 
                             <button
@@ -163,15 +164,34 @@
 <!-- Modal Detal Transaksi -->
 @include ('components.detail-modal')
 
-    <!-- Script -->
-    <script>
-  // Modal functions
-  function openEditModal() {
+<!-- Script -->
+<script>
+// Modal functions
+  function openEditModal(platform, transactionId) {
     document.getElementById('transactionEditModal').classList.remove('hidden');
+
+    fetch(`/${platform}/${transactionId}/edit-json`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('tanggal').value = data.tanggal;
+        document.getElementById('waktu').value = data.waktu;
+        document.getElementById('id_pesanan').value = data.id_pesanan;
+        document.getElementById('nama_pelanggan').value = data.nama_pelanggan;
+        document.getElementById('metode_pembayaran').value = data.metode_pembayaran;
+        document.getElementById('grand_total').value = data.total;
+
+        // Set form action untuk update
+        const form = document.getElementById('formEditTransaksi');
+        form.action = `/${platform}/update/${transactionId}`;
+      });
   }
-  function closeEditModal() {
-    document.getElementById('transactionEditModal').classList.add('hidden');
-  }
+
+function closeEditModal() {
+    document
+        .getElementById('transactionEditModal')
+        .classList
+        .add('hidden');
+}
 
 function openTambahModal() {
     document

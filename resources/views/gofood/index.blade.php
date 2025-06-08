@@ -1,4 +1,4 @@
-@extends('layouts.navigation')
+@extends('layouts.admin')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 @section('content')
@@ -179,7 +179,7 @@
         form.action = `/${platform}/update/${transactionId}`;
       });
   }
-
+  
   function closeEditModal() {
     document.getElementById('transactionEditModal').classList.add('hidden');
   }
