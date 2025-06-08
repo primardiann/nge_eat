@@ -87,9 +87,33 @@
                 </table>
 
                 <!-- Pagination -->
-                <div class="flex justify-between items-center mt-4 px-4">
-                    {{ $menus->links('pagination::tailwind') }}
-                </div>
+                <div
+                class="flex justify-between items-center mt-4 px-6 py-3 bg-white rounded-b-xl shadow-inner">
+                <a href="#" class="text-gray-500 hover:text-orange-600 text-sm font-medium transition-colors">
+                    &lt; Sebelumnya
+                </a>
+
+                <nav class="flex items-center gap-2">
+                    <a href="#"
+                        class="inline-flex items-center justify-center w-8 h-8 text-white bg-orange-500 rounded-full font-semibold"
+                        aria-current="page">
+                        1
+                    </a>
+                    <a href="#"
+                        class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium transition-colors duration-200">
+                        2
+                    </a>
+                    <a href="#"
+                        class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium transition-colors duration-200">
+                        3
+                    </a>
+                </nav>
+
+                <a href="#"
+                    class="text-gray-500 hover:text-orange-600 text-sm font-medium transition-colors duration-200">
+                    Selanjutnya &gt;
+                </a>
+            </div>
             </div>
         </main>
     </div>

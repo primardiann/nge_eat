@@ -120,8 +120,8 @@ function showData(page = 1) {
                     </tbody>
                 </table>
 
-                <!-- Pagination di dalam container tabel -->
-                <div class="flex justify-between items-center mt-4 px-4">
+                <!-- Pagination -->
+                <div class="flex justify-between items-center mt-4 px-6 py-3 bg-white rounded-b-xl shadow-inner">
                     <button
                         onclick="showData(${page - 1})"
                         class="text-gray-500 hover:text-orange-600 text-sm font-medium transition-colors duration-200"
@@ -129,7 +129,7 @@ function showData(page = 1) {
                         &lt; Sebelumnya
                     </button>
 
-                    <nav class="flex items-center gap-1 mb-4" aria-label="Pagination">
+                    <nav class="flex items-center gap-2">
         `;
 
         for(let i = 1; i <= totalPages; i++) {
