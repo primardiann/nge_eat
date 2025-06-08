@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 @section('content')
@@ -85,8 +85,7 @@
                 <button
                   class="btn-edit text-blue-600 hover:text-blue-800 transition"
                   title="Edit"
-                  data-id="{{ $transaction->id }}"
-                >
+                  onclick="openEditModal('gofood', {{ $transaction->id }})">
                   <i class="fas fa-pen-to-square"></i>
                 </button>
 
@@ -162,9 +161,25 @@
 <!-- Scripts -->
 <script>
   // Modal functions
-  function openEditModal() {
+  function openEditModal(platform, transactionId) {
     document.getElementById('transactionEditModal').classList.remove('hidden');
+
+    fetch(`/${platform}/${transactionId}/edit-json`)
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('tanggal').value = data.tanggal;
+        document.getElementById('waktu').value = data.waktu;
+        document.getElementById('id_pesanan').value = data.id_pesanan;
+        document.getElementById('nama_pelanggan').value = data.nama_pelanggan;
+        document.getElementById('metode_pembayaran').value = data.metode_pembayaran;
+        document.getElementById('grand_total').value = data.total;
+
+        // Set form action untuk update
+        const form = document.getElementById('formEditTransaksi');
+        form.action = `/${platform}/update/${transactionId}`;
+      });
   }
+
   function closeEditModal() {
     document.getElementById('transactionEditModal').classList.add('hidden');
   }

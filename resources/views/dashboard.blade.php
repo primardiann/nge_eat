@@ -2,242 +2,257 @@
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 @section('content')
-<div class="p-6 space-y-6">
-    <h1 class="text-xl font-semibold mb-4">Dashboard</h1>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <!-- Kartu Transaksi GoFood -->
-        <a href="{{ route('gofood.index') }}"
-            class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
-            style="border: 1px solid #F58220;">
-            <span class="font-medium text-center">Transaksi GoFood</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M9 17V9m4 8v-6m4 6V5" />
-            </svg>
-            <span
-                class="bg-orange-500 hover:bg-orange-600 text-white text-xs px-4 py-1.5 rounded-full inline-flex items-center justify-between space-x-2 shadow-md transition duration-300 font-semibold cursor-pointer">
-                <span>Selengkapnya</span>
-                <span class="bg-white rounded-full p-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-orange-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                </span>
-            </span>
-        </a>
-
-        <!-- Kartu Transaksi GrabFood -->
-        <a href="{{ route('grabfood.index') }}"
-            class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
-            style="border: 1px solid #F58220;">
-            <span class="font-medium text-center">Transaksi GrabFood</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M9 17V9m4 8v-6m4 6V5" />
-            </svg>
-            <span
-                class="bg-orange-500 hover:bg-orange-600 text-white text-xs px-4 py-1.5 rounded-full inline-flex items-center justify-between space-x-2 shadow-md transition duration-300 font-semibold cursor-pointer">
-                <span>Selengkapnya</span>
-                <span class="bg-white rounded-full p-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-orange-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                </span>
-            </span>
-        </a>
-
-        <!-- Kartu Transaksi ShopeeFood -->
-        <a href="{{ route('shopeefood.index') }}"
-            class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
-            style="border: 1px solid #F58220;">
-            <span class="font-medium text-center">Transaksi ShopeeFood</span>
-           <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3v18h18M9 17V9m4 8v-6m4 6V5" />
-            </svg>
-            <span
-                class="bg-orange-500 hover:bg-orange-600 text-white text-xs px-4 py-1.5 rounded-full inline-flex items-center justify-between space-x-2 shadow-md transition duration-300 font-semibold cursor-pointer">
-                <span>Selengkapnya</span>
-                <span class="bg-white rounded-full p-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-orange-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                </span>
-            </span>
-        </a>
-
-        <!-- Kartu Laporan Transaksi -->
-        <a href="{{ route('laporan.index') }}"
-            class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
-            style="border: 1px solid #F58220;">
-            <span class="font-medium text-center">Laporan Transaksi</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-4h6v4m-7 4h8a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-            </svg>
-            <span
-                class="bg-orange-500 hover:bg-orange-600 text-white text-xs px-4 py-1.5 rounded-full inline-flex items-center justify-between space-x-2 shadow-md transition duration-300 font-semibold cursor-pointer">
-                <span>Selengkapnya</span>
-                <span class="bg-white rounded-full p-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-orange-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                </span>
-            </span>
-        </a>
-
-        <!-- Kartu menu -->
-        <a href="{{ route('menus.index') }}"
-            class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
-            style="border: 1px solid #F58220;">
-            <span class="font-medium text-center">Menu</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-14 h-14">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 2.25h6M9 2.25a1.5 1.5 0 00-1.5 1.5v.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25h12a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-1.5v-.75A1.5 1.5 0 0015 2.25M9 7.5h6M9 11.25h6M9 15h4.5" />
-            </svg>
-            <span
-                class="bg-orange-500 hover:bg-orange-600 text-white text-xs px-4 py-1.5 rounded-full inline-flex items-center justify-between space-x-2 shadow-md transition duration-300 font-semibold cursor-pointer">
-                <span>Selengkapnya</span>
-                <span class="bg-white rounded-full p-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-orange-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                </span>
-            </span>
-        </a>
-
-        <!-- Kartu item terjual -->
-        <a href="{{ route('items-terjual.index') }}"
-            class="block bg-white rounded-lg p-4 flex flex-col items-center justify-center space-y-3"
-            style="border: 1px solid #F58220;">
-            <span class="font-medium text-center">Item Terjual</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 mr-2" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2l4 -4M12 21a9 9 0 1 1 0 -18a9 9 0 0 1 0 18z" />
-            </svg>
-            <span
-                class="bg-orange-500 hover:bg-orange-600 text-white text-xs px-4 py-1.5 rounded-full inline-flex items-center justify-between space-x-2 shadow-md transition duration-300 font-semibold cursor-pointer">
-                <span>Selengkapnya</span>
-                <span class="bg-white rounded-full p-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-orange-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                </span>
-            </span>
-        </a>
-
-    </div>
-
-
-    <!-- Grafik Pendapatan -->
-    <div class="bg-white rounded-lg p-6 mt-6" style="border: 1px solid #F58220;">
-        <div class="flex justify-between items-center mb-4">
-            <div>
-                <h2 class="font-bold text-lg">Pendapatan</h2>
-                <p class="text-sm text-gray-600">Pendapatan store kuliner anda!</p>
+    <div class="flex min-h-screen bg-[#FAFAFA] text-sm">
+        <main class="flex-1 px-8 py-6">
+            <!-- Breadcrumb -->
+            <div class="text-gray-500 mb-4 flex items-center space-x-1">
+                <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
+                <span class="text-[#888]">></span>
+                <span class="text-[#888]">Transaksi ShopeeFood</span>
             </div>
-            <select class="border rounded px-3 py-1 text-sm font-medium" style="border-color: #F58220;">
-                <option>2019</option>
-                <option>2020</option>
-                <option>2021</option>
-                <option>2022</option>
-                <option>2023</option>
-                <option selected>2024</option>
-                <option>2025</option>
-            </select>
-        </div>
 
-        <div class="w-full h-64 rounded mb-4 overflow-x-auto flex justify-center items-center">
-            <canvas id="pendapatanChart" style="width: 1200px; height: 100%;"></canvas>
-        </div>
+            <!-- Add Buttons and Calendar Button -->
+            <div class="flex justify-between items-center mb-6 relative">
+                <div class="flex flex-col space-y-3">
+                    <button class="flex items-center gap-2 px-2 py-1 text-white font-medium rounded-lg btn-tambah"
+                        style="background-color: #F58220;">
+                        <span class="text-lg">+</span>
+                        <span>Tambah Transaksi</span>
+                    </button>
+                </div>
 
-        <p class="text-sm font-semibold">Pendapatan <span class="text-black text-base">Rp.30.000.000</span></p>
+                <div class="flex flex-col space-y-3">
+                    {{-- Komponen Kalender --}}
+                    @include('components.kalender')
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <table class="min-w-full">
+                    <thead style="background-color: #ffd5ab;" class="text-gray-700 text-left text-sm text-center">
+                        <tr>
+                            <th class="px-6 py-3 font-medium">ID pesanan</th>
+                            <th class="px-6 py-3 font-medium">Tanggal</th>
+                            <th class="px-6 py-3 font-medium">Waktu</th>
+                            <th class="px-6 py-3 font-medium">Nama Pelanggan</th>
+                            <th class="px-6 py-3 font-medium">Metode Pembayaran</th>
+                            <th class="px-6 py-3 font-medium">Item Pemesanan</th>
+                            <th class="px-6 py-3 font-medium">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white text-gray-700 text-sm text-center">
+                        @foreach ($transaksi as $transaction)
+                            <tr class="border-t hover:bg-gray-50" data-tanggal="{{ $transaction->tanggal->format('Y-m-d') }}">
+                                <td class="px-6 py-3 truncate max-w-[120px]">{{ $transaction->id_pesanan }}</td>
+                                <td class="px-6 py-3">{{ $transaction->tanggal->format('d-m-Y') }}</td>
+                                <td class="px-6 py-3">{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}</td>
+                                <td class="px-6 py-3">{{ $transaction->nama_pelanggan }}</td>
+                                <td class="px-6 py-3">{{ $transaction->metode_pembayaran }}</td>
+
+                                <!-- Item Pesanan dengan Tooltip -->
+                                <td class="px-6 py-3 max-w-[150px] relative group cursor-default">
+                                    <div class="truncate">
+                                        {{ Str::limit($transaction->item_pesanan, 25) }}
+                                    </div>
+                                    <div
+                                        class="absolute left-1/2 -translate-x-1/2 mt-2 hidden group-hover:block bg-orange-100 text-black text-xs px-3 py-2 rounded shadow-lg z-50 min-w-max text-left whitespace-normal max-w-xs">
+                                        <ul class="list-disc list-inside space-y-1">
+                                            @foreach (explode(',', $transaction->item_pesanan) as $item)
+                                                <li>{{ trim($item) }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </td>
+
+                                <!-- Aksi -->
+                                <td class="px-6 py-3">
+                                    <div class="flex justify-center space-x-4 text-gray-600">
+                                        <button class="btn-lihat hover:text-orange-600 transition" title="Lihat Detail"
+                                            data-id="{{ $transaction->id_pesanan }}"
+                                            data-tanggal="{{ $transaction->tanggal->format('d-m-Y') }}"
+                                            data-waktu="{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}"
+                                            data-nama="{{ $transaction->nama_pelanggan }}"
+                                            data-pembayaran="{{ $transaction->metode_pembayaran }}"
+                                            data-item="{{ $transaction->item_pesanan }}"
+                                            data-total="{{ $transaction->total ?? '' }}"
+                                            data-status="{{ $transaction->status ?? '' }}">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+
+                                        <button
+                                            class="btn-edit text-blue-600 hover:text-blue-800 transition"
+                                            title="Edit"
+                                            onclick="openEditModal('shopeefood', {{ $transaction->id }})">
+                                            <i class="fas fa-pen-to-square"></i>
+                                        </button>
+
+                                        <button class="btn-hapus text-red-600 hover:text-red-800 transition" title="Hapus"
+                                            onclick="openHapusModal('{{ $transaction->id }}')" data-id="{{ $transaction->id }}">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+
+                </table>
+
+                <!-- Pagination -->
+                <div class="flex justify-between items-center mt-4 px-4">
+                    <!-- Previous Link -->
+                    <a href="#" class="text-gray-500 hover:text-orange-600 text-sm font-medium transition-colors">
+                        &lt; Sebelumnya
+                    </a>
+
+                    <!-- Page Numbers -->
+                    <nav class="flex items-center gap-1 mb-4">
+                        <a href="#"
+                            style="font-family: sans-serif !important; font-size: 16px !important; color: white !important; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: orange; border-radius: 9999px;">
+                            1
+                        </a>
+
+                        <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium
+                        transition-colors duration-200">
+                            2
+                        </a>
+                        <a href="#" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium
+                        transition-colors duration-200">
+                            3
+                        </a>
+                    </nav>
+
+                    <a href="#"
+                        class="text-gray-500 hover:text-orange-600 text-sm font-medium transition-colors duration-200">
+                        Selanjutnya &gt;
+                    </a>
+
+                </div>
+            </div>
+        </main>
     </div>
 
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('pendapatanChart').getContext('2d');
+    <!-- Modal Edit Transaksi -->
+    @include('components.edit-modal')
 
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-                    datasets: [{
-                        label: 'Pendapatan (Juta Rp)',
-                        data: [2, 3, 2.5, 4, 5, 4.5, 6, 7, 6.5, 8, 7.5, 9],
-                        borderColor: '#F58220',
-                        backgroundColor: 'rgba(245, 130, 32, 0.3)',
-                        fill: true,
-                        tension: 0.3,
-                        pointRadius: 4,
-                        pointHoverRadius: 6,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return value + ' jt';
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: '#333',
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `Rp ${context.parsed.y} juta`;
-                                }
-                            }
-                        }
-                    }
-                }
+    <!-- Modal Tambah Transaksi -->
+    @include('components.tambah-modal')
+
+    <!-- Modal Hapus -->
+    @include('components.hapus-modal')
+
+    <!-- Modal Berhasil Hapus -->
+    @include('components.berhasil-hapus-modal')
+
+    <!-- Modal Berhasil Tambah -->
+    @include('components.berhasil-tambah-modal')
+
+    <!-- Modal Detal Transaksi -->
+    @include ('components.detail-modal')
+
+
+    <!-- Script -->
+    <script>
+        // Modal functions
+        function openEditModal(platform, transactionId) {
+            document.getElementById('transactionEditModal').classList.remove('hidden');
+
+            fetch(`/${platform}/${transactionId}/edit-json`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('tanggal').value = data.tanggal;
+                document.getElementById('waktu').value = data.waktu;
+                document.getElementById('id_pesanan').value = data.id_pesanan;
+                document.getElementById('nama_pelanggan').value = data.nama_pelanggan;
+                document.getElementById('metode_pembayaran').value = data.metode_pembayaran;
+                document.getElementById('grand_total').value = data.total;
+
+                // Set form action untuk update
+                const form = document.getElementById('formEditTransaksi');
+                form.action = `/${platform}/update/${transactionId}`;
+            });
+        }
+
+        function closeEditModal() {
+            document.getElementById('transactionEditModal').classList.add('hidden');
+        }
+
+        function openTambahModal() {
+            document.getElementById('transactionTambahModal').classList.remove('hidden');
+        }
+        function closeTambahModal() {
+            document.getElementById('transactionTambahModal').classList.add('hidden');
+        }
+
+        function openHapusModal(id) {
+            const modal = document.getElementById('openHapusModal');
+            modal.classList.remove('hidden');
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            confirmBtn.setAttribute('data-id', id);
+        }
+        function closeHapusModal() {
+            document.getElementById('openHapusModal').classList.add('hidden');
+        }
+
+        function openDetailModal() {
+            document.getElementById('transactionDetailModal').classList.remove('hidden');
+        }
+        function closeDetailModal() {
+            document.getElementById('transactionDetailModal').classList.add('hidden');
+        }
+
+        // Close modal when clicking outside modal content
+        window.addEventListener('click', function (e) {
+            const modalEdit = document.getElementById('transactionEditModal');
+            if (e.target === modalEdit) closeEditModal();
+
+            const modalTambah = document.getElementById('transactionTambahModal');
+            if (e.target === modalTambah) closeTambahModal();
+
+            const modalHapus = document.getElementById('openHapusModal');
+            if (e.target === modalHapus) closeHapusModal();
+
+            const modalDetail = document.getElementById('transactionDetailModal');
+            if (e.target === modalDetail) closeDetailModal();
+        });
+
+        // Event listeners for buttons
+        document.querySelectorAll('.btn-tambah').forEach(btn => btn.addEventListener('click', openTambahModal));
+        document.querySelectorAll('.btn-edit').forEach(btn => btn.addEventListener('click', openEditModal));
+
+        // Detail modal open with data attributes
+        document.querySelectorAll('.btn-lihat').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.dataset.id;
+                const tanggal = this.dataset.tanggal;
+                const waktu = this.dataset.waktu;
+                const nama = this.dataset.nama;
+                const metode = this.dataset.pembayaran;
+                const item = this.dataset.item;
+                const total = this.dataset.total;
+                const status = this.dataset.status;
+
+                document.getElementById('detail-id_pesanan').value = id;
+                document.getElementById('detail-tanggal').value = tanggal;
+                document.getElementById('detail-waktu').value = waktu;
+                document.getElementById('detail-nama').value = nama;
+                document.getElementById('detail-metode').value = metode;
+                document.getElementById('detail-status').value = status;
+
+                const ul = document.getElementById('detail-item-list');
+                ul.innerHTML = '';
+
+                // Split item berdasarkan koma dan tampilkan
+                item.split(',').forEach(i => {
+                    const li = document.createElement('li');
+                    li.textContent = i.trim();
+                    ul.appendChild(li);
+                });
+
+                document.getElementById('detail-total-value').textContent = 'Rp ' + parseInt(total).toLocaleString('id-ID');
+                openDetailModal();
             });
         });
     </script>
-</div>
-
-<style>
-    /* Tambahan untuk memperbaiki tampilan tombol "Selengkapnya" di mobile */
-    @media (max-width: 640px) {
-        .inline-flex.items-center.justify-between.space-x-2 {
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-    }
-
-    /* Supaya canvas chart tidak meluber di layar kecil */
-    @media (max-width: 768px) {
-        #pendapatanChart {
-            width: 100% !important;
-            height: auto !important;
-        }
-    }
-
-    /* Kartu transaksi agar tidak terlalu kecil di layar sempit */
-    @media (max-width: 480px) {
-        .grid>a {
-            padding: 1rem !important;
-        }
-
-        .grid>a img {
-            width: 2.5rem;
-            height: 2.5rem;
-        }
-    }
-</style>
-
 @endsection

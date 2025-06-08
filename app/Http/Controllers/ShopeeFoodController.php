@@ -102,4 +102,58 @@ class ShopeeFoodController extends Controller
         $item->delete();
         return response()->json(['message' => 'Data deleted successfully'], 200);
     }
+
+    public function edit($id)
+    {
+        $transaction = Transaction::with(['items', 'platform'])->findOrFail($id);
+        $categories = Category::all();
+        $platforms = Platform::all();
+    
+        // Format items for JS
+        $transaction->items = $transaction->items->map(function($item) {
+            return [
+                'category_id' => $item->category_id,
+                'menu_id' => $item->menu_id,
+                'platform_id' => $item->platform_id,
+                'jumlah' => $item->jumlah,
+                'harga' => $item->harga,
+                'subtotal' => $item->subtotal,
+            ];
+        });
+    
+        return view('edit', compact('transaction', 'categories', 'platforms'));
+    }
+    
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'tanggal' => 'required|date',
+            'waktu' => 'required',
+            'id_pesanan' => 'required',
+            'nama_pelanggan' => 'required',
+            'metode_pembayaran' => 'required',
+            'total' => 'required|numeric',
+            'item_pesanan' => 'required|json',
+        ]);
+    
+        $transaction = Transaction::findOrFail($id);
+        $transaction->update([
+            'tanggal' => $request->tanggal,
+            'waktu' => $request->waktu,
+            'id_pesanan' => $request->id_pesanan,
+            'nama_pelanggan' => $request->nama_pelanggan,
+            'metode_pembayaran' => $request->metode_pembayaran,
+            'total' => $request->total,
+            'status' => $request->has('status') ? 1 : 0,
+        ]);
+    
+        // Update items
+        $transaction->items()->delete();
+        $items = json_decode($request->item_pesanan, true);
+        foreach ($items as $item) {
+            $transaction->items()->create($item);
+        }
+    
+        return redirect()->back()->with('success', 'Transaksi berhasil diupdate!');
+    }
 }

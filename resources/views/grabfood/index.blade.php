@@ -1,7 +1,8 @@
-@extends('layouts.admin')
+@extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-@section('content') < div class = "flex min-h-screen bg-[#FAFAFA] text-sm" > <main class="flex-1 px-8 py-6">
+@section('content')  
+<main class="flex-1 px-8 py-6">
     <!-- Breadcrumb -->
     <div class="text-gray-500 mb-4 flex items-center space-x-1">
         <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
@@ -84,11 +85,9 @@
                                 <i class="fas fa-eye"></i>
                             </button>
 
-                            <button
-                                class="btn-edit text-blue-600 hover:text-blue-800 transition"
-                                title="Edit"
+                            <button class="btn-edit text-blue-600 hover:text-blue-800 transition" title="Edit"
                                 data-id="{{ $transaction->id }}">
-                                <i class="fas fa-pen-to-square"></i>
+                               <i class="fas fa-pen-to-square"></i>
                             </button>
 
                             <button
@@ -164,21 +163,15 @@
 <!-- Modal Detal Transaksi -->
 @include ('components.detail-modal')
 
-<!-- Script -->
-<script>
-// Modal functions
-function openEditModal() {
-    document
-        .getElementById('transactionEditModal')
-        .classList
-        .remove('hidden');
-}
-function closeEditModal() {
-    document
-        .getElementById('transactionEditModal')
-        .classList
-        .add('hidden');
-}
+    <!-- Script -->
+    <script>
+  // Modal functions
+  function openEditModal() {
+    document.getElementById('transactionEditModal').classList.remove('hidden');
+  }
+  function closeEditModal() {
+    document.getElementById('transactionEditModal').classList.add('hidden');
+  }
 
 function openTambahModal() {
     document

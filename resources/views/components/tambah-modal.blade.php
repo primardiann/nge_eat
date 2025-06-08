@@ -31,8 +31,8 @@
       <!-- Dynamic Items -->
       <div class="mt-4 mb-2">
         <h3 class="font-medium mb-2">Detail Pesanan</h3>
-        <div id="itemsContainer" class="space-y-4"></div>
-        <button type="button" onclick="addItemRow()" class="mt-2 px-3 py-1.5 bg-blue-600 text-white rounded shadow hover:bg-blue-700">+ Tambah Item</button>
+        <div id="tambahItemsContainer" class="space-y-4"></div>
+        <button type="button" onclick="addTambahItemRow()" class="mt-2 px-3 py-1.5 bg-blue-600 text-white rounded shadow hover:bg-blue-700">+ Tambah Item</button>
       </div>
 
       <div class="grid grid-cols-2 gap-4 mt-4">
@@ -75,6 +75,10 @@
   setFormActionByPlatform(selectedPlatform); // ← DITAMBAHKAN di sini
   document.getElementById('transactionTambahModal').classList.remove('hidden');
   resetTambahTransaksiModal();
+
+  setTimeout(() => {
+    addTambahItemRow();
+  }, 100);
 }
 
   function closeTambahModal() {
@@ -85,15 +89,23 @@
  function resetTambahTransaksiModal() {
   const form = document.getElementById('formTambahTransaksi');
   form.reset();
-  document.getElementById('itemsContainer').innerHTML = '';
+  document.getElementById('tambahItemsContainer').innerHTML = '';
   document.getElementById('grand_total').value = '';
   itemIndex = 0;
-  addItemRow();
+  addTambahItemRow();
   // Tidak perlu setFormAction di sini lagi
 }
 
-  function addItemRow() {
-    const container = document.getElementById('itemsContainer');
+  function addTambahItemRow() {
+    const container = document.getElementById('tambahItemsContainer');
+
+    console.log('Container:', container);
+  
+    if (!container) {
+      console.error('Container tambahItemsContainer tidak ditemukan!');
+      return;
+    }
+
     const row = document.createElement('div');
     row.classList.add('grid', 'grid-cols-6', 'gap-2', 'items-end', 'item-row');
 
@@ -127,13 +139,19 @@
 
       <div>
         <label class="block text-xs mb-1">Jumlah</label>
-        <input type="number" name="items[${itemIndex}][jumlah]" value="1" class="jumlah border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" min="1" required>
+        <div class="flex items-end gap-2">
+          <input type="number" name="items[${itemIndex}][jumlah]" value="1" class="jumlah border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" min="1" required>
+          <button type="button" class="btn-hapus-item bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700" title="Hapus Item">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
       </div>
 
       <input type="hidden" class="harga_item" name="items[${itemIndex}][harga]" value="">
       <input type="hidden" class="subtotal_item" name="items[${itemIndex}][subtotal]" value="">
     `;
 
+    console.log('Row ditambahkan:', row);
     container.appendChild(row);
     attachEventsToRow(row);
     itemIndex++;
@@ -144,6 +162,13 @@
     const menuSelect = row.querySelector('.menu_id');
     const platformSelect = row.querySelector('.platform_id');
     const jumlahInput = row.querySelector('.jumlah');
+    const btnHapus = row.querySelector('.btn-hapus-item');
+    if (btnHapus) {
+      btnHapus.addEventListener('click', function () {
+        row.remove();
+        updateGrandTotal();
+      });
+    }
 
     categorySelect.addEventListener('change', function () {
       menuSelect.innerHTML = '<option>Memuat menu...</option>';
