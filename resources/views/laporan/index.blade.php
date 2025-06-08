@@ -127,15 +127,15 @@
                 <!-- Table -->
                 <div class="bg-white rounded-xl shadow-md overflow-hidden">
                     <table class="min-w-full">
-                        <thead style="background-color: #ffd5ab;" class="text-gray-700 text-left text-sm">
+                        <thead class="bg-[#ffd5ab] text-gray-700 text-center text-sm font-semibold select-none">
                             <tr>
-                                <th class="px-4 py-3 font-medium text-center">Kategori</th>
-                                <th class="px-4 py-3 font-medium text-center">ID pesanan</th>
-                                <th class="px-4 py-3 font-medium text-center">Tanggal</th>
-                                <th class="px-4 py-3 font-medium text-center">Waktu</th>
-                                <th class="px-4 py-3 font-medium text-center">Status</th>
-                                <th class="px-4 py-3 font-medium text-center">Metode Pembayaran</th>
-                                <th class="px-4 py-3 font-medium text-center">Total</th>
+                                <th class="px-4 py-3">Kategori</th>
+                                <th class="px-4 py-3">ID pesanan</th>
+                                <th class="px-4 py-3">Tanggal</th>
+                                <th class="px-4 py-3">Waktu</th>
+                                <th class="px-4 py-3">Status</th>
+                                <th class="px-4 py-3">Metode Pembayaran</th>
+                                <th class="px-4 py-3">Total</th>
                             </tr>
                         </thead>
 

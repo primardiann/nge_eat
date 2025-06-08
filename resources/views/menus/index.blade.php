@@ -13,9 +13,7 @@
 
             <!-- Judul dan Tombol Tambah -->
             <div class="mb-6">
-                <!-- Judul -->
-                <h1 class="text-xl font-semibold text-gray-800 mb-2">Daftar Menu</h1>
-
+                
                 <!-- Tombol di bawah judul -->
                 <button type="button" class="flex items-center gap-2 px-3 py-1 text-white font-medium rounded-lg"
                     style="background-color: #F58220;" onclick="openModal()">
@@ -27,15 +25,15 @@
 
             <!-- Tabel Daftar Menu -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                <table class="min-w-full text-center">
-                    <thead style="background-color: #ffd5ab;" class="text-gray-700 text-sm">
+                <table class="min-w-full table-auto">
+                    <thead class="bg-[#ffd5ab] text-gray-700 text-center text-sm font-semibold select-none">
                         <tr>
-                            <th class="px-6 py-3 font-medium">Nama Menu</th>
-                            <th class="px-6 py-3 font-medium">Kategori</th>
-                            <th class="px-6 py-3 font-medium">Harga GoFood</th>
-                            <th class="px-6 py-3 font-medium">Harga GrabFood</th>
-                            <th class="px-6 py-3 font-medium">Harga ShopeeFood</th>
-                            <th class="px-6 py-3 font-medium">Aksi</th>
+                            <th class="px-6 py-3">Nama Menu</th>
+                            <th class="px-6 py-3">Kategori</th>
+                            <th class="px-6 py-3">Harga GoFood</th>
+                            <th class="px-6 py-3">Harga GrabFood</th>
+                            <th class="px-6 py-3">Harga ShopeeFood</th>
+                            <th class="px-6 py-3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white text-gray-700 text-sm">

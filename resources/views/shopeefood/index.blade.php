@@ -30,15 +30,15 @@
             <!-- Table -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
                 <table class="min-w-full">
-                    <thead style="background-color: #ffd5ab;" class="text-gray-700 text-left text-sm text-center">
+                    <thead class="bg-[#ffd5ab] text-gray-700 text-center text-sm font-semibold select-none">
                         <tr>
-                            <th class="px-6 py-3 font-medium">ID pesanan</th>
-                            <th class="px-6 py-3 font-medium">Tanggal</th>
-                            <th class="px-6 py-3 font-medium">Waktu</th>
-                            <th class="px-6 py-3 font-medium">Nama Pelanggan</th>
-                            <th class="px-6 py-3 font-medium">Metode Pembayaran</th>
-                            <th class="px-6 py-3 font-medium">Item Pemesanan</th>
-                            <th class="px-6 py-3 font-medium">Aksi</th>
+                            <th class="px-6 py-3">ID Pesanan</th>
+                            <th class="px-6 py-3">Tanggal</th>
+                            <th class="px-6 py-3">Waktu</th>
+                            <th class="px-6 py-3">Nama Pelanggan</th>
+                            <th class="px-6 py-3">Metode Pembayaran</th>
+                            <th class="px-6 py-3">Item Pemesanan</th>
+                            <th class="px-6 py-3">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white text-gray-700 text-sm text-center">

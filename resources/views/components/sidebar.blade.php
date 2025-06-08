@@ -6,7 +6,7 @@
     left: 0;
     z-index: 45;
     height: 100vh;
-    background: linear-gradient(to bottom, #FFB870, #FFB870);
+    background: linear-gradient(to bottom, #FFD5AB, #F58220);
     display: flex;
     flex-direction: column;
     padding: 20px 10px;
