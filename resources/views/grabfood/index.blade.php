@@ -1,8 +1,7 @@
-@extends('layouts.admin')
+@extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-@section('content') < div class = "flex min-h-screen bg-[#FAFAFA] text-sm" > <main class="flex-1 px-8 py-6">
-    <!-- Breadcrumb -->
+@section('content') 
     <div class="text-gray-500 mb-4 flex items-center space-x-1">
         <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
         <span class="text-[#888]">></span>
