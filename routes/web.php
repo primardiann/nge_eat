@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\GrabFoodController;
 use App\Http\Controllers\ShopeeFoodController;
+use App\Http\Controllers\KategoriController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,6 +22,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Route Frontend Halaman Kategori
+Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
+Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
+Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
+Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+Route::get('/kategori/{id}', [KategoriController::class, 'get'])->name('kategori.get'); // untuk AJAX edit modal
+Route::get('/api/kategori', [KategoriController::class, 'getAll'])->name('kategori.api'); // opsional untuk API list
 
 // Tambahan route AJAX untuk ambil menu berdasarkan kategori
 Route::get('/get-menus/{category_id}', [GoFoodController::class, 'getMenus'])->name('get-menus');
