@@ -11,8 +11,8 @@ class KategoriController extends Controller
     {
         $page = $request->query('page', 1);
 
-        $categories = Kategori::orderBy('id') // atau orderBy('created_at')
-            ->paginate(5)
+        $categories = Kategori::orderBy('id') 
+            ->paginate(10)
             ->appends(['page' => $page]);
 
         return view('kategori.index', compact('categories'));

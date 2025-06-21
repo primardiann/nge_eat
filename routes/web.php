@@ -28,14 +28,15 @@ Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.in
 Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
 Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
 Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
-Route::get('/kategori/{id}', [KategoriController::class, 'get'])->name('kategori.get'); // untuk AJAX edit modal
-Route::get('/api/kategori', [KategoriController::class, 'getAll'])->name('kategori.api'); // opsional untuk API list
+Route::get('/kategori/{id}', [KategoriController::class, 'get'])->name('kategori.get'); 
+Route::get('/api/kategori', [KategoriController::class, 'getAll'])->name('kategori.api'); 
 
-// Tambahan route AJAX untuk ambil menu berdasarkan kategori
-Route::get('/get-menus/{category_id}', [GoFoodController::class, 'getMenus'])->name('get-menus');
-
-// Tambahan route AJAX untuk ambil harga berdasarkan menu dan platform
-Route::get('/get-price', [GoFoodController::class, 'getPrice'])->name('get-price');
+// CRUD Resource utama (index, store, update, destroy)
+Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
+Route::post('/menus', [MenuController::class, 'store'])->name('menus.store');
+Route::put('/menus/{menu}', [MenuController::class, 'update'])->name('menus.update');
+Route::delete('/menus/{menu}', [MenuController::class, 'destroy'])->name('menus.destroy');
+Route::get('/menus/{menu}/edit-modal', [MenuController::class, 'editModal'])->name('menus.editModal');
 
 
 // Route Frontend Halaman Transaksi
