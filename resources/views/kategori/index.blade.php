@@ -96,15 +96,15 @@
         <form id="editForm" method="POST">
             @csrf
             @method('PUT')
-        <div class="mb-4">
-            <label for="edit_nama_kategori" class="block text-sm font-medium text-gray-700">Nama Kategori</label>
-            <input
-                type="text"
-                id="edit_nama_kategori"
-                name="name"
-                class="mt-1 block w-full border border-[#F58220] rounded-md shadow-sm px-3 py-2 focus:ring-[#F58220] focus:border-[#F58220] text-sm"
-                required>
-        </div>
+            <div class="mb-4">
+                <label for="edit_nama_kategori" class="block text-sm font-medium text-gray-700">Nama Kategori</label>
+                <input
+                    type="text"
+                    id="edit_nama_kategori"
+                    name="name"
+                    class="mt-1 block w-full border border-[#F58220] rounded-md shadow-sm px-3 py-2 focus:ring-[#F58220] focus:border-[#F58220] text-sm"
+                    required>
+            </div>
 
             <div class="flex justify-end">
                 <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded text-sm mr-2">Batal</button>
@@ -133,7 +133,8 @@
         .then(response => response.json())
         .then(data => {
             document.getElementById('edit_nama_kategori').value = data.name;
-            document.getElementById('editForm').action = `/kategori/${kategoriId}`;
+            const page = new URLSearchParams(window.location.search).get('page') || 1;
+            document.getElementById('editForm').action = `/kategori/${kategoriId}?page=${page}`;
             document.getElementById('modalEditKategori').classList.remove('hidden');
             document.getElementById('modalEditKategori').classList.add('flex');
         });

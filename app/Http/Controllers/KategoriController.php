@@ -7,11 +7,17 @@ use App\Models\Kategori;
 
 class KategoriController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Kategori::orderBy('name')->paginate(5);
+        $page = $request->query('page', 1);
+
+        $categories = Kategori::orderBy('id') // atau orderBy('created_at')
+            ->paginate(5)
+            ->appends(['page' => $page]);
+
         return view('kategori.index', compact('categories'));
     }
+
 
     public function store(Request $request)
     {
@@ -19,9 +25,7 @@ class KategoriController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        Kategori::create([
-            'name' => $request->name,
-        ]);
+        Kategori::create(['name' => $request->name]);
 
         return redirect()->back()->with('success', 'Kategori berhasil ditambahkan.');
     }
@@ -29,16 +33,19 @@ class KategoriController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        'name' => 'required|string|max:255',
+    ]);
 
-        $category = Kategori::findOrFail($id);
-        $category->update([
-            'name' => $request->name,
-        ]);
+    $category = Kategori::findOrFail($id);
+    $category->update([
+        'name' => $request->name,
+    ]);
 
-        return redirect()->back()->with('success', 'Kategori berhasil diperbarui.');
+    $page = $request->query('page', 1); // ambil nomor halaman
+    return redirect()->route('kategori.index', ['page' => $page])
+                ->with('success', 'Kategori berhasil diperbarui.');
     }
+
 
     public function destroy($id)
     {
