@@ -44,16 +44,18 @@
         <button type="button" onclick="addEditItemRow()" class="mt-2 px-3 py-1.5 bg-blue-600 text-white rounded shadow hover:bg-blue-700">+ Tambah Item</button>
       </div>
 
-      <div class="grid grid-cols-2 gap-4 mt-4">
-        <div>
-          <label for="edit_metode_pembayaran" class="mb-1 block">Metode Pembayaran</label>
-          <input id="edit_metode_pembayaran" name="metode_pembayaran" type="text" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
-        </div>
-        <div>
-          <label for="edit_grand_total" class="mb-1 block">Total Semua</label>
-          <input id="edit_grand_total" name="total" type="number" class="border rounded-sm px-2 py-1 w-full bg-gray-100" style="border-color: #F58220;" readonly>
-        </div>
-      </div>
+    <div class="grid grid-cols-2 gap-4 mt-4">
+    <div>
+        <label for="edit_metode_pembayaran" class="mb-1 block">Metode Pembayaran</label>
+        <input
+            id="edit_metode_pembayaran"
+            name="metode_pembayaran"
+            type="text"
+            class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm"
+            style="border-color: #F58220;"
+            required="required"></div>
+    </div>
+
 
       <div class="mt-4">
         <label class="inline-flex items-center space-x-2 mt-2">
@@ -81,7 +83,6 @@
   function resetEditTransaksiModal() {
     document.getElementById('formEditTransaksi').reset();
     document.getElementById('editItemsContainer').innerHTML = '';
-    document.getElementById('edit_grand_total').value = '';
     editItemIndex = 0;
   }
 
@@ -114,11 +115,14 @@
         <input type="number" name="items[${editItemIndex}][jumlah]" value="${item.jumlah || 1}" class="jumlah border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" min="1" required>
       </div>
 
-      <div class="flex items-end gap-2">
-        <button type="button" class="btn-hapus-item bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700" title="Hapus Item">
-          <i class="fas fa-trash"></i>
-        </button>
-      </div>
+    <div class="flex items-end gap-2">
+    <button
+        type="button"
+        class="btn-hapus-item text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-600 hover:text-white transition">
+        Hapus
+    </button>
+</div>
+
 
       <input type="hidden" class="harga_item" name="items[${editItemIndex}][harga]" value="${item.harga || ''}">
       <input type="hidden" class="subtotal_item" name="items[${editItemIndex}][subtotal]" value="${item.subtotal || ''}">
@@ -137,7 +141,6 @@
 
     btnHapus?.addEventListener('click', () => {
       row.remove();
-      updateEditGrandTotal();
     });
 
     const updateSubtotal = () => {
@@ -155,42 +158,24 @@
             const subtotal = harga * jumlah;
             hargaInput.value = harga;
             subtotalInput.value = subtotal;
-            updateEditGrandTotal();
           });
       } else {
         hargaInput.value = '';
         subtotalInput.value = '';
-        updateEditGrandTotal();
       }
     };
 
     menuSelect.addEventListener('change', updateSubtotal);
     platformSelect.addEventListener('change', updateSubtotal);
     jumlahInput.addEventListener('input', updateSubtotal);
-
-    // Set subtotal awal jika sudah ada datanya
-    if (row.querySelector('.harga_item').value && row.querySelector('.subtotal_item').value) {
-      updateEditGrandTotal();
-    }
   }
 
-  function updateEditGrandTotal() {
-    const subtotalInputs = document.querySelectorAll('#editItemsContainer .subtotal_item');
-    let grandTotal = 0;
-    subtotalInputs.forEach(input => {
-      grandTotal += parseFloat(input.value) || 0;
-    });
-    document.getElementById('edit_grand_total').value = grandTotal;
-  }
-
-  // Fungsi untuk isi data modal edit dari AJAX
   function showEditModal(data) {
     document.getElementById('edit_tanggal').value = data.tanggal;
     document.getElementById('edit_waktu').value = data.waktu;
     document.getElementById('edit_id_pesanan').value = data.id_pesanan;
     document.getElementById('edit_nama_pelanggan').value = data.nama_pelanggan;
     document.getElementById('edit_metode_pembayaran').value = data.metode_pembayaran;
-    document.getElementById('edit_grand_total').value = data.total || '';
 
     document.querySelector('#formEditTransaksi [name="status"]').checked = data.status == 1;
 
@@ -200,7 +185,6 @@
       data.items.forEach(item => addEditItemRow(item));
     }
 
-    updateEditGrandTotal();
     document.getElementById('transactionEditModal').classList.remove('hidden');
   }
 </script>
