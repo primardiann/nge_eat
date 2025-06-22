@@ -133,7 +133,7 @@ function openEditModal(transactionId) {
             // Panggil fungsi showEditModal dari edit-modal.blade.php
             showEditModal(data);
             // Set action form
-            document.getElementById('formEditTransaksi').action = `/gofood/${transactionId}`;
+            document.getElementById('formEditTransaksi').action = `/gofood/update/${transactionId}`;
         })
         .catch(err => {
             alert('Gagal mengambil data transaksi');

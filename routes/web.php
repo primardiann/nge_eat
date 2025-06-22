@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route Frontend Halaman Kategori
+// Route  Kategori
 Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
 Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
 Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
@@ -31,54 +31,44 @@ Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('k
 Route::get('/kategori/{id}', [KategoriController::class, 'get'])->name('kategori.get'); 
 Route::get('/api/kategori', [KategoriController::class, 'getAll'])->name('kategori.api'); 
 
-// CRUD Resource utama (index, store, update, destroy)
+// Route Menu
 Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
 Route::post('/menus', [MenuController::class, 'store'])->name('menus.store');
 Route::put('/menus/{menu}', [MenuController::class, 'update'])->name('menus.update');
 Route::delete('/menus/{menu}', [MenuController::class, 'destroy'])->name('menus.destroy');
 Route::get('/menus/{menu}/edit-modal', [MenuController::class, 'editModal'])->name('menus.editModal');
 
-
-// Route Frontend Halaman Transaksi
+// Route Gofood
 Route::get('/gofood', [GoFoodController::class, 'index'])->name('gofood.index');
 Route::get('/api/gofood', [GoFoodController::class, 'getAll']);
 Route::post('/gofood', [GoFoodController::class, 'store'])->name('gofood.store');
 Route::delete('/api/gofood/{id}', [GoFoodController::class, 'destroy'])->name('gofood.destroy');
 Route::get('/gofood/{id}/edit', [GoFoodController::class, 'edit']);
 Route::get('/gofood/{id}/edit-json', [GoFoodController::class, 'editJson']);
-Route::put('/gofood/update/{id}', [GoFoodController::class, 'update'])->name('update');
+Route::put('/gofood/update/{id}', [GoFoodController::class, 'update'])->name('gofood.update');
 
+// Route Grabfood
+Route::get('/grabfood', [GrabfoodController::class, 'index'])->name('grabfood.index');
+Route::get('/api/grabfood', [GrabfoodController::class, 'getAll']);
+Route::post('/grabfood', [GrabfoodController::class, 'store'])->name('grabfood.store');
+Route::delete('/api/grabfood/{id}', [GrabfoodController::class, 'destroy'])->name('grabfood.destroy');
+Route::get('/grabfood/{id}/edit', [GrabfoodController::class, 'edit']);
+Route::get('/grabfood/{id}/edit-json', [GrabfoodController::class, 'editJson']);
+Route::put('/grabfood/update/{id}', [GrabfoodController::class, 'update'])->name('grabfood.update');
 
-Route::get('/grabfood', [GrabFoodController::class, 'index'])->name('grabfood.index');
-Route::get('/api/grabfood', [GrabFoodController::class, 'getAll']);
-Route::post('/grabfood', [GrabFoodController::class, 'store'])->name('grabfood.store');
-Route::delete('/api/grabfood/{id}', [GrabFoodController::class, 'destroy'])->name('grabfood.destroy');
-Route::get('/grabfood/{id}/edit', [GrabFoodController::class, 'edit']);
-Route::get('/gofood/{id}/edit-json', [GoFoodController::class, 'editJson'])->name('gofood.editJson');
-Route::put('/gofood/{id}', [GoFoodController::class, 'update'])->name('gofood.update');
-
-
-Route::get('/shopeefood', [ShopeeFoodController::class, 'index'])->name('shopeefood.index');
-Route::get('/api/shopeefood', [ShopeeFoodController::class, 'getAll']);
-Route::post('/shopeefood', [ShopeeFoodController::class, 'store'])->name('shopeefood.store');
-Route::delete('/api/shopeefood/{id}', [ShopeeFoodController::class, 'destroy'])->name('shopeefood.destroy');
-Route::delete('/api/shopeefood/{id}', [ShopeeFoodController::class, 'destroy'])->name('shopeefood.destroy');
-Route::get('/shopeefood/{id}/edit', [ShopeeFoodController::class, 'edit']);
-Route::get('/shopeefood/{id}/edit-json', [ShopeeFoodController::class, 'editJson']);
-Route::put('/shopeefood/update/{id}', [ShopeeFoodController::class, 'update'])->name('update');
-
-
+//Route Shopeefood
+Route::get('/shopeefood', [ShopeefoodController::class, 'index'])->name('shopeefood.index');
+Route::get('/api/shopeefood', [ShopeefoodController::class, 'getAll']);
+Route::post('/shopeefood', [ShopeefoodController::class, 'store'])->name('shopeefood.store');
+Route::delete('/api/shopeefood/{id}', [ShopeefoodController::class, 'destroy'])->name('shopeefood.destroy');
+Route::get('/shopeefood/{id}/edit', [ShopeefoodController::class, 'edit']);
+Route::get('/shopeefood/{id}/edit-json', [ShopeefoodController::class, 'editJson']);
+Route::put('/shopeefood/update/{id}', [ShopeefoodController::class, 'update'])->name('shopeefood.update');
 
 // Route Frontend Halaman Laporan Keuangan
 Route::view('/laporan', 'laporan.index')->name('laporan.index');
 
-Route::resource('menus', MenuController::class)->only([
-    'index', 'store', 'edit', 'update', 'destroy'
-]);
-Route::get('/menus/{menu}/edit-modal', [MenuController::class, 'editModal']);
-
+// Route Frontend Halaman Items Terjual
 Route::view('/items-terjual', 'items-terjual.index')->name('items-terjual.index');
-
-
 
 require __DIR__.'/auth.php';
