@@ -112,7 +112,7 @@
 </style>
 
 <div
-    x-data="{ transaksiOpen: false }"
+    x-data="{ transaksiOpen: false, itemTerjualOpen: false }"
     x-show="sidebarOpen"
     x-transition:enter="transition ease-out duration-200"
     x-transition:enter-start="opacity-0 transform -translate-x-full"
@@ -238,24 +238,60 @@
             </a>
         </div>
 
-        {{-- Item Terjual --}}
-        <a
-            href="{{ route('items-terjual.index') }}"
-            class="{{ request()->routeIs('items-terjual.*') ? 'active' : '' }}">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-5 h-5 mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                stroke="currentColor">
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M9 12l2 2l4 -4M12 21a9 9 0 1 1 0 -18a9 9 0 0 1 0 18z"/>
-            </svg>
-            Item Terjual
-        </a>
+        {{-- Item Terjual dropdown --}}
+<a
+    href="javascript:void(0)"
+    @click="itemTerjualOpen = !itemTerjualOpen"
+    x-init="
+      itemTerjualOpen =
+        '{{ request()->routeIs('items-terjual.gofood') || request()->routeIs('items-terjual.grabfood') || request()->routeIs('items-terjual.shopeefood') ? 'true' : 'false' }}' === 'true'
+    "
+    :class="itemTerjualOpen || '{{ request()->routeIs('items-terjual.gofood') || request()->routeIs('items-terjual.grabfood') || request()->routeIs('items-terjual.shopeefood') ? 'true' : 'false' }}' === 'true' ? 'active' : ''"
+    class="menu-item">
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2l4 -4M12 21a9 9 0 1 1 0 -18a9 9 0 0 1 0 18z"/>
+    </svg>
+    Item Terjual
+    <svg
+        style="margin-left:auto;"
+        xmlns="http://www.w3.org/2000/svg"
+        class="transform transition-transform duration-200 w-5 h-5"
+        :class="itemTerjualOpen ? 'rotate-180' : ''"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+    </svg>
+</a>
+
+<div class="submenu" :class="itemTerjualOpen ? 'open' : ''">
+    <a
+        href="{{ route('items-terjual.gofood') }}"
+        class="{{ request()->routeIs('items-terjual.gofood') ? 'active' : '' }}">
+        GoFood
+    </a>
+    <a
+        href="{{ route('items-terjual.grabfood') }}"
+        class="{{ request()->routeIs('items-terjual.grabfood') ? 'active' : '' }}">
+        GrabFood
+    </a>
+    <a
+        href="{{ route('items-terjual.shopeefood') }}"
+        class="{{ request()->routeIs('items-terjual.shopeefood') ? 'active' : '' }}">
+        ShopeeFood
+    </a>
+</div>
+
 
         {{-- Laporan --}}
         <a

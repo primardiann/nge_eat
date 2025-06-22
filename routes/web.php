@@ -6,6 +6,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\GrabFoodController;
 use App\Http\Controllers\ShopeeFoodController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\ItemTerjualController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -65,10 +66,16 @@ Route::get('/shopeefood/{id}/edit', [ShopeefoodController::class, 'edit']);
 Route::get('/shopeefood/{id}/edit-json', [ShopeefoodController::class, 'editJson']);
 Route::put('/shopeefood/update/{id}', [ShopeefoodController::class, 'update'])->name('shopeefood.update');
 
+//Route Halaman item terjual
+Route::prefix('items-terjual')->name('items-terjual.')->group(function () {
+    Route::get('/gofood', [ItemTerjualController::class, 'gofood'])->name('gofood');
+    Route::get('/grabfood', [ItemTerjualController::class, 'grabfood'])->name('grabfood');
+    Route::get('/shopeefood', [ItemTerjualController::class, 'shopeefood'])->name('shopeefood');
+});
+
+
 // Route Frontend Halaman Laporan Keuangan
 Route::view('/laporan', 'laporan.index')->name('laporan.index');
 
-// Route Frontend Halaman Items Terjual
-Route::view('/items-terjual', 'items-terjual.index')->name('items-terjual.index');
 
 require __DIR__.'/auth.php';
