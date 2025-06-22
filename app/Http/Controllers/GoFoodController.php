@@ -184,7 +184,9 @@ class GoFoodController extends Controller
             return redirect()->route('gofood.index')->with('success', 'Transaksi berhasil diperbarui!');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Gagal update transaksi: ' . $e->getMessage());
+            $page = $request->query('page', 1); // default ke halaman 1 jika tidak ada
+                return redirect()->route('gofood.index', ['page' => $page])
+                    ->with('success', 'Transaksi berhasil diperbarui');
         }
     }
 

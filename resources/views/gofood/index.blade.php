@@ -70,9 +70,9 @@
 
                 <!-- Aksi -->
                 <td class="px-6 py-3">
-                    <div class="flex justify-center space-x-4 text-gray-500">
+                    <div class="flex justify-center items-center space-x-4 text-gray-500">
                         <button
-                            class="btn-lihat hover:text-yellow-600 transition"
+                            class="btn-lihat flex items-center justify-center hover:text-yellow-600 transition"
                             title="Lihat Detail"
                             data-id="{{ $transaction->id_pesanan }}"
                             data-tanggal="{{ $transaction->tanggal->format('d-m-Y') }}"
@@ -87,17 +87,17 @@
                         </button>
 
                         <button
-                            class="btn-edit text-blue-600 hover:text-blue-800 transition"
+                            class="btn-edit flex items-center justify-center text-blue-600 hover:text-blue-800 transition"
                             title="Edit"
                             onclick="openEditModal({{ $transaction->id }})">
                             <i class="fas fa-pen-to-square"></i>
                         </button>
 
                         <!-- Form Hapus -->
-                        <form action="{{ route('gofood.destroy', $transaction->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')" style="display:inline;">
+                        <form action="{{ route('gofood.destroy', $transaction->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')" class="flex items-center justify-center m-0 p-0">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:text-red-800 transition" title="Hapus">
+                            <button type="submit" class="flex items-center justify-center text-red-600 hover:text-red-800 transition" title="Hapus">
                                 <i class="fas fa-trash-alt"></i>
                             </button>
                         </form>
@@ -108,9 +108,9 @@
         </tbody>
     </table>
 
-    <!-- Pagination -->
-    <div class="flex justify-between items-center mt-4 px-6 py-3 bg-white rounded-b-xl shadow-inner">
-        {{ $transaksi->links() }}
+     <!-- Pagination -->
+    <div class="p-4">
+        {{ $transaksi->links('vendor.pagination.custom') }}
     </div>
 </div>
 </main>
@@ -139,6 +139,8 @@ function openEditModal(transactionId) {
             alert('Gagal mengambil data transaksi');
             console.error(err);
         });
+    const currentPage = new URLSearchParams(window.location.search).get('page') || 1;
+    document.getElementById('formEditTransaksi').action = `/gofood/${transactionId}?page=${currentPage}`;
 }
 
 function openTambahModal() {
