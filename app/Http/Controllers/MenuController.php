@@ -13,8 +13,7 @@ class MenuController extends Controller
     // Tampilkan daftar menu
     public function index(Request $request)
     {
-        $query = Menu::with(['category', 'prices.platform']);
-
+        $query = Menu::with(['category', 'prices.platform'])->orderBy('id', 'desc');
         // Filter berdasarkan kategori jika ada
         if ($request->filled('category_id')) {
         $query->where('category_id', $request->category_id);

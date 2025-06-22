@@ -52,11 +52,12 @@
   </div>
 </div>
 
-<!-- Script untuk kontrol modal -->
+<!-- Script Modal Detail -->
 <script>
   function openTransactionDetailModal(transactionData) {
     const modal = document.getElementById('transactionDetailModal');
 
+    // Isi detail
     document.getElementById('detail-tanggal').value = transactionData.tanggal || '';
     document.getElementById('detail-waktu').value = transactionData.waktu || '';
     document.getElementById('detail-id_pesanan').value = transactionData.id_pesanan || '';
@@ -64,33 +65,19 @@
     document.getElementById('detail-nama').value = transactionData.nama_pelanggan || '';
     document.getElementById('detail-metode').value = transactionData.metode_pembayaran || '';
 
+    // Proses item_pesanan yang berupa string
     const itemList = document.getElementById('detail-item-list');
     const totalValue = document.getElementById('detail-total-value');
     itemList.innerHTML = '';
-    let total = 0;
 
-    // Perbaikan utama: parsing item_pesanan
-    let items = [];
-    try {
-      const data = transactionData.item_pesanan;
-      if (typeof data === 'string') {
-        // Coba betulkan JSON jika koma hilang setelah property
-        const fixedData = data.replace(/}\s*{/g, '},{');
-        items = JSON.parse(fixedData);
-      } else {
-        items = data;
-      }
-    } catch (err) {
-      console.error('Gagal parsing item_pesanan:', err);
-      items = []; // fallback
-    }
+    const items = transactionData.item_pesanan || '';
+    const itemArray = items.split(',').map(i => i.trim()).filter(i => i.length > 0);
 
-    if (Array.isArray(items) && items.length > 0) {
-      items.forEach(item => {
+    if (itemArray.length > 0) {
+      itemArray.forEach(item => {
         const li = document.createElement('li');
-        li.textContent = `Kategori ID: ${item.category_id}, Menu ID: ${item.menu_id}, Platform ID: ${item.platform_id}, Jumlah: ${item.jumlah}, Harga: Rp ${parseFloat(item.harga || 0).toLocaleString()}, Subtotal: Rp ${parseFloat(item.subtotal || 0).toLocaleString()}`;
+        li.textContent = item;
         itemList.appendChild(li);
-        total += parseFloat(item.subtotal || 0);
       });
     } else {
       const li = document.createElement('li');
@@ -98,7 +85,11 @@
       itemList.appendChild(li);
     }
 
-    totalValue.textContent = `Rp ${total.toLocaleString()}`;
+    // Tampilkan total (jika tersedia)
+    const total = parseFloat(transactionData.total || 0);
+    totalValue.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+
+    // Tampilkan modal
     modal.classList.remove('hidden');
   }
 

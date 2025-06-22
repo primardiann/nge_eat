@@ -1,12 +1,17 @@
-@props(['categories', 'platforms'])
+@props(['menus', 'platforms'])
 
+<!-- Inject menu & platform ke JavaScript -->
+<script>
+  const menuList = @json($menus);
+  const platformList = @json($platforms);
+</script>
 
 <!-- Modal Tambah Transaksi -->
 <div id="transactionTambahModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
   <div class="bg-white rounded-md shadow-md p-6 w-full max-w-3xl max-h-[90vh] overflow-auto">
     <h2 class="text-xl font-semibold mb-4 border-b pb-2" style="border-color: #F58220;">Tambah Transaksi</h2>
 
-    <form id="formTambahTransaksi" action="" method="POST">
+    <form id="formTambahTransaksi" action="{{ route('gofood.store') }}" method="POST">
       @csrf
 
       <div class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm text-gray-700">
@@ -20,8 +25,13 @@
         </div>
         <div>
           <label for="id_pesanan" class="mb-1 block">ID Pesanan</label>
-          <input id="id_pesanan" name="id_pesanan" type="text" placeholder="Contoh: GF-1234567" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
+          <input id="id_pesanan" name="id_pesanan" type="text"
+          class="border rounded-sm px-2 py-1 w-full bg-gray-100 shadow-sm"
+          style="border-color: #F58220;"
+          value="{{ $generatedId ?? '' }}"
+          readonly>
         </div>
+
         <div>
           <label for="nama_pelanggan" class="mb-1 block">Nama Pelanggan</label>
           <input id="nama_pelanggan" name="nama_pelanggan" type="text" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
@@ -40,10 +50,6 @@
           <label for="metode_pembayaran" class="mb-1 block">Metode Pembayaran</label>
           <input id="metode_pembayaran" name="metode_pembayaran" type="text" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
         </div>
-        <div>
-          <label for="grand_total" class="mb-1 block">Total Semua</label>
-          <input id="grand_total" name="total" type="number" class="border rounded-sm px-2 py-1 w-full bg-gray-100" style="border-color: #F58220;" readonly>
-        </div>
       </div>
 
       <div class="mt-4">
@@ -60,70 +66,39 @@
           <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded shadow">Tambah</button>
         </div>
       </div>
-
-      <input type="hidden" name="item_pesanan" id="item_pesanan_input">
     </form>
   </div>
 </div>
 
 <script>
   let itemIndex = 0;
-  let selectedPlatform = 'gofood';
 
-  function openTambahModal(platform) {
-  selectedPlatform = platform;
-  setFormActionByPlatform(selectedPlatform); // ← DITAMBAHKAN di sini
-  document.getElementById('transactionTambahModal').classList.remove('hidden');
-  resetTambahTransaksiModal();
-
-  setTimeout(() => {
+  function resetTambahTransaksiModal() {
+    const form = document.getElementById('formTambahTransaksi');
+    form.reset();
+    document.getElementById('tambahItemsContainer').innerHTML = '';
+    document.getElementById('grand_total').value = '';
+    itemIndex = 0;
     addTambahItemRow();
-  }, 100);
-}
+  }
 
   function closeTambahModal() {
-    resetTambahTransaksiModal();
     document.getElementById('transactionTambahModal').classList.add('hidden');
   }
 
- function resetTambahTransaksiModal() {
-  const form = document.getElementById('formTambahTransaksi');
-  form.reset();
-  document.getElementById('tambahItemsContainer').innerHTML = '';
-  document.getElementById('grand_total').value = '';
-  itemIndex = 0;
-  addTambahItemRow();
-  // Tidak perlu setFormAction di sini lagi
-}
-
   function addTambahItemRow() {
     const container = document.getElementById('tambahItemsContainer');
-
-    console.log('Container:', container);
-  
-    if (!container) {
-      console.error('Container tambahItemsContainer tidak ditemukan!');
-      return;
-    }
+    const menuOptions = menuList.map(menu => `<option value="${menu.id}">${menu.name}</option>`).join('');
+    const platformOptions = platformList.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
 
     const row = document.createElement('div');
-    row.classList.add('grid', 'grid-cols-6', 'gap-2', 'items-end', 'item-row');
-
+    row.classList.add('grid', 'grid-cols-5', 'gap-2', 'items-end', 'item-row');
     row.innerHTML = `
-      <div class="col-span-2">
-        <label class="block text-xs mb-1">Kategori</label>
-        <select name="items[${itemIndex}][category_id]" class="category_id border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required>
-          <option value="">-- Pilih Kategori --</option>
-          @foreach($categories as $category)
-            <option value="{{ $category->id }}">{{ $category->name }}</option>
-          @endforeach
-        </select>
-      </div>
-
       <div class="col-span-2">
         <label class="block text-xs mb-1">Menu</label>
         <select name="items[${itemIndex}][menu_id]" class="menu_id border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required>
           <option value="">-- Pilih Menu --</option>
+          ${menuOptions}
         </select>
       </div>
 
@@ -131,58 +106,40 @@
         <label class="block text-xs mb-1">Platform</label>
         <select name="items[${itemIndex}][platform_id]" class="platform_id border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required>
           <option value="">-- Platform --</option>
-          @foreach($platforms as $platform)
-            <option value="{{ $platform->id }}">{{ $platform->name }}</option>
-          @endforeach
+          ${platformOptions}
         </select>
       </div>
 
       <div>
         <label class="block text-xs mb-1">Jumlah</label>
-        <div class="flex items-end gap-2">
-          <input type="number" name="items[${itemIndex}][jumlah]" value="1" class="jumlah border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" min="1" required>
-          <button type="button" class="btn-hapus-item bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700" title="Hapus Item">
-            <i class="fas fa-trash"></i>
-          </button>
-        </div>
+        <input type="number" name="items[${itemIndex}][jumlah]" value="1" class="jumlah border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" min="1" required>
       </div>
+
+      <div class="flex items-end gap-2">
+        <button type="button" class="btn-hapus-item text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-600 hover:text-white transition">
+          Hapus
+        </button>
+      </div>
+
 
       <input type="hidden" class="harga_item" name="items[${itemIndex}][harga]" value="">
       <input type="hidden" class="subtotal_item" name="items[${itemIndex}][subtotal]" value="">
     `;
 
-    console.log('Row ditambahkan:', row);
     container.appendChild(row);
     attachEventsToRow(row);
     itemIndex++;
   }
 
   function attachEventsToRow(row) {
-    const categorySelect = row.querySelector('.category_id');
     const menuSelect = row.querySelector('.menu_id');
     const platformSelect = row.querySelector('.platform_id');
     const jumlahInput = row.querySelector('.jumlah');
     const btnHapus = row.querySelector('.btn-hapus-item');
-    if (btnHapus) {
-      btnHapus.addEventListener('click', function () {
-        row.remove();
-        updateGrandTotal();
-      });
-    }
 
-    categorySelect.addEventListener('change', function () {
-      menuSelect.innerHTML = '<option>Memuat menu...</option>';
-      fetch(`/get-menus/${this.value}`)
-        .then(res => res.json())
-        .then(data => {
-          menuSelect.innerHTML = '<option value="">-- Pilih Menu --</option>';
-          data.forEach(menu => {
-            menuSelect.innerHTML += `<option value="${menu.id}">${menu.name}</option>`;
-          });
-          row.querySelector('.harga_item').value = '';
-          row.querySelector('.subtotal_item').value = '';
-          updateGrandTotal();
-        });
+    btnHapus?.addEventListener('click', () => {
+      row.remove();
+      updateGrandTotal();
     });
 
     const updateSubtotal = () => {
@@ -196,7 +153,7 @@
         fetch(`/get-price?menu_id=${menuId}&platform_id=${platformId}`)
           .then(res => res.json())
           .then(data => {
-            const harga = data.price || 0;
+            const harga = parseFloat(data.price || 0);
             const subtotal = harga * jumlah;
             hargaInput.value = harga;
             subtotalInput.value = subtotal;
@@ -222,54 +179,4 @@
     });
     document.getElementById('grand_total').value = grandTotal;
   }
-
-  function setFormActionByPlatform(mainPlatform) {
-    const form = document.getElementById('formTambahTransaksi');
-
-    switch(mainPlatform.toLowerCase()) {
-      case 'gofood':
-        form.action = "{{ route('gofood.store') }}";
-        break;
-      case 'grabfood':
-        form.action = "{{ route('grabfood.store') }}";
-        break;
-      case 'shopeefood':
-        form.action = "{{ route('shopeefood.store') }}";
-        break;
-     
-    }
-  }
-
-  document.getElementById('formTambahTransaksi').addEventListener('submit', function(e) {
-    const rows = document.querySelectorAll('.item-row');
-    const items = [];
-
-    rows.forEach(row => {
-      const category = row.querySelector('.category_id')?.value || '';
-      const menu = row.querySelector('.menu_id')?.value || '';
-      const platform = row.querySelector('.platform_id')?.value || '';
-      const jumlah = row.querySelector('.jumlah')?.value || '';
-      const harga = row.querySelector('.harga_item')?.value || '';
-      const subtotal = row.querySelector('.subtotal_item')?.value || '';
-
-      if (category && menu && platform) {
-        items.push({
-          category_id: category,
-          menu_id: menu,
-          platform_id: platform,
-          jumlah: parseInt(jumlah),
-          harga: parseFloat(harga),
-          subtotal: parseFloat(subtotal)
-        });
-      }
-    });
-
-    if(items.length === 0){
-      e.preventDefault();
-      alert('Harap tambahkan minimal satu item pesanan.');
-      return false;
-    }
-
-    document.getElementById('item_pesanan_input').value = JSON.stringify(items);
-  });
 </script>
