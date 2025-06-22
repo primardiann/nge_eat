@@ -1,123 +1,113 @@
 @extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-@section('content') 
-<main class="flex-1 px-8 py-6">
-    <!-- Breadcrumb -->
-    <div class="text-gray-500 mb-4 flex items-center space-x-1">
-        <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
-        <span class="text-[#888]">></span>
-        <span class="text-[#888]">Transaksi GoFood</span>
-    </div>
-
-    <!-- Header Buttons -->
-    <div class="flex justify-between items-center mb-6 relative">
-        <div class="flex flex-col space-y-3">
-            <button
-                class="flex items-center gap-2 px-2 py-1 text-white font-medium rounded-lg btn-tambah"
-                style="background-color: #F58220;">
-                <span class="text-lg">+</span>
-                <span>Tambah Transaksi</span>
-            </button>
+@section('content')
+<div class="flex min-h-screen bg-[#FAFAFA] text-sm">
+    <main class="flex-1 px-8 py-6">
+        <!-- Breadcrumb -->
+        <div class="text-gray-500 mb-4 flex items-center space-x-1">
+            <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
+            <span class="text-[#888]">></span>
+            <span class="text-[#888]">Transaksi GoFood</span>
         </div>
-        <div class="flex flex-col space-y-3">
-            @include('components.kalender')
+
+        <!-- Header Buttons -->
+        <div class="flex justify-between items-center mb-6 relative">
+            <div class="flex flex-col space-y-3">
+                <button class="flex items-center gap-2 px-2 py-1 text-white font-medium rounded-lg btn-tambah"
+                    style="background-color: #F58220;">
+                    <span class="text-lg">+</span>
+                    <span>Tambah Transaksi</span>
+                </button>
+            </div>
+            <div class="flex flex-col space-y-3">
+                @include('components.kalender')
+            </div>
         </div>
-    </div>
 
-    <!-- Table -->
-    <div class="bg-white rounded-xl shadow-md overflow-hidden">
-        <table class="min-w-full table-auto">
-            <thead
-                class="bg-[#ffd5ab] text-gray-700 text-center text-sm font-semibold select-none">
-                <tr>
-                    <th class="px-6 py-3">ID Pesanan</th>
-                    <th class="px-6 py-3">Tanggal</th>
-                    <th class="px-6 py-3">Waktu</th>
-                    <th class="px-6 py-3">Nama Pelanggan</th>
-                    <th class="px-6 py-3">Metode Pembayaran</th>
-                    <th class="px-6 py-3 max-w-[150px]">Item Pemesanan</th>
-                    <th class="px-6 py-3">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="text-gray-700 text-center text-sm">
-                @foreach ($transaksi as $transaction)
-                <tr
-                    class="border-t hover:bg-gray-50"
-                    data-tanggal="{{ $transaction->tanggal->format('Y-m-d') }}">
-                    <td class="px-6 py-3 truncate max-w-[120px]">{{ $transaction->id_pesanan }}</td>
-                    <td class="px-6 py-3">{{ $transaction->tanggal->format('d-m-Y') }}</td>
-                    <td class="px-6 py-3">{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}</td>
-                    <td class="px-6 py-3">{{ $transaction->nama_pelanggan }}</td>
-                    <td class="px-6 py-3">{{ $transaction->metode_pembayaran }}</td>
+        <!-- Table -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+            <table class="min-w-full table-auto">
+                <thead class="bg-[#ffd5ab] text-gray-700 text-center text-sm font-semibold select-none">
+                    <tr>
+                        <th class="px-6 py-3">ID Pesanan</th>
+                        <th class="px-6 py-3">Tanggal</th>
+                        <th class="px-6 py-3">Waktu</th>
+                        <th class="px-6 py-3">Nama Pelanggan</th>
+                        <th class="px-6 py-3">Metode Pembayaran</th>
+                        <th class="px-6 py-3 max-w-[150px]">Item Pemesanan</th>
+                        <th class="px-6 py-3">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700 text-center text-sm">
+                    @foreach ($transaksi as $transaction)
+                    <tr class="border-t hover:bg-gray-50" data-tanggal="{{ $transaction->tanggal->format('Y-m-d') }}">
+                        <td class="px-6 py-3 truncate max-w-[120px]">{{ $transaction->id_pesanan }}</td>
+                        <td class="px-6 py-3">{{ $transaction->tanggal->format('d-m-Y') }}</td>
+                        <td class="px-6 py-3">{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}</td>
+                        <td class="px-6 py-3">{{ $transaction->nama_pelanggan }}</td>
+                        <td class="px-6 py-3">{{ $transaction->metode_pembayaran }}</td>
 
-                    <!-- Item Pesanan dengan Tooltip -->
-                    <td class="px-6 py-3 max-w-[150px] relative group cursor-default">
-                        <div class="truncate">
-                            {{ $transaction->items->pluck('menu.name')->implode(', ') }}
-                        </div>
-                        <div
-                            class="absolute left-1/2 -translate-x-1/2 mt-2 hidden group-hover:block bg-orange-100 text-black text-xs px-3 py-2 rounded shadow-lg z-50 min-w-max text-left whitespace-normal max-w-xs">
-                            <ul class="list-disc list-inside space-y-1">
-                                @foreach (explode(',', $transaction->item_pesanan) as $item)
-                                <li>{{ trim($item) }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </td>
+                        <!-- Item Pesanan dengan Tooltip -->
+                        <td class="px-6 py-3 max-w-[150px] relative group cursor-default">
+                            <div class="truncate">
+                                {{ $transaction->items->pluck('menu.name')->implode(', ') }}
+                            </div>
+                            <div class="absolute left-1/2 -translate-x-1/2 mt-2 hidden group-hover:block bg-orange-100 text-black text-xs px-3 py-2 rounded shadow-lg z-50 min-w-max text-left whitespace-normal max-w-xs">
+                                <ul class="list-disc list-inside space-y-1">
+                                    @foreach (explode(',', $transaction->item_pesanan) as $item)
+                                    <li>{{ trim($item) }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </td>
 
-                    <!-- Aksi -->
-                    <td class="px-6 py-3">
-                        <div class="flex justify-center space-x-4 text-gray-500">
-                            <button
-                                class="btn-lihat hover:text-yellow-600 transition"
-                                title="Lihat Detail"
-                                data-id="{{ $transaction->id_pesanan }}"
-                                data-tanggal="{{ $transaction->tanggal->format('d-m-Y') }}"
-                                data-waktu="{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}"
-                                data-nama="{{ $transaction->nama_pelanggan }}"
-                                data-pembayaran="{{ $transaction->metode_pembayaran }}"
-                                data-item="{{ $transaction->items->pluck('menu.name')->implode(', ') }}"
-                                data-total="{{ $transaction->total ?? '' }}"
-                                data-status="{{ $transaction->status ?? '' }}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-
-                            <button
-                                class="btn-edit text-blue-600 hover:text-blue-800 transition"
-                                title="Edit"
-                                onclick="openEditModal('gofood', {{ $transaction->id }})">
-                                <i class="fas fa-pen-to-square"></i>
-                            </button>
-
-                            <!-- Form Hapus -->
-                            <form
-                                action="{{ route('gofood.destroy', $transaction->id) }}"
-                                method="POST"
-                                onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')"
-                                style="display:inline;">
-                                @csrf @method('DELETE')
+                        <!-- Aksi -->
+                        <td class="px-6 py-3">
+                            <div class="flex justify-center space-x-4 text-gray-500">
                                 <button
-                                    type="submit"
-                                    class="text-red-600 hover:text-red-800 transition"
-                                    title="Hapus">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+    class="btn-lihat hover:text-yellow-600 transition"
+    title="Lihat Detail"
+    data-id="{{ $transaction->id_pesanan }}"
+    data-tanggal="{{ $transaction->tanggal->format('d-m-Y') }}"
+    data-waktu="{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}"
+    data-nama="{{ $transaction->nama_pelanggan }}"
+    data-pembayaran="{{ $transaction->metode_pembayaran }}"
+    data-item="{{ $transaction->items->pluck('menu.name')->implode(', ') }}"
+    data-total="{{ $transaction->total ?? '' }}"
+    data-status="{{ $transaction->status ?? '' }}"
+>
+    <i class="fas fa-eye"></i>
+</button>
 
-        <!-- Pagination -->
-        <div
-            class="flex justify-between items-center mt-4 px-6 py-3 bg-white rounded-b-xl shadow-inner">
-            {{ $transaksi->links() }}
+                                <button
+                                    class="btn-edit text-blue-600 hover:text-blue-800 transition"
+                                    title="Edit"
+                                    onclick="openEditModal('gofood', {{ $transaction->id }})">
+                                    <i class="fas fa-pen-to-square"></i>
+                                </button>
+
+                                <!-- Form Hapus -->
+                                <form action="{{ route('gofood.destroy', $transaction->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-800 transition" title="Hapus">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="flex justify-between items-center mt-4 px-6 py-3 bg-white rounded-b-xl shadow-inner">
+                {{ $transaksi->links() }}
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 </div>
 
 <!-- Modal Tambah Transaksi -->
@@ -130,101 +120,59 @@
 @include('components.detail-modal')
 
 <script>
-function openEditModal(platform, transactionId) {
-    document
-        .getElementById('transactionEditModal')
-        .classList
-        .remove('hidden');
+    function openEditModal(platform, transactionId) {
+        document.getElementById('transactionEditModal').classList.remove('hidden');
 
-    fetch(`/${platform}/${transactionId}/edit-json`)
-        .then(
-            response => response.json()
-        )
-        .then(data => {
-            document
-                .getElementById('tanggal')
-                .value = data.tanggal;
-            document
-                .getElementById('waktu')
-                .value = data.waktu;
-            document
-                .getElementById('id_pesanan')
-                .value = data.id_pesanan;
-            document
-                .getElementById('nama_pelanggan')
-                .value = data.nama_pelanggan;
-            document
-                .getElementById('metode_pembayaran')
-                .value = data.metode_pembayaran;
-            document
-                .getElementById('grand_total')
-                .value = data.total;
+        fetch(`/${platform}/${transactionId}/edit-json`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('tanggal').value = data.tanggal;
+                document.getElementById('waktu').value = data.waktu;
+                document.getElementById('id_pesanan').value = data.id_pesanan;
+                document.getElementById('nama_pelanggan').value = data.nama_pelanggan;
+                document.getElementById('metode_pembayaran').value = data.metode_pembayaran;
+                document.getElementById('grand_total').value = data.total;
 
-            const form = document.getElementById('formEditTransaksi');
-            form.action = `/${platform}/update/${transactionId}`;
-        });
-}
-
-function openTambahModal() {
-    document
-        .getElementById('transactionTambahModal')
-        .classList
-        .remove('hidden');
-}
-
-function closeEditModal() {
-    document
-        .getElementById('transactionEditModal')
-        .classList
-        .add('hidden');
-}
-
-function closeTambahModal() {
-    document
-        .getElementById('transactionTambahModal')
-        .classList
-        .add('hidden');
-}
-
-function openDetailModal() {
-    document
-        .getElementById('transactionDetailModal')
-        .classList
-        .remove('hidden');
-}
-
-function closeDetailModal() {
-    document
-        .getElementById('transactionDetailModal')
-        .classList
-        .add('hidden');
-}
-
-window.addEventListener('click', function (e) {
-    const modalEdit = document.getElementById('transactionEditModal');
-    if (e.target === modalEdit) 
-        closeEditModal();
-    
-    const modalTambah = document.getElementById('transactionTambahModal');
-    if (e.target === modalTambah) 
-        closeTambahModal();
-    
-    const modalDetail = document.getElementById('transactionDetailModal');
-    if (e.target === modalDetail) 
-        closeDetailModal();
+                const form = document.getElementById('formEditTransaksi');
+                form.action = `/${platform}/update/${transactionId}`;
+            });
     }
-);
 
-document
-    .querySelectorAll('.btn-tambah')
-    .forEach(btn => btn.addEventListener('click', openTambahModal));
-document
-    .querySelectorAll('.btn-edit')
-    .forEach(btn => btn.addEventListener('click', openEditModal));
+    function openTambahModal() {
+        document.getElementById('transactionTambahModal').classList.remove('hidden');
+    }
 
-document
-    .querySelectorAll('.btn-lihat')
-    .forEach(button => {
+    function closeEditModal() {
+        document.getElementById('transactionEditModal').classList.add('hidden');
+    }
+
+    function closeTambahModal() {
+        document.getElementById('transactionTambahModal').classList.add('hidden');
+    }
+
+    function openDetailModal() {
+        document.getElementById('transactionDetailModal').classList.remove('hidden');
+    }
+
+    function closeDetailModal() {
+        document.getElementById('transactionDetailModal').classList.add('hidden');
+    }
+
+    window.addEventListener('click', function(e) {
+        const modalEdit = document.getElementById('transactionEditModal');
+        if (e.target === modalEdit) closeEditModal();
+
+        const modalTambah = document.getElementById('transactionTambahModal');
+        if (e.target === modalTambah) closeTambahModal();
+
+        const modalDetail = document.getElementById('transactionDetailModal');
+        if (e.target === modalDetail) closeDetailModal();
+    });
+
+    document.querySelectorAll('.btn-tambah').forEach(btn => btn.addEventListener('click', openTambahModal));
+    document.querySelectorAll('.btn-edit').forEach(btn => btn.addEventListener('click', openEditModal));
+
+    document.querySelectorAll('.btn-lihat').forEach(button => {
         button.addEventListener('click', function () {
             const id = this.dataset.id;
             const tanggal = this.dataset.tanggal;
@@ -235,39 +183,32 @@ document
             const total = this.dataset.total;
             const status = this.dataset.status;
 
-            document
-                .getElementById('detail-id_pesanan')
-                .value = id;
-            document
-                .getElementById('detail-tanggal')
-                .value = tanggal;
-            document
-                .getElementById('detail-waktu')
-                .value = waktu;
-            document
-                .getElementById('detail-nama')
-                .value = nama;
-            document
-                .getElementById('detail-metode')
-                .value = metode;
-            document
-                .getElementById('detail-status')
-                .value = status;
+            document.getElementById('detail-id_pesanan').value = id;
+            document.getElementById('detail-tanggal').value = tanggal;
+            document.getElementById('detail-waktu').value = waktu;
+            document.getElementById('detail-nama').value = nama;
+            document.getElementById('detail-metode').value = metode;
+            const statusField = document.getElementById('detail-status');
+if (status == 1 || status == '1' || status == 'sukses' || status == 'Sukses') {
+    statusField.value = '✔️ ';
+    statusField.classList.remove('text-red-600');
+    statusField.classList.add('text-green-600');
+} else {
+    statusField.value = '❌';
+    statusField.classList.remove('text-green-600');
+    statusField.classList.add('text-red-600');
+}
 
             const ul = document.getElementById('detail-item-list');
             ul.innerHTML = '';
 
-            item
-                .split(',')
-                .forEach(i => {
-                    const li = document.createElement('li');
-                    li.textContent = i.trim();
-                    ul.appendChild(li);
-                });
+            item.split(',').forEach(i => {
+                const li = document.createElement('li');
+                li.textContent = i.trim();
+                ul.appendChild(li);
+            });
 
-            document
-                .getElementById('detail-total-value')
-                .textContent = 'Rp ' + parseInt(total).toLocaleString('id-ID');
+            document.getElementById('detail-total-value').textContent = 'Rp ' + parseInt(total).toLocaleString('id-ID');
             openDetailModal();
         });
     });
