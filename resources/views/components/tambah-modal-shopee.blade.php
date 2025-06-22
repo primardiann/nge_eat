@@ -87,89 +87,86 @@
   }
 
   function addTambahItemRow() {
-    const container = document.getElementById('tambahItemsContainer');
-    const menuOptions = menuList.map(menu => `<option value="${menu.id}">${menu.name}</option>`).join('');
-    const platformOptions = platformList.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+  const container = document.getElementById('tambahItemsContainer');
+  const menuOptions = menuList.map(menu => `<option value="${menu.id}">${menu.name}</option>`).join('');
 
-    const row = document.createElement('div');
-    row.classList.add('grid', 'grid-cols-5', 'gap-2', 'items-end', 'item-row');
-    row.innerHTML = `
-      <div class="col-span-2">
-        <label class="block text-xs mb-1">Menu</label>
-        <select name="items[${itemIndex}][menu_id]" class="menu_id border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required>
-          <option value="">-- Pilih Menu --</option>
-          ${menuOptions}
-        </select>
-      </div>
+  // ShopeeFood platform_id as default
+  const shopeePlatform = platformList.find(p => p.name.toLowerCase().includes('shopee'));
+  const platformId = shopeePlatform ? shopeePlatform.id : '';
 
-      <div>
-        <label class="block text-xs mb-1">Platform</label>
-        <select name="items[${itemIndex}][platform_id]" class="platform_id border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required>
-          <option value="">-- Platform --</option>
-          ${platformOptions}
-        </select>
-      </div>
+  const row = document.createElement('div');
+  row.classList.add('grid', 'grid-cols-5', 'gap-2', 'items-end', 'item-row');
+  row.innerHTML = `
+    <div class="col-span-2">
+      <label class="block text-xs mb-1">Menu</label>
+      <select name="items[${itemIndex}][menu_id]" class="menu_id border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required>
+        <option value="">-- Pilih Menu --</option>
+        ${menuOptions}
+      </select>
+    </div>
 
-      <div>
-        <label class="block text-xs mb-1">Jumlah</label>
-        <input type="number" name="items[${itemIndex}][jumlah]" value="1" class="jumlah border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" min="1" required>
-      </div>
+    <input type="hidden" name="items[${itemIndex}][platform_id]" class="platform_id" value="${platformId}">
 
-      <div class="flex items-end gap-2">
-        <button type="button" class="btn-hapus-item text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-600 hover:text-white transition">
-          Hapus
-        </button>
-      </div>
+    <div>
+      <label class="block text-xs mb-1">Jumlah</label>
+      <input type="number" name="items[${itemIndex}][jumlah]" value="1" class="jumlah border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" min="1" required>
+    </div>
+
+    <div class="flex items-end gap-2">
+      <button type="button" class="btn-hapus-item text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-600 hover:text-white transition">
+        Hapus
+      </button>
+    </div>
+
+    <input type="hidden" class="harga_item" name="items[${itemIndex}][harga]" value="">
+    <input type="hidden" class="subtotal_item" name="items[${itemIndex}][subtotal]" value="">
+  `;
+
+  container.appendChild(row);
+  attachEventsToRow(row, platformId);
+  itemIndex++;
+}
 
 
-      <input type="hidden" class="harga_item" name="items[${itemIndex}][harga]" value="">
-      <input type="hidden" class="subtotal_item" name="items[${itemIndex}][subtotal]" value="">
-    `;
+ function attachEventsToRow(row, fixedPlatformId = null) {
+  const menuSelect = row.querySelector('.menu_id');
+  const jumlahInput = row.querySelector('.jumlah');
+  const btnHapus = row.querySelector('.btn-hapus-item');
 
-    container.appendChild(row);
-    attachEventsToRow(row);
-    itemIndex++;
-  }
+  const platformId = fixedPlatformId || row.querySelector('.platform_id')?.value;
 
-  function attachEventsToRow(row) {
-    const menuSelect = row.querySelector('.menu_id');
-    const platformSelect = row.querySelector('.platform_id');
-    const jumlahInput = row.querySelector('.jumlah');
-    const btnHapus = row.querySelector('.btn-hapus-item');
+  btnHapus?.addEventListener('click', () => {
+    row.remove();
+    updateGrandTotal();
+  });
 
-    btnHapus?.addEventListener('click', () => {
-      row.remove();
+  const updateSubtotal = () => {
+    const menuId = menuSelect.value;
+    const jumlah = parseInt(jumlahInput.value) || 1;
+    const hargaInput = row.querySelector('.harga_item');
+    const subtotalInput = row.querySelector('.subtotal_item');
+
+    if (menuId && platformId) {
+      fetch(`/get-price?menu_id=${menuId}&platform_id=${platformId}`)
+        .then(res => res.json())
+        .then(data => {
+          const harga = parseFloat(data.price || 0);
+          const subtotal = harga * jumlah;
+          hargaInput.value = harga;
+          subtotalInput.value = subtotal;
+          updateGrandTotal();
+        });
+    } else {
+      hargaInput.value = '';
+      subtotalInput.value = '';
       updateGrandTotal();
-    });
+    }
+  };
 
-    const updateSubtotal = () => {
-      const menuId = menuSelect.value;
-      const platformId = platformSelect.value;
-      const jumlah = parseInt(jumlahInput.value) || 1;
-      const hargaInput = row.querySelector('.harga_item');
-      const subtotalInput = row.querySelector('.subtotal_item');
+  menuSelect.addEventListener('change', updateSubtotal);
+  jumlahInput.addEventListener('input', updateSubtotal);
+}
 
-      if (menuId && platformId) {
-        fetch(`/get-price?menu_id=${menuId}&platform_id=${platformId}`)
-          .then(res => res.json())
-          .then(data => {
-            const harga = parseFloat(data.price || 0);
-            const subtotal = harga * jumlah;
-            hargaInput.value = harga;
-            subtotalInput.value = subtotal;
-            updateGrandTotal();
-          });
-      } else {
-        hargaInput.value = '';
-        subtotalInput.value = '';
-        updateGrandTotal();
-      }
-    };
-
-    menuSelect.addEventListener('change', updateSubtotal);
-    platformSelect.addEventListener('change', updateSubtotal);
-    jumlahInput.addEventListener('input', updateSubtotal);
-  }
 
   function updateGrandTotal() {
     const subtotalInputs = document.querySelectorAll('.subtotal_item');

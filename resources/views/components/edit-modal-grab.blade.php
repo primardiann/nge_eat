@@ -87,77 +87,65 @@
   }
 
   function addEditItemRow(item = {}) {
-    const container = document.getElementById('editItemsContainer');
-    const menuOptions = menuList.map(menu => `<option value="${menu.id}" ${item.menu_id == menu.id ? 'selected' : ''}>${menu.name}</option>`).join('');
-    const platformOptions = platformList.map(p => `<option value="${p.id}" ${item.platform_id == p.id ? 'selected' : ''}>${p.name}</option>`).join('');
+  const container = document.getElementById('editItemsContainer');
+  const menuOptions = menuList.map(menu => `<option value="${menu.id}" ${item.menu_id == menu.id ? 'selected' : ''}>${menu.name}</option>`).join('');
+  
+  
+  const grabPlatformId = platformList.find(p => p.name.toLowerCase().includes('grab'))?.id || '';
+  const platformId = item.platform_id || grabPlatformId;
 
-    const row = document.createElement('div');
-    row.classList.add('grid', 'grid-cols-5', 'gap-2', 'items-end', 'item-row');
-    row.innerHTML = `
-      <div class="col-span-2">
-        <label class="block text-xs mb-1">Menu</label>
-        <select name="items[${editItemIndex}][menu_id]" class="menu_id border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required>
-          <option value="">-- Pilih Menu --</option>
-          ${menuOptions}
-        </select>
-      </div>
+  const row = document.createElement('div');
+  row.classList.add('grid', 'grid-cols-4', 'gap-2', 'items-end', 'item-row');
+  row.innerHTML = `
+    <div class="col-span-2">
+      <label class="block text-xs mb-1">Menu</label>
+      <select name="items[${editItemIndex}][menu_id]" class="menu_id border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required>
+        <option value="">-- Pilih Menu --</option>
+        ${menuOptions}
+      </select>
+    </div>
 
-      <div>
-        <label class="block text-xs mb-1">Platform</label>
-        <select name="items[${editItemIndex}][platform_id]" class="platform_id border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required>
-          <option value="">-- Platform --</option>
-          ${platformOptions}
-        </select>
-      </div>
+    <input type="hidden" name="items[${editItemIndex}][platform_id]" class="platform_id" value="${platformId}">
 
-      <div>
-        <label class="block text-xs mb-1">Jumlah</label>
-        <input type="number" name="items[${editItemIndex}][jumlah]" value="${item.jumlah || 1}" class="jumlah border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" min="1" required>
-      </div>
+    <div>
+      <label class="block text-xs mb-1">Jumlah</label>
+      <input type="number" name="items[${editItemIndex}][jumlah]" value="${item.jumlah || 1}" class="jumlah border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" min="1" required>
+    </div>
 
     <div class="flex items-end gap-2">
-    <button
-        type="button"
-        class="btn-hapus-item text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-600 hover:text-white transition">
-        Hapus
-    </button>
-</div>
+      <button type="button" class="btn-hapus-item text-red-600 border border-red-600 px-3 py-1 rounded hover:bg-red-600 hover:text-white transition">Hapus</button>
+    </div>
+
+    <input type="hidden" class="harga_item" name="items[${editItemIndex}][harga]" value="${item.harga || ''}">
+    <input type="hidden" class="subtotal_item" name="items[${editItemIndex}][subtotal]" value="${item.subtotal || ''}">
+  `;
+
+  container.appendChild(row);
+  attachEventsToEditRow(row, platformId); // ✅ pastikan platformId dikirim ke sini
+  editItemIndex++;
+}
 
 
-      <input type="hidden" class="harga_item" name="items[${editItemIndex}][harga]" value="${item.harga || ''}">
-      <input type="hidden" class="subtotal_item" name="items[${editItemIndex}][subtotal]" value="${item.subtotal || ''}">
-    `;
-
-    container.appendChild(row);
-    attachEventsToEditRow(row);
-    editItemIndex++;
-  }
-
-  function attachEventsToEditRow(row) {
+  function attachEventsToEditRow(row, platformId) {
     const menuSelect = row.querySelector('.menu_id');
-    const platformSelect = row.querySelector('.platform_id');
     const jumlahInput = row.querySelector('.jumlah');
+    const hargaInput = row.querySelector('.harga_item');
+    const subtotalInput = row.querySelector('.subtotal_item');
     const btnHapus = row.querySelector('.btn-hapus-item');
 
-    btnHapus?.addEventListener('click', () => {
-      row.remove();
-    });
+    btnHapus?.addEventListener('click', () => row.remove());
 
     const updateSubtotal = () => {
       const menuId = menuSelect.value;
-      const platformId = platformSelect.value;
       const jumlah = parseInt(jumlahInput.value) || 1;
-      const hargaInput = row.querySelector('.harga_item');
-      const subtotalInput = row.querySelector('.subtotal_item');
 
       if (menuId && platformId) {
         fetch(`/get-price?menu_id=${menuId}&platform_id=${platformId}`)
           .then(res => res.json())
           .then(data => {
             const harga = parseFloat(data.price || 0);
-            const subtotal = harga * jumlah;
             hargaInput.value = harga;
-            subtotalInput.value = subtotal;
+            subtotalInput.value = harga * jumlah;
           });
       } else {
         hargaInput.value = '';
@@ -166,7 +154,6 @@
     };
 
     menuSelect.addEventListener('change', updateSubtotal);
-    platformSelect.addEventListener('change', updateSubtotal);
     jumlahInput.addEventListener('input', updateSubtotal);
   }
 
@@ -176,7 +163,6 @@
     document.getElementById('edit_id_pesanan').value = data.id_pesanan;
     document.getElementById('edit_nama_pelanggan').value = data.nama_pelanggan;
     document.getElementById('edit_metode_pembayaran').value = data.metode_pembayaran;
-
     document.querySelector('#formEditTransaksi [name="status"]').checked = data.status == 1;
 
     document.getElementById('editItemsContainer').innerHTML = '';
