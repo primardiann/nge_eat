@@ -130,32 +130,10 @@ function openEditModal(transactionId) {
     fetch(`/gofood/${transactionId}/edit-json`)
         .then(response => response.json())
         .then(data => {
-            const form = document.getElementById('formEditTransaksi');
-            form.reset();
-            form.action = `/gofood/${transactionId}`;
-            
-            document.getElementById('edit_tanggal').value = data.tanggal;
-            document.getElementById('edit_waktu').value = data.waktu;
-            document.getElementById('edit_id_pesanan').value = data.id_pesanan;
-            document.getElementById('edit_nama_pelanggan').value = data.nama_pelanggan;
-            document.getElementById('edit_metode_pembayaran').value = data.metode_pembayaran;
-            form.querySelector('[name="status"]').checked = data.status == 1;
-
-            const container = document.getElementById('editItemsContainer');
-            container.innerHTML = '';
-            editItemIndex = 0;
-
-            if (Array.isArray(data.items)) {
-                data.items.forEach(item => addEditItemRow({
-                    menu_id: item.menu_id,
-                    platform_id: item.platform_id,
-                    jumlah: item.jumlah,
-                    harga: item.harga,
-                    subtotal: item.subtotal
-                }));
-            }
-
-            document.getElementById('transactionEditModal').classList.remove('hidden');
+            // Panggil fungsi showEditModal dari edit-modal.blade.php
+            showEditModal(data);
+            // Set action form
+            document.getElementById('formEditTransaksi').action = `/gofood/${transactionId}`;
         })
         .catch(err => {
             alert('Gagal mengambil data transaksi');

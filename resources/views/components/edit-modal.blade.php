@@ -17,25 +17,23 @@
 
       <div class="grid grid-cols-2 gap-x-6 gap-y-4 text-sm text-gray-700">
         <div>
-          <label for="tanggal" class="mb-1 block">Tanggal</label>
-          <input id="tanggal" name="tanggal" type="date" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
+          <label for="edit_tanggal" class="mb-1 block">Tanggal</label>
+          <input id="edit_tanggal" name="tanggal" type="date" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
         </div>
         <div>
-          <label for="waktu" class="mb-1 block">Waktu</label>
-          <input id="waktu" name="waktu" type="time" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
+          <label for="edit_waktu" class="mb-1 block">Waktu</label>
+          <input id="edit_waktu" name="waktu" type="time" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
         </div>
         <div>
-  <label for="id_pesanan" class="mb-1 block">ID Pesanan</label>
-  <input id="id_pesanan" name="id_pesanan" type="text"
-         class="border rounded-sm px-2 py-1 w-full bg-gray-100 shadow-sm"
-         style="border-color: #F58220;"
-         value="{{ $transaksi->id_pesanan ?? 'Akan tergenerate otomatis' }}"
-         readonly>
-</div>
-
+          <label for="edit_id_pesanan" class="mb-1 block">ID Pesanan</label>
+          <input id="edit_id_pesanan" name="id_pesanan" type="text"
+                 class="border rounded-sm px-2 py-1 w-full bg-gray-100 shadow-sm"
+                 style="border-color: #F58220;"
+                 readonly>
+        </div>
         <div>
-          <label for="nama_pelanggan" class="mb-1 block">Nama Pelanggan</label>
-          <input id="nama_pelanggan" name="nama_pelanggan" type="text" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
+          <label for="edit_nama_pelanggan" class="mb-1 block">Nama Pelanggan</label>
+          <input id="edit_nama_pelanggan" name="nama_pelanggan" type="text" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
         </div>
       </div>
 
@@ -48,12 +46,12 @@
 
       <div class="grid grid-cols-2 gap-4 mt-4">
         <div>
-          <label for="metode_pembayaran" class="mb-1 block">Metode Pembayaran</label>
-          <input id="metode_pembayaran" name="metode_pembayaran" type="text" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
+          <label for="edit_metode_pembayaran" class="mb-1 block">Metode Pembayaran</label>
+          <input id="edit_metode_pembayaran" name="metode_pembayaran" type="text" class="border rounded-sm px-2 py-1 w-full bg-white shadow-sm" style="border-color: #F58220;" required>
         </div>
         <div>
-          <label for="grand_total" class="mb-1 block">Total Semua</label>
-          <input id="grand_total" name="total" type="number" class="border rounded-sm px-2 py-1 w-full bg-gray-100" style="border-color: #F58220;" readonly>
+          <label for="edit_grand_total" class="mb-1 block">Total Semua</label>
+          <input id="edit_grand_total" name="total" type="number" class="border rounded-sm px-2 py-1 w-full bg-gray-100" style="border-color: #F58220;" readonly>
         </div>
       </div>
 
@@ -83,7 +81,7 @@
   function resetEditTransaksiModal() {
     document.getElementById('formEditTransaksi').reset();
     document.getElementById('editItemsContainer').innerHTML = '';
-    document.getElementById('grand_total').value = '';
+    document.getElementById('edit_grand_total').value = '';
     editItemIndex = 0;
   }
 
@@ -122,8 +120,8 @@
         </button>
       </div>
 
-      <input type="hidden" class="harga_item" name="items[${editItemIndex}][harga]" value="">
-      <input type="hidden" class="subtotal_item" name="items[${editItemIndex}][subtotal]" value="">
+      <input type="hidden" class="harga_item" name="items[${editItemIndex}][harga]" value="${item.harga || ''}">
+      <input type="hidden" class="subtotal_item" name="items[${editItemIndex}][subtotal]" value="${item.subtotal || ''}">
     `;
 
     container.appendChild(row);
@@ -169,6 +167,11 @@
     menuSelect.addEventListener('change', updateSubtotal);
     platformSelect.addEventListener('change', updateSubtotal);
     jumlahInput.addEventListener('input', updateSubtotal);
+
+    // Set subtotal awal jika sudah ada datanya
+    if (row.querySelector('.harga_item').value && row.querySelector('.subtotal_item').value) {
+      updateEditGrandTotal();
+    }
   }
 
   function updateEditGrandTotal() {
@@ -177,6 +180,27 @@
     subtotalInputs.forEach(input => {
       grandTotal += parseFloat(input.value) || 0;
     });
-    document.getElementById('grand_total').value = grandTotal;
+    document.getElementById('edit_grand_total').value = grandTotal;
+  }
+
+  // Fungsi untuk isi data modal edit dari AJAX
+  function showEditModal(data) {
+    document.getElementById('edit_tanggal').value = data.tanggal;
+    document.getElementById('edit_waktu').value = data.waktu;
+    document.getElementById('edit_id_pesanan').value = data.id_pesanan;
+    document.getElementById('edit_nama_pelanggan').value = data.nama_pelanggan;
+    document.getElementById('edit_metode_pembayaran').value = data.metode_pembayaran;
+    document.getElementById('edit_grand_total').value = data.total || '';
+
+    document.querySelector('#formEditTransaksi [name="status"]').checked = data.status == 1;
+
+    document.getElementById('editItemsContainer').innerHTML = '';
+    editItemIndex = 0;
+    if (Array.isArray(data.items)) {
+      data.items.forEach(item => addEditItemRow(item));
+    }
+
+    updateEditGrandTotal();
+    document.getElementById('transactionEditModal').classList.remove('hidden');
   }
 </script>

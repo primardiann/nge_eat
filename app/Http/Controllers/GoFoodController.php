@@ -201,4 +201,31 @@ class GoFoodController extends Controller
 
     return redirect()->route('gofood.index')->with('success', 'Transaksi berhasil dihapus.');
     }
+
+    public function editJson($id)
+    {
+        $transaksi = GoFood::with(['items.menu', 'items.platform'])->findOrFail($id);
+
+        $items = $transaksi->items->map(function($item) {
+        // Siapkan array item untuk frontend
+            return [
+                'platform_id' => $item->platform_id,
+                'jumlah'      => $item->jumlah,
+                'harga'       => $item->harga,
+                'subtotal'    => $item->harga * $item->jumlah,
+                'menu_id'     => $item->menu_id,
+            ];
+        })->toArray();
+
+        return response()->json([
+            'waktu'              => $transaksi->waktu ? \Carbon\Carbon::parse($transaksi->waktu)->format('H:i') : '',
+            'id_pesanan'         => $transaksi->id_pesanan,
+            'nama_pelanggan'     => $transaksi->nama_pelanggan,
+            'metode_pembayaran'  => $transaksi->metode_pembayaran,
+            'total'              => $transaksi->total,
+            'status'             => $transaksi->status,
+            'items'              => $items,
+            'tanggal'            => $transaksi->tanggal ? $transaksi->tanggal->format('Y-m-d') : '',
+        ]);
+    }
 }

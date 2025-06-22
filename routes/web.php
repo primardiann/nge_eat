@@ -54,8 +54,8 @@ Route::get('/api/grabfood', [GrabFoodController::class, 'getAll']);
 Route::post('/grabfood', [GrabFoodController::class, 'store'])->name('grabfood.store');
 Route::delete('/api/grabfood/{id}', [GrabFoodController::class, 'destroy'])->name('grabfood.destroy');
 Route::get('/grabfood/{id}/edit', [GrabFoodController::class, 'edit']);
-Route::get('/grabfood/{id}/edit-json', [GrabFoodController::class, 'editJson']);
-Route::put('/grabfood/update/{id}', [GrabFoodController::class, 'update'])->name('update');
+Route::get('/gofood/{id}/edit-json', [GoFoodController::class, 'editJson'])->name('gofood.editJson');
+Route::put('/gofood/{id}', [GoFoodController::class, 'update'])->name('gofood.update');
 
 
 Route::get('/shopeefood', [ShopeeFoodController::class, 'index'])->name('shopeefood.index');
