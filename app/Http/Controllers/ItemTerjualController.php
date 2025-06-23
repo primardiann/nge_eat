@@ -25,10 +25,8 @@ class ItemTerjualController extends Controller
 
     private function getDataByPlatform($platformId, $view, Request $request)
     {
-        $selectedDay = $request->input('day');
-        $selectedWeek = $request->input('week');
-        $selectedMonth = $request->input('month', now()->month);
-        $selectedYear = $request->input('year', now()->year);
+        $tanggalAwal  = $request->input('tanggal_awal');
+        $tanggalAkhir = $request->input('tanggal_akhir');
 
         $transaksiTable = match ($platformId) {
             1 => 'transaksi_go_food',
@@ -50,16 +48,11 @@ class ItemTerjualController extends Controller
                 DB::raw('SUM(t.jumlah) as item_terjual'),
                 DB::raw('DATE_FORMAT(tf.tanggal, "%d-%m-%Y") as tanggal')
             )
-            ->where('t.platform_id', $platformId)
-            ->whereMonth('tf.tanggal', $selectedMonth)
-            ->whereYear('tf.tanggal', $selectedYear);
+            ->where('t.platform_id', $platformId);
 
-        if ($selectedWeek) {
-            $startOfWeek = Carbon::create($selectedYear, $selectedMonth, 1)->addWeeks($selectedWeek - 1)->startOfWeek(Carbon::MONDAY);
-            $endOfWeek = $startOfWeek->copy()->endOfWeek(Carbon::SUNDAY);
-            $query->whereBetween('tf.tanggal', [$startOfWeek->toDateString(), $endOfWeek->toDateString()]);
-        } elseif ($selectedDay) {
-            $query->whereDay('tf.tanggal', $selectedDay);
+        // Filter berdasarkan rentang tanggal jika diberikan
+        if ($tanggalAwal && $tanggalAkhir) {
+            $query->whereBetween('tf.tanggal', [$tanggalAwal, $tanggalAkhir]);
         }
 
         $items = $query
@@ -68,28 +61,10 @@ class ItemTerjualController extends Controller
             ->paginate(10)
             ->appends($request->except('page'));
 
-        // Hitung jumlah minggu dalam bulan
-        $weeksInMonth = [];
-        $date = Carbon::create($selectedYear, $selectedMonth, 1)->startOfWeek(Carbon::MONDAY);
-        $lastDay = Carbon::create($selectedYear, $selectedMonth, 1)->endOfMonth();
-
-        $weekNumber = 1;
-        while ($date <= $lastDay) {
-            $weeksInMonth[] = [
-                'number' => $weekNumber,
-                'label' => $date->copy()->format('d M') . ' - ' . $date->copy()->endOfWeek(Carbon::SUNDAY)->format('d M')
-            ];
-            $date->addWeek();
-            $weekNumber++;
-        }
-
         return view($view, [
             'items' => $items,
-            'selectedDay' => $selectedDay,
-            'selectedMonth' => $selectedMonth,
-            'selectedYear' => $selectedYear,
-            'selectedWeek' => $selectedWeek,
-            'weeksInMonth' => $weeksInMonth,
+            'tanggalAwal' => $tanggalAwal,
+            'tanggalAkhir' => $tanggalAkhir,
         ]);
     }
 }
