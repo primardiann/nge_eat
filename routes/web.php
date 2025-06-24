@@ -7,6 +7,8 @@ use App\Http\Controllers\GrabFoodController;
 use App\Http\Controllers\ShopeeFoodController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ItemTerjualController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\DownloadController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -24,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route  Kategori
+// Route Kategori
 Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
 Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
 Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
@@ -66,7 +68,7 @@ Route::get('/shopeefood/{id}/edit', [ShopeefoodController::class, 'edit']);
 Route::get('/shopeefood/{id}/edit-json', [ShopeefoodController::class, 'editJson']);
 Route::put('/shopeefood/update/{id}', [ShopeefoodController::class, 'update'])->name('shopeefood.update');
 
-//Route Halaman item terjual
+//Route item terjual
 Route::prefix('items-terjual')->name('items-terjual.')->group(function () {
     Route::get('/gofood', [ItemTerjualController::class, 'gofood'])->name('gofood');
     Route::get('/grabfood', [ItemTerjualController::class, 'grabfood'])->name('grabfood');
@@ -74,8 +76,9 @@ Route::prefix('items-terjual')->name('items-terjual.')->group(function () {
 });
 
 
-// Route Frontend Halaman Laporan Keuangan
-Route::view('/laporan', 'laporan.index')->name('laporan.index');
-
+// Route Laporan
+Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+Route::get('/laporan/download/excel', [DownloadController::class, 'downloadExcel'])->name('laporan.download.excel');
+Route::get('/laporan/download/pdf', [DownloadController::class, 'downloadPdf'])->name('laporan.download.pdf');
 
 require __DIR__.'/auth.php';

@@ -16,7 +16,7 @@ class GrabFood extends Model
         'total',
         'metode_pembayaran',
         'status',
-        'jumlah'
+        'jumlah' // jumlah total item dalam 1 transaksi
     ];
 
     protected $casts = [

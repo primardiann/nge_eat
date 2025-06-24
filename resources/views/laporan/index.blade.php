@@ -16,74 +16,102 @@
                 <!-- Card 1: Item Terjual -->
                 <div style="flex: 1; min-width: 280px; max-width: 350px; position: relative;">
                     <div class="p-5 h-full rounded-lg bg-white border border-[#FCD9A3] shadow-sm relative">
-                        <div class="text-[#1F2937] text-lg font-semibold mb-1 flex items-center justify-between">
-                            <span>Item Terjual</span>
+                        <div class="bg-white shadow rounded-xl p-5">
+                    <div
+                        class="text-[#1F2937] text-lg font-semibold mb-1 flex items-center justify-between">
+                        <span>Item Terjual</span>
 
-                            <!-- Icon info dengan tooltip -->
-                            <div class="relative group cursor-pointer">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 text-gray-400 hover:text-orange-500 transition" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M13 16h-1v-4h-1m1-4h.01M12 18a6 6 0 110-12 6 6 0 010 12z" />
-                                </svg>
-                                <!-- Tooltip -->
-                                <div
-                                    class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 w-48 bg-gray-800 text-white text-xs rounded px-3 py-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
-                                    <strong>Rincian Kategori:</strong><br>
-                                    • GoFood: 120 item<br>
-                                    • GrabFood: 100 item<br>
-                                    • ShopeeFood: 100 item
+                        <!-- Tooltip Icon -->
+                        <div class="relative group cursor-pointer">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5 text-gray-400 hover:text-orange-500 transition"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M12 18a6 6 0 110-12 6 6 0 010 12z"/>
+                            </svg>
+                            <div
+                                class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 w-48 bg-gray-800 text-white text-xs rounded px-3 py-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
+                                <strong>Rincian:</strong>
+                                <br>
+                                    • GoFood:
+                                    {{ $totalGoFood }}
+                                    item<br>
+                                        • GrabFood:
+                                        {{ $totalGrabFood }}
+                                        item<br>
+                                            • ShopeeFood:
+                                            {{ $totalShopeeFood }}
+                                            item
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <div class="text-sm text-gray-500 mb-3">Bulan Ini</div>
+                                <div class="h-[1px] bg-[#FCD9A3] mb-4"></div>
+
+                                <div class="flex items-baseline text-[#1F2937] mb-2">
+                                    <div class="text-4xl font-extrabold leading-none">{{ $totalAll }}</div>
+                                    <div class="text-base ml-2">Item</div>
+                                </div>
+
+                               <!-- Satu Progress Bar Gabungan -->
+<div class="mb-2">
+    <div class="text-sm text-gray-600 mb-1 flex justify-between">
+        <span>Distribusi Pesanan</span>
+        
+    </div>
+
+    <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden flex">
+        <div class="bg-orange-400 h-4" style="width: {{ $percentageGoFood }}%"></div>
+        <div class="bg-green-400 h-4" style="width: {{ $percentageGrabFood }}%"></div>
+        <div class="bg-pink-400 h-4" style="width: {{ $percentageShopeeFood }}%"></div>
+    </div>
+</div>
+
                             </div>
-                        </div>
 
-                        <div class="text-sm text-gray-500 mb-3">Bulan Ini</div>
-                        <div class="h-[1px] bg-[#FCD9A3] mb-4"></div>
-                        <div class="flex items-baseline text-[#1F2937] mb-2">
-                            <div class="text-4xl font-extrabold leading-none">320</div>
-                            <div class="text-base ml-2">Item</div>
-                        </div>
-
-                        <!-- Progress Bar -->
-                        <div class="w-full bg-gray-200 rounded-full h-3 mb-3">
-                            <div class="bg-orange-400 h-3 rounded-full" style="width: 64%;"></div>
-                        </div>
                     </div>
                 </div>
 
-                <!-- Card 2: Jumlah Transaksi -->
+                            <!-- Card 2: Jumlah Transaksi -->
                 <div style="flex: 1; min-width: 280px; max-width: 350px;">
-                    <div
-                        class="p-4 h-full rounded-lg bg-white border border-[#FCD9A3] shadow-sm flex flex-col justify-between">
+                    <div class="p-4 h-full rounded-lg bg-white border border-[#FCD9A3] shadow-sm flex flex-col justify-between">
                         <div>
                             <div class="text-[#1F2937] text-lg font-semibold mb-1">Jumlah Transaksi</div>
-                            <div class="text-sm text-gray-500 mb-4">Total transaksi yang berhasil diproses selama periode
-                                ini.</div>
+                            <div class="text-sm text-gray-500 mb-4">Total transaksi yang berhasil diproses selama periode ini.</div>
                             <div class="h-[1px] bg-[#FCD9A3] mb-4"></div>
                             <div class="flex items-baseline text-[#1F2937]">
-                                <div class="text-4xl font-extrabold leading-none">113</div>
+                                <div class="text-4xl font-extrabold leading-none">{{ $totalTransaksi }}</div>
                                 <div class="text-base ml-2">Transaksi</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3: Total Keseluruhan -->
+
+                            <!-- Card 3: Total Keseluruhan -->
                 <div style="flex: 1; min-width: 280px; max-width: 350px;">
-                    <div
-                        class="p-4 h-full rounded-lg bg-white border border-[#FCD9A3] shadow-sm flex flex-col justify-between">
+                    <div class="p-4 h-full rounded-lg bg-white border border-[#FCD9A3] shadow-sm flex flex-col justify-between">
                         <div>
                             <div class="text-[#1F2937] text-lg font-semibold mb-1">Total Keseluruhan</div>
-                            <div class="text-sm text-gray-500 mb-4">Jumlah pendapatan yang diperoleh dari seluruh transaksi.
-                            </div>
+                            <div class="text-sm text-gray-500 mb-4">Jumlah pendapatan yang diperoleh dari seluruh transaksi.</div>
                             <div class="h-[1px] bg-[#FCD9A3] mb-4"></div>
                             <div class="flex items-baseline text-[#1F2937]">
-                                <div class="text-4xl font-extrabold leading-none">Rp 50.000.000</div>
+                                <div class="text-4xl font-extrabold leading-none">
+                                    Rp {{ number_format($totalPendapatan, 0, ',', '.') }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
 
             <!-- Laporan Transaksi Card -->
@@ -100,12 +128,16 @@
                         <div class="flex items-center">
                             @include('components.kalender')
                         </div>
+<!-- Tombol Unduh (Trigger Modal) -->
+<div class="flex gap-2">
+    <button onclick="openModal()" 
+        style="border: 2px solid #F58220;"
+        class="flex items-center px-4 py-1.5 rounded hover:bg-orange-50 transition">
+        <i class="fas fa-file-download mr-2 text-orange-500"></i> Unduh Laporan
+    </button>
+</div>
 
-                        <!-- Tombol Unduh -->
-                        <button id="openDownloadModal" style="border: 2px solid #F58220;"
-                            class="flex items-center px-4 py-1.5 rounded hover:bg-orange-50 transition">
-                            <i class="fas fa-download mr-2"></i> Unduh
-                        </button>
+
 
                         <!-- Dropdown Filter Platform -->
                         <form method="GET" action="" class="flex items-center m-0 p-0">
@@ -126,71 +158,88 @@
 
                 <!-- Table -->
                 <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                    <table class="min-w-full">
-                        <thead class="bg-[#ffd5ab] text-gray-700 text-center text-sm font-semibold select-none">
-                            <tr>
-                                <th class="px-4 py-3">Kategori</th>
-                                <th class="px-4 py-3">ID pesanan</th>
-                                <th class="px-4 py-3">Tanggal</th>
-                                <th class="px-4 py-3">Waktu</th>
-                                <th class="px-4 py-3">Status</th>
-                                <th class="px-4 py-3">Metode Pembayaran</th>
-                                <th class="px-4 py-3">Total</th>
-                            </tr>
-                        </thead>
+                    <table class="min-w-full text-sm text-gray-700">
+    <thead class="bg-[#ffd5ab] text-center font-semibold select-none">
+        <tr>
+            <th class="px-4 py-3">Kategori</th>
+            <th class="px-4 py-3">ID Pesanan</th>
+            <th class="px-4 py-3">Tanggal</th>
+            <th class="px-4 py-3">Waktu</th>
+            <th class="px-4 py-3">Status</th>
+            <th class="px-4 py-3">Metode Pembayaran</th>
+            <th class="px-4 py-3">Total</th>
+        </tr>
+    </thead>
 
-                        @php
-                            $kategori = ['GoFood', 'GrabFood', 'ShopeeFood', 'GoFood', 'ShopeeFood'];
-                            $filteredKategori = request('platform')
-                                ? array_values(array_filter($kategori, function ($item) {
-                                    return strtolower($item) === request('platform');
-                                }))
-                                : $kategori;
-                        @endphp
+    <tbody class="bg-white">
+        @forelse ($transaksi as $t)
+            <tr class="border-t hover:bg-gray-50 text-center">
+                <td class="px-4 py-3">
+    {{ $t->kategori }}
+</td>
 
-                        <tbody class="bg-white text-gray-700 text-sm">
-                            @foreach ($filteredKategori as $i => $item)
-                                <tr class="border-t hover:bg-gray-50">
-                                    <td class="px-4 py-3 whitespace-nowrap text-center">{{ $item }}</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-center">{{ $i + 1 }}-GF123ASD...</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-center">10-02-2025</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-center">13.40</td>
-                                    <td class="px-4 py-3 text-green-600 font-medium whitespace-nowrap text-center">Sukses</td>
-                                    <td class="px-4 py-3 whitespace-nowrap text-center">Cash</td>
-                                    <td class="px-4 py-3 font-semibold whitespace-nowrap text-center">Rp 23.000</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                <td class="px-4 py-3">
+                    {{ $t->id_pesanan }}
+                </td>
+                <td class="px-4 py-3">
+                    {{ \Carbon\Carbon::parse($t->tanggal)->format('d-m-Y') }}
+                </td>
+                <td class="px-4 py-3">
+                    {{ \Carbon\Carbon::parse($t->waktu)->format('H:i') }}
+                </td>
+                <td class="px-4 py-3 text-green-600 font-medium">
+                    {{ $t->status ? 'Sukses' : 'Gagal' }}
+                </td>
+                <td class="px-4 py-3">
+                    {{ $t->metode_pembayaran }}
+                </td>
+                <td class="px-4 py-3 font-semibold">
+                    Rp {{ number_format($t->total, 0, ',', '.') }}
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="7" class="px-4 py-6 text-gray-400 italic text-center">
+                    Tidak ada data transaksi.
+                </td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
                 </div>
 
                 <!-- Pagination -->
-                <div class="flex justify-between items-center mt-4 px-4">
-                    <a href="#" class="text-gray-500 hover:text-orange-600 text-sm font-medium transition-colors">
-                        &lt; Sebelumnya
-                    </a>
-                    <nav class="flex items-center gap-1 mb-4">
-                        <a href="#"
-                            style="font-family: sans-serif !important; font-size: 16px !important; color: white !important; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: orange; border-radius: 9999px;">
-                            1
-                        </a>
-                        <a href="#"
-                            class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium transition-colors duration-200">
-                            2
-                        </a>
-                        <a href="#"
-                            class="w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:bg-gray-100 hover:text-orange-500 text-sm font-medium transition-colors duration-200">
-                            3
-                        </a>
-                    </nav>
-                    <a href="#"
-                        class="text-gray-500 hover:text-orange-600 text-sm font-medium transition-colors duration-200">
-                        Selanjutnya &gt;
-                    </a>
-                </div>
+<div class="p-4">
+    {{ $transaksi->links('vendor.pagination.custom') }}
+</div>
+
             </div>
         </main>
     </div>
+
+    <!-- Modal Unduh -->
+<div id="DownloadModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+  <div class="bg-white rounded-md shadow-md p-6 w-full max-w-xl">
+    <h2 class="text-xl text-center font-semibold mb-4 border-b pb-2 text-gray-700" style="border-color: #C0C0C0;">Unduh Laporan Transaksi</h2>
+
+    <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+      <a href="{{ route('laporan.download.excel', request()->all()) }}" 
+         class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm text-center block w-full sm:w-auto">
+         <i class="fas fa-file-excel mr-1"></i> Unduh Excel
+      </a>
+      <a href="{{ route('laporan.download.pdf', request()->all()) }}" 
+         class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm text-center block w-full sm:w-auto">
+         <i class="fas fa-file-pdf mr-1"></i> Unduh PDF
+      </a>
+    </div>
+
+    <div class="text-center mt-6">
+      <button id="closeDownloadModal" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-1 rounded">Tutup</button>
+    </div>
+  </div>
+</div>
+
 
     <!-- Modal Detail Transaksi -->
     @include('components.detail-modal')
@@ -243,6 +292,16 @@
         function closeHapusModal() {
             document.getElementById('openHapusModal').classList.add('hidden');
         }
+
+         function openModal() {
+        document.getElementById('DownloadModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('DownloadModal').classList.add('hidden');
+    }
+
+    document.getElementById('closeDownloadModal').addEventListener('click', closeModal);
 
         window.addEventListener('click', function (e) {
             const modal = document.getElementById('openHapusModal');

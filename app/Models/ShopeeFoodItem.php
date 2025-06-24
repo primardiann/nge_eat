@@ -13,13 +13,8 @@ class ShopeeFoodItem extends Model
         'menu_id',
         'menu_price_id',
         'platform_id',
+        'harga',
         'jumlah',
-        'harga'
-    ];
-
-    protected $casts = [
-        'harga' => 'decimal:2',
-        'subtotal' => 'decimal:2',
     ];
 
     public function transaksi()

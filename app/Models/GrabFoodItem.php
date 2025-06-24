@@ -13,14 +13,8 @@ class GrabFoodItem extends Model
         'menu_id',
         'menu_price_id',
         'platform_id',
+        'harga',
         'jumlah',
-        'harga'
-        // 'subtotal' tidak perlu diisi manual karena kolom GENERATED
-    ];
-
-    protected $casts = [
-        'harga' => 'decimal:2',
-        'subtotal' => 'decimal:2',
     ];
 
     public function transaksi()
