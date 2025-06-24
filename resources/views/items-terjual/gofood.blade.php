@@ -3,14 +3,14 @@
 
 @section('content')
 <div class="flex min-h-screen bg-[#FAFAFA] text-sm">
-    <main class="flex-1 px-8 py-6">
+    <main class="flex-1 px-4 md:px-8 py-6 max-w-screen-xl mx-auto">
 
-        <!-- Breadcrumb -->
-        <div class="text-gray-500 mb-4 flex items-center space-x-1">
-            <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
-            <span class="text-[#888]">></span>
-            <span class="text-[#888]">Item Terjual GoFood</span>
-        </div>
+<!-- Breadcrumb -->
+ <div class="text-gray-500 mb-4 flex items-center space-x-1">
+        <a href="/dashboard" class="text-black font-semibold hover:underline">Dashboard</a>
+        <span class="text-[#888]">></span>
+        <span class="text-[#888]">Item Terjual GoFood</span>
+    </div>
 
         <!-- Kalender Filter -->
         <div class="flex justify-between items-center mb-6">
