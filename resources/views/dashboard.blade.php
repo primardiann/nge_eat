@@ -2,7 +2,7 @@
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 @section('content')
-<div class="p-6 space-y-6 text-sm bg-[#FAFAFA] min-h-screen">
+<div class="p-6 space-y-6 text-sm bg-[#FAFAFA] min-h-screen max-w-screen-xl mx-auto">
     <h1 class="text-xl font-semibold mb-4">Dashboard</h1>
 
     <!-- Kartu Navigasi -->
@@ -49,7 +49,7 @@
         </div>
 
         <div class="w-full overflow-x-auto mb-4">
-            <canvas id="pendapatanChart" style="width: 1200px; height: 300px;"></canvas>
+            <canvas id="pendapatanChart" style="max-width: 1200px; height: 300px; width: 100%;"></canvas>
         </div>
 
         <p class="text-sm font-semibold">
@@ -110,7 +110,16 @@
 
 <!-- Responsive Tweaks -->
 <style>
-    /* Buat grid kartu responsive */
+    /* Container biar gak lebar kelewatan di desktop, sesuai sama navbar */
+    .min-h-screen {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Grid kartu responsive */
     @media (max-width: 640px) {
         .inline-flex.items-center.justify-between.gap-2 {
             flex-direction: column;
