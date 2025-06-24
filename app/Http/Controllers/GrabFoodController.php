@@ -184,7 +184,7 @@ class GrabFoodController extends Controller
             return redirect()->route('grabfood.index')->with('success', 'Transaksi berhasil diperbarui!');
         } catch (\Exception $e) {
             DB::rollBack();
-            $page = $request->query('page', 1); // default ke halaman 1 jika tidak ada
+            $page = $request->query('page', 1); 
                 return redirect()->route('grabfood.index', ['page' => $page])
                     ->with('success', 'Transaksi berhasil diperbarui');
         }
@@ -209,7 +209,7 @@ class GrabFoodController extends Controller
         $transaksi = Grabfood::with(['items.menu', 'items.platform'])->findOrFail($id);
 
         $items = $transaksi->items->map(function($item) {
-        // Siapkan array item untuk frontend
+        
             return [
                 'platform_id' => $item->platform_id,
                 'jumlah'      => $item->jumlah,

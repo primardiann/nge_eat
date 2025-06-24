@@ -41,7 +41,7 @@ class KategoriController extends Controller
         'name' => $request->name,
     ]);
 
-    $page = $request->query('page', 1); // ambil nomor halaman
+    $page = $request->query('page', 1); 
     return redirect()->route('kategori.index', ['page' => $page])
                 ->with('success', 'Kategori berhasil diperbarui.');
     }

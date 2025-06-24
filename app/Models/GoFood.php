@@ -16,7 +16,7 @@ class GoFood extends Model
         'total',
         'metode_pembayaran',
         'status',
-        'jumlah' // jumlah total item dalam 1 transaksi
+        'jumlah' 
     ];
 
     protected $casts = [

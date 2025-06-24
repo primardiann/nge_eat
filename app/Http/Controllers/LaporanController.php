@@ -25,7 +25,7 @@ class LaporanController extends Controller
         $platform = $request->query('platform');
         $query = null;
 
-        // Helper untuk SELECT
+
         $selectColumns = [
             'tf.id_pesanan',
             'tf.tanggal',
@@ -36,7 +36,7 @@ class LaporanController extends Controller
             DB::raw('GROUP_CONCAT(DISTINCT c.name SEPARATOR ", ") as kategori')
         ];
 
-        // Helper untuk GROUP BY
+
         $groupColumns = [
             'tf.id_pesanan',
             'tf.tanggal',
@@ -68,7 +68,7 @@ class LaporanController extends Controller
                 ->select($selectColumns)
                 ->groupBy($groupColumns);
         } else {
-            // Gabungan semua platform
+
             $gofood = DB::table('transaksi_go_food as tf')
                 ->join('transaksi_go_food_items as t', 'tf.id', '=', 't.transaksi_id')
                 ->join('menus as m', 't.menu_id', '=', 'm.id')

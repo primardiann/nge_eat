@@ -50,7 +50,7 @@ class ItemTerjualController extends Controller
             )
             ->where('t.platform_id', $platformId);
 
-        // Filter berdasarkan rentang tanggal jika diberikan
+        
         if ($tanggalAwal && $tanggalAkhir) {
             $query->whereBetween('tf.tanggal', [$tanggalAwal, $tanggalAkhir]);
         }

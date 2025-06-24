@@ -42,7 +42,7 @@ class GoFoodController extends Controller
     private function generateIdPesanan(): string
     {
         do {
-            $id = 'GOFO' . strtoupper(Str::random(8)); // GOFO + 8 huruf/angka acak
+            $id = 'GOFO' . strtoupper(Str::random(8)); 
         } while (GoFood::where('id_pesanan', $id)->exists());
 
         return $id;
@@ -184,7 +184,7 @@ class GoFoodController extends Controller
             return redirect()->route('gofood.index')->with('success', 'Transaksi berhasil diperbarui!');
         } catch (\Exception $e) {
             DB::rollBack();
-            $page = $request->query('page', 1); // default ke halaman 1 jika tidak ada
+            $page = $request->query('page', 1); 
                 return redirect()->route('gofood.index', ['page' => $page])
                     ->with('success', 'Transaksi berhasil diperbarui');
         }
