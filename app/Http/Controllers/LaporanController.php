@@ -22,9 +22,10 @@ class LaporanController extends Controller
         $totalTransaksi  = $this->getTotalTransaksi();
         $totalPendapatan = $this->getTotalPendapatan();
 
-        $platform = $request->query('platform');
-        $query = null;
-
+        $platform     = $request->query('platform');
+        $startDate    = $request->query('start_date');
+        $endDate      = $request->query('end_date');
+        $query        = null;
 
         $selectColumns = [
             'tf.id_pesanan',
@@ -36,7 +37,6 @@ class LaporanController extends Controller
             DB::raw('GROUP_CONCAT(DISTINCT c.name SEPARATOR ", ") as kategori')
         ];
 
-
         $groupColumns = [
             'tf.id_pesanan',
             'tf.tanggal',
@@ -46,6 +46,11 @@ class LaporanController extends Controller
             'tf.total'
         ];
 
+        $applyDateFilter = function ($q) use ($startDate, $endDate) {
+            if ($startDate) $q->where('tf.tanggal', '>=', $startDate);
+            if ($endDate)   $q->where('tf.tanggal', '<=', $endDate);
+        };
+
         if ($platform === 'gofood') {
             $query = DB::table('transaksi_go_food as tf')
                 ->join('transaksi_go_food_items as t', 'tf.id', '=', 't.transaksi_id')
@@ -53,6 +58,7 @@ class LaporanController extends Controller
                 ->join('categories as c', 'm.category_id', '=', 'c.id')
                 ->select($selectColumns)
                 ->groupBy($groupColumns);
+            $applyDateFilter($query);
         } elseif ($platform === 'grabfood') {
             $query = DB::table('transaksi_grab_food as tf')
                 ->join('transaksi_grab_food_items as t', 'tf.id', '=', 't.transaksi_id')
@@ -60,6 +66,7 @@ class LaporanController extends Controller
                 ->join('categories as c', 'm.category_id', '=', 'c.id')
                 ->select($selectColumns)
                 ->groupBy($groupColumns);
+            $applyDateFilter($query);
         } elseif ($platform === 'shopeefood') {
             $query = DB::table('transaksi_shopee_food as tf')
                 ->join('transaksi_shopee_food_items as t', 'tf.id', '=', 't.transaksi_id')
@@ -67,13 +74,15 @@ class LaporanController extends Controller
                 ->join('categories as c', 'm.category_id', '=', 'c.id')
                 ->select($selectColumns)
                 ->groupBy($groupColumns);
+            $applyDateFilter($query);
         } else {
-
             $gofood = DB::table('transaksi_go_food as tf')
                 ->join('transaksi_go_food_items as t', 'tf.id', '=', 't.transaksi_id')
                 ->join('menus as m', 't.menu_id', '=', 'm.id')
                 ->join('categories as c', 'm.category_id', '=', 'c.id')
                 ->select(array_merge($selectColumns, [DB::raw("'gofood' as platform")]))
+                ->when($startDate, fn($q) => $q->where('tf.tanggal', '>=', $startDate))
+                ->when($endDate, fn($q) => $q->where('tf.tanggal', '<=', $endDate))
                 ->groupBy($groupColumns);
 
             $grabfood = DB::table('transaksi_grab_food as tf')
@@ -81,6 +90,8 @@ class LaporanController extends Controller
                 ->join('menus as m', 't.menu_id', '=', 'm.id')
                 ->join('categories as c', 'm.category_id', '=', 'c.id')
                 ->select(array_merge($selectColumns, [DB::raw("'grabfood' as platform")]))
+                ->when($startDate, fn($q) => $q->where('tf.tanggal', '>=', $startDate))
+                ->when($endDate, fn($q) => $q->where('tf.tanggal', '<=', $endDate))
                 ->groupBy($groupColumns);
 
             $shopeefood = DB::table('transaksi_shopee_food as tf')
@@ -88,6 +99,8 @@ class LaporanController extends Controller
                 ->join('menus as m', 't.menu_id', '=', 'm.id')
                 ->join('categories as c', 'm.category_id', '=', 'c.id')
                 ->select(array_merge($selectColumns, [DB::raw("'shopeefood' as platform")]))
+                ->when($startDate, fn($q) => $q->where('tf.tanggal', '>=', $startDate))
+                ->when($endDate, fn($q) => $q->where('tf.tanggal', '<=', $endDate))
                 ->groupBy($groupColumns);
 
             $union = $gofood->unionAll($grabfood)->unionAll($shopeefood);
@@ -109,6 +122,7 @@ class LaporanController extends Controller
             'transaksi' => $paginated,
         ]);
     }
+
 
     private function getTotalItem(int $platformId): int
     {

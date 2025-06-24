@@ -1,4 +1,4 @@
-<!-- resources/views/components/kalender-laporan.blade.php -->
+<!-- resources/views/components/kalender/laporan.blade.php -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -17,6 +17,7 @@
             class="border border-orange-400 px-3 py-1.5 rounded focus:outline-none cursor-pointer text-sm bg-white" />
     </div>
 
+    <!-- Pesan jika data kosong -->
     <p id="noDataMessageLaporan"
         style="position: absolute; top: 100%; right: 0; padding: 4px 12px; border-radius: 4px;
         color: #F44336; font-size: 14px; display: none; white-space: nowrap;">
@@ -78,10 +79,7 @@
 
             rows.forEach(row => {
                 const rowDate = row.dataset.tanggal;
-                if (
-                    (!start || rowDate >= start) &&
-                    (!end || rowDate <= end)
-                ) {
+                if ((!start || rowDate >= start) && (!end || rowDate <= end)) {
                     row.style.display = '';
                     hasData = true;
                 } else {

@@ -13,8 +13,13 @@
         </div>
 
         <!-- Kalender Filter -->
-        <div class="flex justify-end mb-6">
+        <div class="flex justify-between items-center mb-6">
             @include('components.kalender-item-terjual')
+
+            <!-- Tombol Reset -->
+            <button id="resetFilter" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
+                Reset Filter
+            </button>
         </div>
 
         <!-- Tabel Item Terjual -->
@@ -58,4 +63,52 @@
 
     </main>
 </div>
+
+<!-- Flatpickr & Script Filter -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const startInput = document.getElementById("startDateItemTerjual");
+        const endInput = document.getElementById("endDateItemTerjual");
+        const resetButton = document.getElementById("resetFilter");
+        const noDataMessage = document.getElementById("noDataMessageItemTerjual");
+
+        flatpickr(startInput, {
+            dateFormat: "Y-m-d",
+            onChange: filterRows
+        });
+
+        flatpickr(endInput, {
+            dateFormat: "Y-m-d",
+            onChange: filterRows
+        });
+
+        function filterRows() {
+            const start = startInput.value;
+            const end = endInput.value;
+            const rows = document.querySelectorAll("tbody tr[data-tanggal]");
+            let hasData = false;
+
+            rows.forEach(row => {
+                const rowDate = row.dataset.tanggal;
+                if ((!start || rowDate >= start) && (!end || rowDate <= end)) {
+                    row.style.display = '';
+                    hasData = true;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            noDataMessage.style.display = hasData ? 'none' : 'block';
+        }
+
+        resetButton.addEventListener('click', function () {
+            startInput._flatpickr.clear();
+            endInput._flatpickr.clear();
+            filterRows();
+        });
+    });
+</script>
 @endsection

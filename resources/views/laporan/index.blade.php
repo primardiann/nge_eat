@@ -89,18 +89,24 @@
         <div class="p-4 bg-white rounded-2xl shadow-md mb-8">
             <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
                 <h5 class="mb-0 fw-bold text-[#1F2937] text-2xl font-bold">Laporan Transaksi</h5>
-                <!-- Kanan: Kalender + Tombol Unduh & Filter -->
-                <div class="flex items-center space-x-4">
+                
+                                <!-- Kanan: Kalender + Tombol Unduh & Filter -->
+                <div class="flex items-center flex-wrap gap-3">
                     <!-- Komponen Kalender -->
-                    <div class="flex items-center">
-                        @include('components.kalender')
+                    <div class="flex items-center space-x-2">
+                        @include('components.kalender-laporan')
+                        <button onclick="window.location.href='{{ route('laporan.index') }}'" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm">
+                            Reset Filter
+                        </button>
                     </div>
+
                     <!-- Tombol Unduh (Trigger Modal) -->
-                    <div class="flex gap-2">
+                    <div class="flex">
                         <button onclick="openModal()" style="border: 2px solid #F58220;" class="flex items-center px-4 py-1.5 rounded hover:bg-orange-50 transition">
                             <i class="fas fa-file-download mr-2 text-orange-500"></i> Unduh Laporan
                         </button>
                     </div>
+
                     <!-- Dropdown Filter Platform -->
                     <form method="GET" action="" class="flex items-center m-0 p-0">
                         <select name="platform" onchange="this.form.submit()"
@@ -112,6 +118,7 @@
                         </select>
                     </form>
                 </div>
+
             </div>
             <!-- Table -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
@@ -129,7 +136,7 @@
                     </thead>
                     <tbody class="bg-white">
                         @forelse ($transaksi as $t)
-                            <tr class="border-t hover:bg-gray-50 text-center">
+                            <tr class="border-t hover:bg-gray-50 text-center" data-tanggal="{{ $t->tanggal }}">
                                 <td class="px-4 py-3">{{ $t->kategori }}</td>
                                 <td class="px-4 py-3">{{ $t->id_pesanan }}</td>
                                 <td class="px-4 py-3">{{ \Carbon\Carbon::parse($t->tanggal)->format('d-m-Y') }}</td>
@@ -144,7 +151,13 @@
                                     Tidak ada data transaksi.
                                 </td>
                             </tr>
-                        @endforelse
+                    @endforelse
+                           {{--  <tr>
+                                <td colspan="7" class="px-4 py-3 text-gray-500 text-center">
+                                    Menampilkan {{ $transaksi->count() }} dari {{ $transaksi->total() }} transaksi.
+                                </td>
+                            </tr> --}}
+
                     </tbody>
                 </table>
             </div>
