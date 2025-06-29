@@ -13,9 +13,15 @@ use Illuminate\Support\Str;
 
 class ShopeeFoodController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $transaksi = ShopeeFood::with(['items.menu'])->latest()->paginate(10);
+        $query = ShopeeFood::with(['items.menu'])->latest();
+
+        if ($request->filled('tanggal')) {
+            $query->whereDate('tanggal', $request->tanggal);
+        }
+
+        $transaksi = $query->paginate(10)->appends($request->except('page'));
         $platforms = Platform::all();
         $menus = Menu::all();
         $generatedId = $this->generateIdPesanan();

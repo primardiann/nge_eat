@@ -22,6 +22,15 @@ class LaporanController extends Controller
         $totalTransaksi  = $this->getTotalTransaksi();
         $totalPendapatan = $this->getTotalPendapatan();
 
+        // ➕ Tambahan per platform
+        $totalTransaksiGoFood     = $this->getTotalTransaksiPerPlatform(1);
+        $totalTransaksiGrabFood   = $this->getTotalTransaksiPerPlatform(2);
+        $totalTransaksiShopeeFood = $this->getTotalTransaksiPerPlatform(3);
+
+        $totalPendapatanGoFood     = $this->getTotalPendapatanPerPlatform(1);
+        $totalPendapatanGrabFood   = $this->getTotalPendapatanPerPlatform(2);
+        $totalPendapatanShopeeFood = $this->getTotalPendapatanPerPlatform(3);
+
         $platform     = $request->query('platform');
         $startDate    = $request->query('start_date');
         $endDate      = $request->query('end_date');
@@ -119,10 +128,15 @@ class LaporanController extends Controller
             'percentageShopeeFood' => $percentageShopeeFood,
             'totalTransaksi' => $totalTransaksi,
             'totalPendapatan' => $totalPendapatan,
+            'totalTransaksiGoFood' => $totalTransaksiGoFood,
+            'totalTransaksiGrabFood' => $totalTransaksiGrabFood,
+            'totalTransaksiShopeeFood' => $totalTransaksiShopeeFood,
+            'totalPendapatanGoFood' => $totalPendapatanGoFood,
+            'totalPendapatanGrabFood' => $totalPendapatanGrabFood,
+            'totalPendapatanShopeeFood' => $totalPendapatanShopeeFood,
             'transaksi' => $paginated,
         ]);
     }
-
 
     private function getTotalItem(int $platformId): int
     {
@@ -147,5 +161,24 @@ class LaporanController extends Controller
         return DB::table('transaksi_go_food')->sum('total')
             + DB::table('transaksi_grab_food')->sum('total')
             + DB::table('transaksi_shopee_food')->sum('total');
+    }
+
+    // ✅ Tambahan baru
+    private function getTotalTransaksiPerPlatform(int $platformId): int
+    {
+        return match ($platformId) {
+            1 => DB::table('transaksi_go_food')->count(),
+            2 => DB::table('transaksi_grab_food')->count(),
+            3 => DB::table('transaksi_shopee_food')->count(),
+        };
+    }
+
+    private function getTotalPendapatanPerPlatform(int $platformId): int
+    {
+        return match ($platformId) {
+            1 => DB::table('transaksi_go_food')->sum('total'),
+            2 => DB::table('transaksi_grab_food')->sum('total'),
+            3 => DB::table('transaksi_shopee_food')->sum('total'),
+        };
     }
 }

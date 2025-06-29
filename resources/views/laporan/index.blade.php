@@ -54,35 +54,66 @@
                     </div>
                 </div>
             </div>
-            <!-- Card 2: Jumlah Transaksi -->
-            <div class="flex-1 min-w-[280px] max-w-[350px]">
-                <div class="p-4 h-full rounded-lg bg-white border border-[#FCD9A3] shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="text-[#1F2937] text-lg font-semibold mb-1">Jumlah Transaksi</div>
-                        <div class="text-sm text-gray-500 mb-4">Total transaksi yang berhasil diproses selama periode ini.</div>
+           <!-- Card 2: Jumlah Transaksi -->
+            <div class="flex-1 min-w-[280px] max-w-[350px] relative">
+                <div class="p-5 h-full rounded-lg bg-white border border-[#FCD9A3] shadow-sm">
+                    <div class="bg-white shadow rounded-xl p-5">
+                        <div class="text-[#1F2937] text-lg font-semibold mb-1 flex items-center justify-between">
+                            <span>Jumlah Transaksi</span>
+                            <!-- Tooltip Icon -->
+                            <div class="relative group cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 hover:text-orange-500 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18a6 6 0 110-12 6 6 0 010 12z"/>
+                                </svg>
+                                <div class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 w-48 bg-gray-800 text-white text-xs rounded px-3 py-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
+                                    <strong>Rincian:</strong><br>
+                                    • GoFood: {{ $totalTransaksiGoFood }} transaksi<br>
+                                    • GrabFood: {{ $totalTransaksiGrabFood }} transaksi<br>
+                                    • ShopeeFood: {{ $totalTransaksiShopeeFood }} transaksi
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500 mb-3">Bulan Ini</div>
                         <div class="h-[1px] bg-[#FCD9A3] mb-4"></div>
-                        <div class="flex items-baseline text-[#1F2937]">
+                        <div class="flex items-baseline text-[#1F2937] mb-2">
                             <div class="text-4xl font-extrabold leading-none">{{ $totalTransaksi }}</div>
                             <div class="text-base ml-2">Transaksi</div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
             <!-- Card 3: Total Keseluruhan -->
-            <div class="flex-1 min-w-[280px] max-w-[350px]">
-                <div class="p-4 h-full rounded-lg bg-white border border-[#FCD9A3] shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="text-[#1F2937] text-lg font-semibold mb-1">Total Keseluruhan</div>
-                        <div class="text-sm text-gray-500 mb-4">Jumlah pendapatan yang diperoleh dari seluruh transaksi.</div>
+            <div class="flex-1 min-w-[280px] max-w-[350px] relative">
+                <div class="p-5 h-full rounded-lg bg-white border border-[#FCD9A3] shadow-sm">
+                    <div class="bg-white shadow rounded-xl p-5">
+                        <div class="text-[#1F2937] text-lg font-semibold mb-1 flex items-center justify-between">
+                            <span>Total Keseluruhan</span>
+                            <!-- Tooltip Icon -->
+                            <div class="relative group cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 hover:text-orange-500 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 18a6 6 0 110-12 6 6 0 010 12z"/>
+                                </svg>
+                                <div class="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 w-52 bg-gray-800 text-white text-xs rounded px-3 py-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
+                                    <strong>Rincian:</strong><br>
+                                    • GoFood: Rp {{ number_format($totalPendapatanGoFood, 0, ',', '.') }}<br>
+                                    • GrabFood: Rp {{ number_format($totalPendapatanGrabFood, 0, ',', '.') }}<br>
+                                    • ShopeeFood: Rp {{ number_format($totalPendapatanShopeeFood, 0, ',', '.') }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-500 mb-3">Bulan Ini</div>
                         <div class="h-[1px] bg-[#FCD9A3] mb-4"></div>
-                        <div class="flex items-baseline text-[#1F2937]">
-                            <div class="text-4xl font-extrabold leading-none">
+                        <div class="flex items-baseline text-[#1F2937] mb-2">
+                            <div class="text-2xl sm:text-4xl font-extrabold leading-none">
                                 Rp {{ number_format($totalPendapatan, 0, ',', '.') }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
         <!-- Laporan Transaksi Card -->
