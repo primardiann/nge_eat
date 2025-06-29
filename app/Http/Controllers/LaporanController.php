@@ -22,7 +22,6 @@ class LaporanController extends Controller
         $totalTransaksi  = $this->getTotalTransaksi();
         $totalPendapatan = $this->getTotalPendapatan();
 
-        // ➕ Tambahan per platform
         $totalTransaksiGoFood     = $this->getTotalTransaksiPerPlatform(1);
         $totalTransaksiGrabFood   = $this->getTotalTransaksiPerPlatform(2);
         $totalTransaksiShopeeFood = $this->getTotalTransaksiPerPlatform(3);
@@ -38,8 +37,8 @@ class LaporanController extends Controller
 
         $selectColumns = [
             'tf.id_pesanan',
-            'tf.tanggal',
-            'tf.waktu',
+            DB::raw("DATE_FORMAT(tf.tanggal, '%Y-%m-%d') as tanggal"),
+            DB::raw("DATE_FORMAT(tf.waktu, '%H:%i:%s') as waktu"),
             'tf.status',
             'tf.metode_pembayaran',
             'tf.total',
@@ -113,10 +112,13 @@ class LaporanController extends Controller
                 ->groupBy($groupColumns);
 
             $union = $gofood->unionAll($grabfood)->unionAll($shopeefood);
-            $query = DB::query()->fromSub($union, 'sub')->orderByDesc('tanggal');
+
+            $query = DB::query()
+                ->fromSub($union, 'sub')
+                ->orderByDesc(DB::raw("STR_TO_DATE(CONCAT(sub.tanggal, ' ', sub.waktu), '%Y-%m-%d %H:%i:%s')"));
         }
 
-        $paginated = $query->paginate(10)->appends($request->except('page'));
+        $paginated = $query->paginate(10)->appends($request->query());
 
         return view('laporan.index', [
             'totalGoFood' => $totalGoFood,
@@ -163,7 +165,6 @@ class LaporanController extends Controller
             + DB::table('transaksi_shopee_food')->sum('total');
     }
 
-    // ✅ Tambahan baru
     private function getTotalTransaksiPerPlatform(int $platformId): int
     {
         return match ($platformId) {

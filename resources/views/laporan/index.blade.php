@@ -116,42 +116,59 @@
 
         </div>
 
-        <!-- Laporan Transaksi Card -->
-        <div class="p-4 bg-white rounded-2xl shadow-md mb-8">
-            <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
-                <h5 class="mb-0 fw-bold text-[#1F2937] text-2xl font-bold">Laporan Transaksi</h5>
-                
-                                <!-- Kanan: Kalender + Tombol Unduh & Filter -->
-                <div class="flex items-center flex-wrap gap-3">
-                    <!-- Komponen Kalender -->
-                    <div class="flex items-center space-x-2">
-                        @include('components.kalender-laporan')
-                        <button onclick="window.location.href='{{ route('laporan.index') }}'" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded text-sm">
-                            Reset Filter
-                        </button>
-                    </div>
+       <!-- Laporan Transaksi Card -->
+        <div class="p-4 bg-white rounded-2xl shadow-md mb-8 w-full">
+            <div class="flex flex-col gap-4 mb-4 w-full">
+                <!-- Judul -->
+                <h5 class="text-[#1F2937] text-2xl font-bold whitespace-nowrap">
+                    Laporan Transaksi
+                </h5>
 
-                    <!-- Tombol Unduh (Trigger Modal) -->
-                    <div class="flex">
-                        <button onclick="openModal()" style="border: 2px solid #F58220;" class="flex items-center px-4 py-1.5 rounded hover:bg-orange-50 transition">
+                <!-- Filter dan Tombol -->
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 w-full flex-wrap">
+                    <!-- Kiri: Form Filter -->
+                    <form method="GET" action="{{ url()->current() }}"
+                        class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full lg:max-w-[600px]">
+                        @include('components.kalender-laporan')
+
+                        <button type="submit"
+                            class="bg-orange-500 text-white px-4 h-[38px] rounded text-sm hover:bg-orange-600 transition whitespace-nowrap">
+                            Filter
+                        </button>
+
+                        <a href="{{ route('laporan.index') }}"
+                            class="bg-red-500 hover:bg-red-600 text-white px-4 h-[38px] rounded text-sm whitespace-nowrap flex items-center justify-center">
+                            Reset
+                        </a>
+
+                        @if(request('platform'))
+                            <input type="hidden" name="platform" value="{{ request('platform') }}">
+                        @endif
+                    </form>
+
+                    <!-- Kanan: Unduh + Dropdown -->
+                    <div class="flex items-center gap-2 flex-shrink-0 w-full lg:w-auto justify-end">
+                        <button onclick="openModal()" style="border: 2px solid #F58220;"
+                            class="h-[38px] flex items-center justify-center px-4 rounded hover:bg-orange-50 transition whitespace-nowrap text-sm">
                             <i class="fas fa-file-download mr-2 text-orange-500"></i> Unduh Laporan
                         </button>
+
+                        <form method="GET" action="{{ url()->current() }}" class="m-0 p-0">
+                            <input type="hidden" name="start_date" value="{{ request('start_date') }}">
+                            <input type="hidden" name="end_date" value="{{ request('end_date') }}">
+                            <select name="platform" onchange="this.form.submit()"
+                                class="appearance-none border-2 border-orange-400 px-4 h-[38px] rounded hover:bg-orange-50 transition cursor-pointer bg-white pr-8 text-sm leading-none whitespace-nowrap">
+                                <option value="">Filter</option>
+                                <option value="gofood" {{ request('platform') === 'gofood' ? 'selected' : '' }}>GoFood</option>
+                                <option value="grabfood" {{ request('platform') === 'grabfood' ? 'selected' : '' }}>GrabFood</option>
+                                <option value="shopeefood" {{ request('platform') === 'shopeefood' ? 'selected' : '' }}>ShopeeFood</option>
+                            </select>
+                        </form>
                     </div>
-
-                    <!-- Dropdown Filter Platform -->
-                    <form method="GET" action="" class="flex items-center m-0 p-0">
-                        <select name="platform" onchange="this.form.submit()"
-                            class="appearance-none border-2 border-orange-400 px-4 py-1.5 rounded hover:bg-orange-50 transition cursor-pointer bg-white pr-8 min-h-[38px] leading-none">
-                            <option value="">Filter</option>
-                            <option value="gofood" {{ request('platform') === 'gofood' ? 'selected' : '' }}>GoFood</option>
-                            <option value="grabfood" {{ request('platform') === 'grabfood' ? 'selected' : '' }}>GrabFood</option>
-                            <option value="shopeefood" {{ request('platform') === 'shopeefood' ? 'selected' : '' }}>ShopeeFood</option>
-                        </select>
-                    </form>
                 </div>
-
             </div>
-            <!-- Table -->
+
+            <!-- Tabel Transaksi -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
                 <table class="min-w-full text-sm text-gray-700">
                     <thead class="bg-[#ffd5ab] text-center font-semibold select-none">
@@ -182,50 +199,21 @@
                                     Tidak ada data transaksi.
                                 </td>
                             </tr>
-                    @endforelse
-                           {{--  <tr>
-                                <td colspan="7" class="px-4 py-3 text-gray-500 text-center">
-                                    Menampilkan {{ $transaksi->count() }} dari {{ $transaksi->total() }} transaksi.
-                                </td>
-                            </tr> --}}
-
+                        @endforelse
                     </tbody>
                 </table>
             </div>
+
             <!-- Pagination -->
             <div class="p-4">
-                {{ $transaksi->links('vendor.pagination.custom') }}
+                {{ $transaksi->appends(request()->query())->links('vendor.pagination.custom') }}
             </div>
         </div>
     </main>
 </div>
 
-<!-- Modal Unduh -->
-<div id="DownloadModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white rounded-md shadow-md p-6 w-full max-w-xl">
-        <h2 class="text-xl text-center font-semibold mb-4 border-b pb-2 text-gray-700" style="border-color: #C0C0C0;">Unduh Laporan Transaksi</h2>
-        <div class="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-            <a href="{{ route('laporan.download.excel', request()->all()) }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm text-center block w-full sm:w-auto">
-                <i class="fas fa-file-excel mr-1"></i> Unduh Excel
-            </a>
-            <a href="{{ route('laporan.download.pdf', request()->all()) }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm text-center block w-full sm:w-auto">
-                <i class="fas fa-file-pdf mr-1"></i> Unduh PDF
-            </a>
-        </div>
-        <div class="text-center mt-6">
-            <button id="closeDownloadModal" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-1 rounded">Tutup</button>
-        </div>
-    </div>
-</div>
-
-<!-- Modals -->
-@include('components.detail-modal')
 @include('components.download-modal')
-@include('components.hapus-modal')
-@include('components.berhasil-hapus-modal')
-@include('components.berhasil-unduh-modal')
 
-<!-- Script -->
 <script>
     function openModal() {
         document.getElementById('DownloadModal').classList.remove('hidden');
