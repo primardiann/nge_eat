@@ -2,29 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ShopeeFood;
-use App\Models\ShopeeFoodItem;
-use App\Models\Platform;
-use App\Models\Menu;
-use App\Models\MenuPrice;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use App\Models\ShopeeFood; // Model untuk tabel utama transaksi ShopeeFood
+use App\Models\ShopeeFoodItem; // Model untuk tabel detail item transaksi ShopeeFood
+use App\Models\Platform; // Model untuk data platform (ShopeeFood, GrabFood, dsb)
+use App\Models\Menu; // Model untuk data menu
+use App\Models\MenuPrice; // Model untuk harga menu berdasarkan platform
+use Illuminate\Http\Request; // Untuk menangani request HTTP
+use Illuminate\Support\Facades\DB; // Untuk transaksi database (begin, commit, rollback)
+use Illuminate\Support\Str; // Untuk generate ID acak
 
 class ShopeeFoodController extends Controller
 {
     public function index()
     {
+        // Mengambil data transaksi dengan relasi item dan menu, urut terbaru
         $transaksi = ShopeeFood::with(['items.menu'])->latest()->paginate(10);
-        $platforms = Platform::all();
-        $menus = Menu::all();
-        $generatedId = $this->generateIdPesanan();
+        $platforms = Platform::all(); // Ambil semua platform
+        $menus = Menu::all(); // Ambil semua menu
+        $generatedId = $this->generateIdPesanan(); // Generate ID pesanan unik
 
         return view('shopeefood.index', compact('transaksi', 'platforms', 'menus', 'generatedId'));
     }
 
     public function getAll()
     {
+        // Mengambil semua data transaksi beserta relasi item, menu, dan platform
         return response()->json(
             ShopeeFood::with('items.menu', 'items.platform')->latest()->get()
         );
@@ -32,17 +34,19 @@ class ShopeeFoodController extends Controller
 
     public function getPrice(Request $request)
     {
+        // Mengambil harga berdasarkan menu_id dan platform_id
         $price = MenuPrice::where('menu_id', $request->menu_id)
             ->where('platform_id', $request->platform_id)
             ->first();
 
-        return response()->json(['price' => $price?->price ?? 0]);
+        return response()->json(['price' => $price?->price ?? 0]); // Jika tidak ada, kembalikan 0
     }
 
     private function generateIdPesanan(): string
     {
+        // Loop untuk memastikan ID pesanan yang dibuat unik (tidak duplikat)
         do {
-            $id = 'SHOPPE' . strtoupper(Str::random(8)); // GOFO + 8 huruf/angka acak
+            $id = 'SHOPPE' . strtoupper(Str::random(8)); // Prefix SHOPPE + 8 karakter acak
         } while (ShopeeFood::where('id_pesanan', $id)->exists());
 
         return $id;
@@ -50,6 +54,7 @@ class ShopeeFoodController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi input request dari form
         $request->validate([
             'tanggal' => 'required|date',
             'waktu' => 'required',
@@ -61,12 +66,13 @@ class ShopeeFoodController extends Controller
             'items.*.jumlah' => 'required|integer|min:1',
         ]);
 
-        DB::beginTransaction();
+        DB::beginTransaction(); // Mulai transaksi database
 
         try {
-            $total = 0;
-            $jumlahTotalItem = 0;
+            $total = 0; // Total harga semua item
+            $jumlahTotalItem = 0; // Total jumlah item
 
+            // Simpan data utama transaksi ke tabel shopee_foods
             $transaksi = ShopeeFood::create([
                 'id_pesanan' => $this->generateIdPesanan(),
                 'tanggal' => $request->tanggal,
@@ -74,10 +80,11 @@ class ShopeeFoodController extends Controller
                 'nama_pelanggan' => $request->nama_pelanggan,
                 'metode_pembayaran' => $request->metode_pembayaran,
                 'status' => $request->has('status') ? 1 : 0,
-                'total' => 0,
+                'total' => 0, // Akan diupdate setelah loop
                 'jumlah' => 0,
             ]);
 
+            // Loop menyimpan data item transaksi ke shopee_food_items
             foreach ($request->items as $item) {
                 $menuPrice = MenuPrice::where('menu_id', $item['menu_id'])
                     ->where('platform_id', $item['platform_id'])
@@ -91,6 +98,7 @@ class ShopeeFoodController extends Controller
                 $total += $subtotal;
                 $jumlahTotalItem += $item['jumlah'];
 
+                // Simpan item ke tabel shopee_food_items
                 ShopeeFoodItem::create([
                     'transaksi_id' => $transaksi->id,
                     'menu_id' => $item['menu_id'],
@@ -101,22 +109,24 @@ class ShopeeFoodController extends Controller
                 ]);
             }
 
+            // Update total dan jumlah item ke transaksi utama
             $transaksi->update([
                 'total' => $total,
                 'jumlah' => $jumlahTotalItem,
             ]);
 
-            DB::commit();
+            DB::commit(); // Commit transaksi jika berhasil
 
             return redirect()->route('shopeefood.index')->with('success', 'Transaksi berhasil ditambahkan!');
         } catch (\Exception $e) {
-            DB::rollBack();
+            DB::rollBack(); // Rollback jika terjadi error
             return back()->with('error', 'Gagal menyimpan transaksi: ' . $e->getMessage());
         }
     }
 
     public function edit($id)
     {
+        // Ambil data transaksi + relasi items untuk ditampilkan di form edit
         $transaksi = ShopeeFood::with('items')->findOrFail($id);
         $platforms = Platform::all();
         $menus = Menu::all();
@@ -126,6 +136,7 @@ class ShopeeFoodController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Validasi input update
         $request->validate([
             'tanggal' => 'required|date',
             'waktu' => 'required',
@@ -137,15 +148,16 @@ class ShopeeFoodController extends Controller
             'items.*.jumlah' => 'required|integer|min:1',
         ]);
 
-        DB::beginTransaction();
+        DB::beginTransaction(); // Mulai transaksi update
 
         try {
             $transaksi = ShopeeFood::findOrFail($id);
-            $transaksi->items()->delete();
+            $transaksi->items()->delete(); // Hapus item lama
 
             $total = 0;
             $jumlahTotalItem = 0;
 
+            // Simpan item baru
             foreach ($request->items as $item) {
                 $menuPrice = MenuPrice::where('menu_id', $item['menu_id'])
                     ->where('platform_id', $item['platform_id'])
@@ -169,6 +181,7 @@ class ShopeeFoodController extends Controller
                 ]);
             }
 
+            // Update ke transaksi utama
             $transaksi->update([
                 'tanggal' => $request->tanggal,
                 'waktu' => $request->waktu,
@@ -179,37 +192,38 @@ class ShopeeFoodController extends Controller
                 'jumlah' => $jumlahTotalItem,
             ]);
 
-            DB::commit();
-
+            DB::commit(); // Sukses
             return redirect()->route('shopeefood.index')->with('success', 'Transaksi berhasil diperbarui!');
         } catch (\Exception $e) {
             DB::rollBack();
-            $page = $request->query('page', 1); // default ke halaman 1 jika tidak ada
-                return redirect()->route('shopeefood.index', ['page' => $page])
-                    ->with('success', 'Transaksi berhasil diperbarui');
+            $page = $request->query('page', 1); // kembalikan ke halaman sebelumnya
+            return redirect()->route('shopeefood.index', ['page' => $page])
+                ->with('success', 'Transaksi berhasil diperbarui');
         }
     }
 
     public function destroy($id)
     {
+        // Hapus transaksi dan item terkait
         $transaksi = ShopeeFood::find($id);
 
         if (!$transaksi) {
-        return redirect()->route('shopeefood.index')->with('error', 'Transaksi tidak ditemukan.');
+            return redirect()->route('shopeefood.index')->with('error', 'Transaksi tidak ditemukan.');
         }
 
         $transaksi->items()->delete();
         $transaksi->delete();
 
-    return redirect()->route('shopeefood.index')->with('success', 'Transaksi berhasil dihapus.');
+        return redirect()->route('shopeefood.index')->with('success', 'Transaksi berhasil dihapus.');
     }
 
     public function editJson($id)
     {
+        // Ambil transaksi dan relasi item untuk kebutuhan frontend (misalnya: modal edit)
         $transaksi = ShopeeFood::with(['items.menu', 'items.platform'])->findOrFail($id);
 
+        // Format array item untuk dikirim ke frontend
         $items = $transaksi->items->map(function($item) {
-        // Siapkan array item untuk frontend
             return [
                 'platform_id' => $item->platform_id,
                 'jumlah'      => $item->jumlah,
