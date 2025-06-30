@@ -41,75 +41,78 @@
             </tr>
         </thead>
         <tbody class="text-gray-700 text-center text-sm">
-            @foreach ($transaksi as $transaction)
-            @php
-                // Ambil array item: ["Ayam Geprek x 2", ...]
-                $itemList = $transaction->items->map(function($item) {
-                    return $item->menu->name . ' x ' . $item->jumlah;
-                })->toArray();
-            @endphp
-            <tr class="border-t hover:bg-gray-50" data-tanggal="{{ $transaction->tanggal->format('Y-m-d') }}">
-                <td class="px-6 py-3 truncate max-w-[120px]">{{ $transaction->id_pesanan }}</td>
-                <td class="px-6 py-3">{{ $transaction->tanggal->format('d-m-Y') }}</td>
-                <td class="px-6 py-3">{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}</td>
-                <td class="px-6 py-3">{{ $transaction->nama_pelanggan }}</td>
-                <td class="px-6 py-3">{{ $transaction->metode_pembayaran }}</td>
+            @forelse ($transaksi as $transaction)
+                @php
+                    $itemList = $transaction->items->map(function($item) {
+                        return $item->menu->name . ' x ' . $item->jumlah;
+                    })->toArray();
+                @endphp
+                <tr class="border-t hover:bg-gray-50" data-tanggal="{{ $transaction->tanggal->format('Y-m-d') }}">
+                    <td class="px-6 py-3 truncate max-w-[120px]">{{ $transaction->id_pesanan }}</td>
+                    <td class="px-6 py-3">{{ $transaction->tanggal->format('d-m-Y') }}</td>
+                    <td class="px-6 py-3">{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}</td>
+                    <td class="px-6 py-3">{{ $transaction->nama_pelanggan }}</td>
+                    <td class="px-6 py-3">{{ $transaction->metode_pembayaran }}</td>
 
-                <!-- Item Pesanan dengan Tooltip -->
-                <td class="px-6 py-3 max-w-[150px] relative group cursor-default">
-                    <div class="truncate">
-                        {{ implode(', ', $itemList) }}
-                    </div>
-                    <div class="absolute left-1/2 -translate-x-1/2 mt-2 hidden group-hover:block bg-orange-100 text-black text-xs px-3 py-2 rounded shadow-lg z-50 min-w-max text-left whitespace-normal max-w-xs">
-                        <ul class="list-disc list-inside space-y-1">
-                            @foreach ($itemList as $item)
-                            <li>{{ $item }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </td>
+                    <td class="px-6 py-3 max-w-[150px] relative group cursor-default">
+                        <div class="truncate">
+                            {{ implode(', ', $itemList) }}
+                        </div>
+                        <div class="absolute left-1/2 -translate-x-1/2 mt-2 hidden group-hover:block bg-orange-100 text-black text-xs px-3 py-2 rounded shadow-lg z-50 min-w-max text-left whitespace-normal max-w-xs">
+                            <ul class="list-disc list-inside space-y-1">
+                                @foreach ($itemList as $item)
+                                    <li>{{ $item }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </td>
 
-                <!-- Aksi -->
-                <td class="px-6 py-3">
-                    <div class="flex justify-center items-center space-x-4 text-gray-500">
-                        <button
-                            class="btn-lihat flex items-center justify-center hover:text-yellow-600 transition"
-                            title="Lihat Detail"
-                            data-id="{{ $transaction->id_pesanan }}"
-                            data-tanggal="{{ $transaction->tanggal->format('d-m-Y') }}"
-                            data-waktu="{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}"
-                            data-nama="{{ $transaction->nama_pelanggan }}"
-                            data-pembayaran="{{ $transaction->metode_pembayaran }}"
-                            data-item='@json($itemList)'
-                            data-total="{{ $transaction->total ?? '' }}"
-                            data-status="{{ $transaction->status ?? '' }}"
-                        >
-                            <i class="fas fa-eye"></i>
-                        </button>
-
-                        <button
-                            class="btn-edit flex items-center justify-center text-blue-600 hover:text-blue-800 transition"
-                            title="Edit"
-                            onclick="openEditModal({{ $transaction->id }})">
-                            <i class="fas fa-pen-to-square"></i>
-                        </button>
-
-                        <!-- Form Hapus -->
-                        <form action="{{ route('shopeefood.destroy', $transaction->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')" class="flex items-center justify-center m-0 p-0">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="flex items-center justify-center text-red-600 hover:text-red-800 transition" title="Hapus">
-                                <i class="fas fa-trash-alt"></i>
+                    <td class="px-6 py-3">
+                        <div class="flex justify-center items-center space-x-4 text-gray-500">
+                            <button
+                                class="btn-lihat flex items-center justify-center hover:text-yellow-600 transition"
+                                title="Lihat Detail"
+                                data-id="{{ $transaction->id_pesanan }}"
+                                data-tanggal="{{ $transaction->tanggal->format('d-m-Y') }}"
+                                data-waktu="{{ \Carbon\Carbon::parse($transaction->waktu)->format('H:i') }}"
+                                data-nama="{{ $transaction->nama_pelanggan }}"
+                                data-pembayaran="{{ $transaction->metode_pembayaran }}"
+                                data-item='@json($itemList)'
+                                data-total="{{ $transaction->total ?? '' }}"
+                                data-status="{{ $transaction->status ?? '' }}"
+                            >
+                                <i class="fas fa-eye"></i>
                             </button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-            @endforeach
+
+                            <button
+                                class="btn-edit flex items-center justify-center text-blue-600 hover:text-blue-800 transition"
+                                title="Edit"
+                                onclick="openEditModal({{ $transaction->id }})">
+                                <i class="fas fa-pen-to-square"></i>
+                            </button>
+
+                            <form action="{{ route('shopeefood.destroy', $transaction->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus transaksi ini?')" class="flex items-center justify-center m-0 p-0">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="flex items-center justify-center text-red-600 hover:text-red-800 transition" title="Hapus">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="7" class="text-center py-4 text-gray-500 italic">
+                        Belum ada transaksi untuk tanggal ini.
+                    </td>
+                </tr>
+            @endforelse
         </tbody>
+
     </table>
 
-     <!-- Pagination -->
+    <!-- Pagination -->
     <div class="p-4">
         {{ $transaksi->links('vendor.pagination.custom') }}
     </div>

@@ -13,9 +13,16 @@ use Illuminate\Support\Str;
 
 class GoFoodController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $transaksi = GoFood::with(['items.menu'])->latest()->paginate(10);
+        $query = GoFood::with(['items.menu'])->latest();
+
+        // ✅ Filter tanggal dari query ?tanggal=YYYY-MM-DD
+        if ($request->filled('tanggal')) {
+            $query->whereDate('tanggal', $request->tanggal);
+        }
+
+        $transaksi = $query->paginate(10)->appends($request->except('page'));
         $platforms = Platform::all();
         $menus = Menu::all();
         $generatedId = $this->generateIdPesanan();
@@ -185,8 +192,8 @@ class GoFoodController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             $page = $request->query('page', 1); 
-                return redirect()->route('gofood.index', ['page' => $page])
-                    ->with('success', 'Transaksi berhasil diperbarui');
+            return redirect()->route('gofood.index', ['page' => $page])
+                ->with('success', 'Transaksi berhasil diperbarui');
         }
     }
 
@@ -195,21 +202,20 @@ class GoFoodController extends Controller
         $transaksi = GoFood::find($id);
 
         if (!$transaksi) {
-        return redirect()->route('gofood.index')->with('error', 'Transaksi tidak ditemukan.');
+            return redirect()->route('gofood.index')->with('error', 'Transaksi tidak ditemukan.');
         }
 
         $transaksi->items()->delete();
         $transaksi->delete();
 
-    return redirect()->route('gofood.index')->with('success', 'Transaksi berhasil dihapus.');
+        return redirect()->route('gofood.index')->with('success', 'Transaksi berhasil dihapus.');
     }
 
     public function editJson($id)
     {
         $transaksi = GoFood::with(['items.menu', 'items.platform'])->findOrFail($id);
 
-        $items = $transaksi->items->map(function($item) {
-        // Siapkan array item untuk frontend
+        $items = $transaksi->items->map(function ($item) {
             return [
                 'platform_id' => $item->platform_id,
                 'jumlah'      => $item->jumlah,
@@ -220,14 +226,14 @@ class GoFoodController extends Controller
         })->toArray();
 
         return response()->json([
-            'waktu'              => $transaksi->waktu ? \Carbon\Carbon::parse($transaksi->waktu)->format('H:i') : '',
-            'id_pesanan'         => $transaksi->id_pesanan,
-            'nama_pelanggan'     => $transaksi->nama_pelanggan,
-            'metode_pembayaran'  => $transaksi->metode_pembayaran,
-            'total'              => $transaksi->total,
-            'status'             => $transaksi->status,
-            'items'              => $items,
-            'tanggal'            => $transaksi->tanggal ? $transaksi->tanggal->format('Y-m-d') : '',
+            'waktu'             => $transaksi->waktu ? \Carbon\Carbon::parse($transaksi->waktu)->format('H:i') : '',
+            'id_pesanan'        => $transaksi->id_pesanan,
+            'nama_pelanggan'    => $transaksi->nama_pelanggan,
+            'metode_pembayaran' => $transaksi->metode_pembayaran,
+            'total'             => $transaksi->total,
+            'status'            => $transaksi->status,
+            'items'             => $items,
+            'tanggal'           => $transaksi->tanggal ? $transaksi->tanggal->format('Y-m-d') : '',
         ]);
     }
 }

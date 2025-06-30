@@ -13,14 +13,27 @@
         </div>
 
         <!-- Kalender Filter -->
-        <div class="flex justify-between items-center mb-6">
-            @include('components.kalender-item-terjual')
+        <form method="GET" class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-4">
+                <div>
+                    <label for="startDateItemTerjual" class="text-sm block mb-1">Dari</label>
+                    <input id="startDateItemTerjual" name="tanggal_awal" type="text" class="border px-2 py-1 rounded w-36" value="{{ request('tanggal_awal') }}">
+                </div>
+                <div>
+                    <label for="endDateItemTerjual" class="text-sm block mb-1">Sampai</label>
+                    <input id="endDateItemTerjual" name="tanggal_akhir" type="text" class="border px-2 py-1 rounded w-36" value="{{ request('tanggal_akhir') }}">
+                </div>
+            </div>
 
-            <!-- Tombol Reset -->
-            <button id="resetFilter" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
-                Reset Filter
-            </button>
-        </div>
+            <div class="flex items-center gap-2">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm">
+                    Terapkan
+                </button>
+                <a href="{{ url()->current() }}" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
+                    Reset
+                </a>
+            </div>
+        </form>
 
         <!-- Tabel Item Terjual -->
         <div class="bg-white rounded-xl shadow-md overflow-x-auto">
@@ -36,7 +49,7 @@
                 </thead>
                 <tbody class="bg-white text-gray-700">
                     @forelse ($items as $item)
-                        <tr class="border-t hover:bg-gray-50" data-tanggal="{{ \Carbon\Carbon::createFromFormat('d-m-Y', $item->tanggal)->format('Y-m-d') }}">
+                        <tr class="border-t hover:bg-gray-50">
                             <td class="px-6 py-3">{{ $item->tanggal }}</td>
                             <td class="px-6 py-3">{{ $item->kategori }}</td>
                             <td class="px-6 py-3">{{ $item->nama_menu }}</td>
@@ -45,7 +58,13 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-gray-500 px-6 py-4">Tidak ada data.</td>
+                            <td colspan="5" class="text-gray-500 px-6 py-4">
+                                @if(request('tanggal_awal') && request('tanggal_akhir'))
+                                    Tidak ada item terjual pada tanggal {{ request('tanggal_awal') }} s/d {{ request('tanggal_akhir') }}.
+                                @else
+                                    Belum ada data item terjual.
+                                @endif
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -54,7 +73,7 @@
                 <tfoot>
                     <tr>
                         <td colspan="5" class="px-6 py-4 text-center">
-                            {{ $items->links('vendor.pagination.custom') }}
+                            {{ $items->appends(request()->except('page'))->links('vendor.pagination.custom') }}
                         </td>
                     </tr>
                 </tfoot>
@@ -64,51 +83,11 @@
     </main>
 </div>
 
-<!-- Flatpickr & Script Filter -->
+<!-- Flatpickr -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const startInput = document.getElementById("startDateItemTerjual");
-        const endInput = document.getElementById("endDateItemTerjual");
-        const resetButton = document.getElementById("resetFilter");
-        const noDataMessage = document.getElementById("noDataMessageItemTerjual");
-
-        flatpickr(startInput, {
-            dateFormat: "Y-m-d",
-            onChange: filterRows
-        });
-
-        flatpickr(endInput, {
-            dateFormat: "Y-m-d",
-            onChange: filterRows
-        });
-
-        function filterRows() {
-            const start = startInput.value;
-            const end = endInput.value;
-            const rows = document.querySelectorAll("tbody tr[data-tanggal]");
-            let hasData = false;
-
-            rows.forEach(row => {
-                const rowDate = row.dataset.tanggal;
-                if ((!start || rowDate >= start) && (!end || rowDate <= end)) {
-                    row.style.display = '';
-                    hasData = true;
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            noDataMessage.style.display = hasData ? 'none' : 'block';
-        }
-
-        resetButton.addEventListener('click', function () {
-            startInput._flatpickr.clear();
-            endInput._flatpickr.clear();
-            filterRows();
-        });
-    });
+    flatpickr("#startDateItemTerjual", { dateFormat: "Y-m-d" });
+    flatpickr("#endDateItemTerjual", { dateFormat: "Y-m-d" });
 </script>
 @endsection
