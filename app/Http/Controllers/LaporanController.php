@@ -118,6 +118,7 @@ class LaporanController extends Controller
                 ->orderByDesc(DB::raw("STR_TO_DATE(CONCAT(sub.tanggal, ' ', sub.waktu), '%Y-%m-%d %H:%i:%s')"));
         }
 
+        $totalFiltered = $query->clone()->get()->sum('total');
         $paginated = $query->paginate(10)->appends($request->query());
 
         return view('laporan.index', [
@@ -137,6 +138,7 @@ class LaporanController extends Controller
             'totalPendapatanGrabFood' => $totalPendapatanGrabFood,
             'totalPendapatanShopeeFood' => $totalPendapatanShopeeFood,
             'transaksi' => $paginated,
+            'totalFiltered' => $totalFiltered,
         ]);
     }
 

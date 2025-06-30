@@ -102,7 +102,7 @@
     row.innerHTML = `
       <div class="col-span-2">
         <label class="block text-xs mb-1">Menu</label>
-        <input list="menuDatalist" class="menu_name border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required placeholder="Ketik nama menu">
+        <input list="menuDatalist" class="menu_name border px-2 py-1 w-full rounded-sm" style="border-color: #F58220;" required placeholder="Ketik Nama Menu">
         <input type="hidden" name="items[${itemIndex}][menu_id]" class="menu_id_hidden">
       </div>
 

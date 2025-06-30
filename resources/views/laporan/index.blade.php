@@ -200,6 +200,12 @@
                                 </td>
                             </tr>
                         @endforelse
+                        @if ($transaksi->count())
+                            <tr class="font-semibold bg-[#fef6e4] border-t-2 border-[#fcd9a3]">
+                                <td colspan="6" class="text-right px-4 py-3">Total</td>
+                                <td class="px-4 py-3 text-green-700">Rp {{ number_format($totalFiltered, 0, ',', '.') }}</td>
+                            </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
