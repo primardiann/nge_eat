@@ -50,13 +50,13 @@ class ItemTerjualController extends Controller
             )
             ->where('t.platform_id', $platformId);
 
-        
         if ($tanggalAwal && $tanggalAkhir) {
             $query->whereBetween('tf.tanggal', [$tanggalAwal, $tanggalAkhir]);
         }
 
         $items = $query
             ->groupBy('m.id', 'm.name', 'c.name', DB::raw('DATE_FORMAT(tf.tanggal, "%d-%m-%Y")'))
+            ->orderByDesc(DB::raw('STR_TO_DATE(tanggal, "%d-%m-%Y")')) // supaya urut tanggal terbaru
             ->orderByDesc('item_terjual')
             ->paginate(10)
             ->appends($request->except('page'));
