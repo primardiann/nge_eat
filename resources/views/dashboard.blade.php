@@ -41,11 +41,6 @@
                 <h2 class="text-lg font-bold">Pendapatan</h2>
                 <p class="text-sm text-gray-600">Pendapatan store kuliner anda!</p>
             </div>
-            <select class="border rounded px-3 py-1 text-sm font-medium border-[#F58220]">
-                @foreach (range(2019, 2025) as $year)
-                    <option {{ $year == $tahun ? 'selected' : '' }}>{{ $year }}</option>
-                @endforeach
-            </select>
         </div>
 
         <div class="w-full overflow-x-auto mb-4">
