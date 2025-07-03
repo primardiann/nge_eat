@@ -18,14 +18,14 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Laravel permissions
+# Set permissions for Laravel
 RUN chmod -R 755 storage bootstrap/cache
 
-# ENV PORT (WAJIB untuk Railway)
+# Set required PORT for Railway
 ENV PORT=8080
 
-# Expose port buat Railway
+# Expose port to Railway
 EXPOSE 8080
 
-# Start Laravel dengan PHP built-in server
+# Start Laravel
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
