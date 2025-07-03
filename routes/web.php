@@ -1,8 +1,5 @@
 <?php
 
-// redeploy trigger
-
-
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GoFoodController;
 use App\Http\Controllers\ProfileController;
@@ -13,12 +10,21 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ItemTerjualController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DownloadController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 
+// Route::get('/', function () {
+//     return redirect()->route('login');
+// })
+
 Route::get('/', function () {
-    return redirect()->route('login');
-});
+    // Coba konek ke DB dulu
+    DB::connection()->getPdo();
+
+    // Kalau berhasil, lanjut
+    return '🔥 Laravel jalan dan DB nyambung bro!';
+});;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
