@@ -15,23 +15,23 @@ WORKDIR /var/www
 # Copy app files
 COPY . .
 
-# Install PHP dependencies
+# Install PHP dependencies (tanpa dev)
 RUN composer install --no-dev --optimize-autoloader
 
-# Laravel folder permissions
+# Laravel permissions
 RUN chmod -R 755 storage bootstrap/cache && \
     mkdir -p storage/framework/{sessions,views,cache} && \
     chown -R www-data:www-data storage bootstrap/cache
 
-# Clear cache biar ga error saat booting
-RUN php artisan config:clear && \
-    php artisan route:clear && \
-    php artisan view:clear && \
-    php artisan cache:clear
-
-# Railway Port
+# Railway butuh PORT ini
 ENV PORT=8080
+
+# Expose ke Railway
 EXPOSE 8080
 
-# Start Laravel app
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+# Start Laravel + bersihin cache pas runtime (biar .env kebaca)
+CMD php artisan config:clear && \
+    php artisan route:clear && \
+    php artisan view:clear && \
+    php artisan cache:clear && \
+    php artisan serve --host=0.0.0.0 --port=8080
