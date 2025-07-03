@@ -18,14 +18,20 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions for Laravel
-RUN chmod -R 755 storage bootstrap/cache
+# Laravel folder permissions
+RUN chmod -R 755 storage bootstrap/cache && \
+    mkdir -p storage/framework/{sessions,views,cache} && \
+    chown -R www-data:www-data storage bootstrap/cache
 
-# Set required PORT for Railway
+# Clear cache biar ga error saat booting
+RUN php artisan config:clear && \
+    php artisan route:clear && \
+    php artisan view:clear && \
+    php artisan cache:clear
+
+# Railway Port
 ENV PORT=8080
-
-# Expose port to Railway
 EXPOSE 8080
 
-# Start Laravel
+# Start Laravel app
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
