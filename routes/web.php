@@ -10,21 +10,11 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ItemTerjualController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DownloadController;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 
-// Route::get('/', function () {
-//     return redirect()->route('login');
-// })
-
 Route::get('/', function () {
-    try {
-        DB::connection()->getPdo();
-        return '🔥 Laravel jalan dan DB nyambung bro!';
-    } catch (\Exception $e) {
-        return '❌ Gagal konek DB: ' . $e->getMessage();
-    }
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
