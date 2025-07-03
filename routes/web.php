@@ -19,12 +19,13 @@ use Illuminate\Support\Facades\Route;
 // })
 
 Route::get('/', function () {
-    // Coba konek ke DB dulu
-    DB::connection()->getPdo();
-
-    // Kalau berhasil, lanjut
-    return '🔥 Laravel jalan dan DB nyambung bro!';
-});;
+    try {
+        DB::connection()->getPdo();
+        return '🔥 Laravel jalan dan DB nyambung bro!';
+    } catch (\Exception $e) {
+        return '❌ Gagal konek DB: ' . $e->getMessage();
+    }
+});
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
