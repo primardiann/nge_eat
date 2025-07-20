@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Nama File   : DownloadController.php
+ * Deskripsi   : Controller untuk mengunduh laporan transaksi (PDF & Excel).
+ * Dibuat oleh : Prima Ardiansyah - NIM 3312301029
+ * Tanggal     : 04 Juni 2025
+ */
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;

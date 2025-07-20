@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Nama File   : ShopeeFoodController.php
+ * Deskripsi   : Controller buat kelola transaksi ShopeeFood (tambah, edit, hapus, liat, dll).
+ * Dibuat oleh : Teddy Rexsyaldy Simanjuntak - NIM: 3312301062
+ * Tanggal     : 29 Mei 2025
+ */
+
 namespace App\Http\Controllers;
 
 use App\Models\ShopeeFood;

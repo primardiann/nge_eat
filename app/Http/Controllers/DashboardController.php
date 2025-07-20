@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Nama File   : DashboardController.php
+ * Deskripsi   : Controller untuk menampilkan data dashboard seperti grafik dan total pendapatan bulanan.
+ * Dibuat oleh : Prima Ardiansyah - NIM 3312301029
+ * Tanggal     : 04 Juni 2025
+ */
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;

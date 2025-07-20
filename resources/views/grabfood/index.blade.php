@@ -1,3 +1,11 @@
+{{-- 
+    Nama File: grabfood/index.blade.php
+    Deskripsi: Halaman ini menampilkan daftar transaksi GrabFood, 
+                termasuk fitur tambah, edit, hapus, dan detail transaksi.
+    Dibuat oleh: Masda Naswa - NIM: 3312301005
+    Tanggal: 19 April 2025 
+--}}
+
 @extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 

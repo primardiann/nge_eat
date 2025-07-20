@@ -1,3 +1,11 @@
+{{-- 
+    Nama File   : menus/index.blade.php
+    Deskripsi   : Halaman buat nampilin, nambahin, filter, dan edit data menu — 
+                    termasuk harga di GoFood, GrabFood, dan ShopeeFood.
+    Dibuat oleh : Prima Ardiansyah - NIM: 3312301029
+    Tanggal     : 20 April 2025
+--}}
+
 @extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 

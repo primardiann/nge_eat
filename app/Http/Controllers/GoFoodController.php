@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Nama File   : GoFoodController.php
+ * Deskripsi   : Controller untuk mengelola transaksi GoFood mulai dari 
+ *               menampilkan, menambah, mengubah, hingga menghapus transaksi.
+ * Dibuat oleh : Masda Naswa - NIM: 3312301005
+ * Tanggal     : 29 Mei 2025
+ */
+
 namespace App\Http\Controllers;
 
 use App\Models\GoFood;

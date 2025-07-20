@@ -1,4 +1,11 @@
-{{-- filepath: d:\laravel\nge_eat\resources\views\laporan\index.blade.php --}}
+{{--
+    Nama File   : laporan/index.blade.php
+    Deskripsi   : Halaman utama untuk menampilkan laporan transaksi dari seluruh platform (GoFood, GrabFood, ShopeeFood)
+                lengkap dengan filter, statistik ringkasan, tabel transaksi, dan opsi unduhan laporan.
+    Dibuat oleh : Sarah Isnaini Alnauri - NIM: 3312301018
+    Tanggal     : 20 April 2025
+--}}
+
 @extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 

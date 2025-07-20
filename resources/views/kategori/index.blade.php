@@ -1,3 +1,11 @@
+{{-- 
+    Nama File   : kategori/index.blade.php
+    Deskripsi   : Halaman buat menampilkan & ngelola daftar kategori menu —
+                    termasuk fitur tambah, edit, hapus via modal popup.
+    Dibuat oleh : Prima Ardiansyah - NIM: 3312301029
+    Tanggal     : 20 April 2025
+--}}
+
 @extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 

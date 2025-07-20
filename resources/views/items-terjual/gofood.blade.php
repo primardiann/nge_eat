@@ -1,3 +1,11 @@
+{{--
+    Nama File   : items-terjual/gofood.blade.php
+    Deskripsi   : Halaman laporan item GoFood yang sudah terjual, lengkap dengan fitur filter tanggal,
+                tampilan tabel responsif, dan pagination.
+    Dibuat oleh : Sarah Isnaini Alnauri - NIM: 3312301018
+    Tanggal: 19 April 2025 
+--}}
+
 @extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 

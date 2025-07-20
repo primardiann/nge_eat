@@ -1,3 +1,11 @@
+{{--
+    Nama File   : dashboard.blade.php
+    Deskripsi   : Halaman dashboard utama yang menampilkan navigasi cepat dan grafik pendapatan bulanan
+                dari berbagai platform (GoFood, GrabFood, ShopeeFood).
+    Dibuat oleh : Masda Naswa - NIM: 3312301005
+    Tanggal     : 21 April 2025
+--}}
+
 @extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 

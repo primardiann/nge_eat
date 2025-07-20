@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Nama File   : GrabFoodController.php
+ * Deskripsi   : Controller untuk mengelola transaksi GrabFood termasuk menampilkan,
+ *               menambahkan, mengedit, dan menghapus transaksi beserta detail itemnya.
+ * Dibuat oleh : Sarah Isnaini Alnauri - NIM: 3312301005
+ * Tanggal     : 29 Mei 2025
+ */
+
 namespace App\Http\Controllers;
 
 use App\Models\GrabFood;

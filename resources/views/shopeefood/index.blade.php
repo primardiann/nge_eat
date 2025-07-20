@@ -1,3 +1,11 @@
+{{-- 
+    Nama File: shopeefood/index.blade.php
+    Deskripsi: Halaman untuk menampilkan dan mengelola transaksi ShopeeFood, 
+                termasuk tambah, edit, hapus, dan detail transaksi.
+    Dibuat oleh: Teddy Rexsyaldy Simanjuntak - NIM: 3312301062
+    Tanggal: 19 April 2025
+--}}
+
 @extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 

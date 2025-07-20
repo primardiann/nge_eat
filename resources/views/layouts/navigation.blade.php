@@ -1,3 +1,11 @@
+{{-- 
+    Nama File   : layouts/navigation.blade.php
+    Deskripsi   : Layout utama buat seluruh halaman aplikasi Nge Eat — 
+                    termasuk struktur sidebar, topbar, konten, dan resource eksternal.
+    Dibuat oleh : Prima Ardiansyah - NIM: 3312301029
+    Tanggal     : 20 April 2025
+--}}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

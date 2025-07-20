@@ -1,3 +1,11 @@
+{{--
+    Nama File   : items-terjual/grabfood.blade.php
+    Deskripsi   : Halaman laporan item GrabFood yang sudah terjual, lengkap dengan fitur filter tanggal,
+                tampilan tabel responsif, dan pagination.
+    Dibuat oleh : Prima Ardiansyah - NIM: 3312301029
+    Tanggal: 19 April 2025 
+--}}
+
 @extends('layouts.navigation')
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 

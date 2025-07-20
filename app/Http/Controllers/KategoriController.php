@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Nama File   : KategoriController.php
+ * Deskripsi   : Controller buat kelola data kategori (CRUD), dipakai di halaman admin/menu.
+ * Dibuat oleh : Prima Ardiansyah - NIM: 3312301029
+ * Tanggal     : 4 Juni 2025
+ */
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
